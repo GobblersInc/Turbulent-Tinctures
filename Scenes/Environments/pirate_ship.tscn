@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqgcpsjwic2mr"]
+
+[ext_resource type="PackedScene" uid="uid://cyo3rpx1tcdkt" path="res://Scenes/Models/alchemy_table.tscn" id="1_baqvx"]
+
+[node name="PirateShip" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 0.964248, 0.265001, 0, -0.265001, 0.964248, -0.0504239, 1.0115, 2.09406)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.998451, -0.0556298, 0, 0.0556298, 0.998451, 0, 2.75, -2)
+fov = 72.4423
+
+[node name="AlchemyTable" parent="." instance=ExtResource("1_baqvx")]
+transform = Transform3D(1, 0, 0, 0, 0.965409, -0.26074, 0, 0.26074, 0.965409, 0.00770974, 0.298335, -5.06048)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 4.48275, -4.99049)
+light_color = Color(0.933852, 0.475336, 0.319065, 1)
+light_energy = 10.143
+omni_range = 14.003
