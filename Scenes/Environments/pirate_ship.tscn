@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=3 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cyo3rpx1tcdkt" path="res://Scenes/Models/alchemy_table.tscn" id="1_baqvx"]
+[ext_resource type="PackedScene" uid="uid://ewc4gyldck2h" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 
 [node name="PirateShip" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 0.964248, 0.265001, 0, -0.265001, 0.964248, -0.0504239, 1.0115, 2.09406)
@@ -17,3 +18,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 4.48275, -4.99049)
 light_color = Color(0.933852, 0.475336, 0.319065, 1)
 light_energy = 10.143
 omni_range = 14.003
+
+[node name="Node3D" parent="." instance=ExtResource("2_j4sdg")]
+transform = Transform3D(-0.718737, 0.00466667, 0.695266, 0.182558, 0.966159, 0.182236, -0.670887, 0.257906, -0.695266, 0.0232655, 2.37263, -4.1398)
