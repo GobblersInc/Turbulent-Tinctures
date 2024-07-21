@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dqm6h55n3crby"]
+
+[resource]
+resource_name = "Stopper"
+cull_mode = 2
+albedo_color = Color(0.431415, 0.322064, 0.217873, 1)
