@@ -1,13 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=4 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cyo3rpx1tcdkt" path="res://Scenes/Models/alchemy_table.tscn" id="1_baqvx"]
-[ext_resource type="PackedScene" uid="uid://ewc4gyldck2h" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
+[ext_resource type="PackedScene" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
+[ext_resource type="PackedScene" uid="uid://bwp74jhtg40ma" path="res://Assets/Models/ShipBack/ship.glb" id="3_0lkp1"]
 
 [node name="PirateShip" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 0.964248, 0.265001, 0, -0.265001, 0.964248, -0.0504239, 1.0115, 2.09406)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.998451, -0.0556298, 0, 0.0556298, 0.998451, 0, 2.75, -2)
+transform = Transform3D(1, 0, 0, 0, 0.998452, -0.0556298, 0, 0.0556298, 0.998452, 0, 3, -2)
 fov = 72.4423
 
 [node name="AlchemyTable" parent="." instance=ExtResource("1_baqvx")]
@@ -20,4 +21,7 @@ light_energy = 10.143
 omni_range = 14.003
 
 [node name="Node3D" parent="." instance=ExtResource("2_j4sdg")]
-transform = Transform3D(-0.718737, 0.00466667, 0.695266, 0.182558, 0.966159, 0.182236, -0.670887, 0.257906, -0.695266, 0.0232655, 2.37263, -4.1398)
+transform = Transform3D(-0.718737, 0.00466666, 0.695266, 0.182558, 0.966159, 0.182236, -0.670887, 0.257906, -0.695266, 0.0232655, 2.50634, -4.62632)
+
+[node name="ship" parent="." instance=ExtResource("3_0lkp1")]
+transform = Transform3D(-0.00983721, -0.00108035, -0.999951, -0.263867, 0.964558, 0.00155386, 0.964508, 0.26387, -0.00977348, 0.107363, 4.60875, -8.49713)
