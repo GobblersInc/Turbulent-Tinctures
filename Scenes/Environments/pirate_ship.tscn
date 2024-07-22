@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=11 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cyo3rpx1tcdkt" path="res://Scenes/Models/alchemy_table.tscn" id="1_baqvx"]
 [ext_resource type="PackedScene" uid="uid://ewc4gyldck2h" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
@@ -10,6 +10,11 @@
 [ext_resource type="Script" path="res://Scripts/Managers/InputManager.gd" id="7_nvw3p"]
 [ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="9_qb51n"]
 
+[sub_resource type="Environment" id="Environment_5h0i3"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.01
+
 [node name="PirateShip" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504239, 1.0115, 2.09406)
 
@@ -19,17 +24,6 @@ fov = 72.4423
 
 [node name="AlchemyTable" parent="." instance=ExtResource("1_baqvx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00770974, 1.38602, -3.26078)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.27557, 4.3463, -4.1282)
-light_color = Color(0.886682, 0.526667, 0.280714, 1)
-light_energy = 6.626
-shadow_enabled = true
-shadow_normal_bias = 0.0
-shadow_opacity = 0.38
-shadow_blur = 2.5
-distance_fade_begin = 0.0
-omni_range = 12.875
 
 [node name="Node3D" parent="." instance=ExtResource("2_j4sdg")]
 transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 3.71543, -3.26835)
@@ -50,3 +44,9 @@ script = ExtResource("7_530c1")
 [node name="Lantern" parent="." instance=ExtResource("7_7lbof")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -1.36508, 3.87513, -4.09784)
 script = ExtResource("9_qb51n")
+flicker_probability = 0.2
+light_out_duration = 10.0
+check_interval = 5.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5h0i3")
