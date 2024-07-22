@@ -22,34 +22,34 @@ ambient_light_energy = 0.02
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504239, 1.0115, 2.09406)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.957264, 0.289216, 0, -0.289216, 0.957264, 0, 3.59785, -2.68547)
+transform = Transform3D(1, 0, 0, 0, 0.957264, 0.289216, 0, -0.289216, 0.957264, 0, 3.65, -1.88565)
 fov = 72.4423
 
 [node name="AlchemyTable" parent="." instance=ExtResource("1_baqvx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00770974, 0.298335, -5.06048)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00770974, 0.148961, -3.97899)
 
 [node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.39538, 2.49222, -5.36437)
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.39538, 2.34285, -4.28288)
 script = ExtResource("3_hmrva")
 flicker_probability = 0.5
 light_out_duration = 5.0
 check_interval = 5.0
 
 [node name="Cauldron" parent="." instance=ExtResource("2_j4sdg")]
-transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 2.62774, -5.06805)
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 2.47837, -3.98656)
 script = ExtResource("3_st3s3")
 
 [node name="Potion" parent="." instance=ExtResource("12_c1ri6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.920041, 2.51919, -4.56155)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.920041, 2.36982, -3.48006)
 
 [node name="Potion2" parent="." instance=ExtResource("12_c1ri6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.353453, 2.51756, -4.08371)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.353453, 2.36819, -3.00222)
 
 [node name="ship" parent="." instance=ExtResource("3_0lkp1")]
-transform = Transform3D(-0.0104718, 0, -0.999945, 0, 1, 0, 0.999944, 0, -0.0104718, 0.0527358, 4.59445, -8.40765)
+transform = Transform3D(-0.0104718, 0, -0.999945, 0, 1, 0, 0.999944, 0, -0.0104718, 0.0527358, 3.63823, -8.40765)
 
 [node name="Paper" parent="." instance=ExtResource("8_gka6f")]
-transform = Transform3D(-0.0012217, 0, -0.0999925, 0, 0.1, 0, 0.0999926, 0, -0.0012217, -1.57148, 2.5395, -4.7533)
+transform = Transform3D(-0.0012217, 0, -0.0999925, 0, 0.1, 0, 0.0999926, 0, -0.0012217, -1.57148, 2.39013, -3.67181)
 script = ExtResource("9_5qjy5")
 
 [node name="Managers" type="Node" parent="."]
