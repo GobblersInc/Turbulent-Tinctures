@@ -1,58 +1,56 @@
 [gd_scene load_steps=12 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cyo3rpx1tcdkt" path="res://Scenes/Models/alchemy_table.tscn" id="1_baqvx"]
-[ext_resource type="PackedScene" uid="uid://ewc4gyldck2h" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
+[ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="PackedScene" uid="uid://bwp74jhtg40ma" path="res://Assets/Models/ShipBack/ship.glb" id="3_0lkp1"]
-[ext_resource type="PackedScene" uid="uid://b3s63p1r26bv" path="res://Assets/Models/Potion/str8pot_red.glb" id="4_vk16s"]
-[ext_resource type="PackedScene" uid="uid://bnq1leshxijrk" path="res://Scenes/Models/lantern.tscn" id="7_7lbof"]
-[ext_resource type="Script" path="res://Scripts/Models/PaperScript.gd" id="7_530c1"]
-[ext_resource type="PackedScene" uid="uid://bdwko5252gepe" path="res://Scenes/Models/paper.tscn" id="7_inofm"]
-[ext_resource type="Script" path="res://Scripts/Managers/InputManager.gd" id="7_nvw3p"]
-[ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="9_qb51n"]
-[ext_resource type="AudioStream" uid="uid://c83dmhsw73hgp" path="res://Assets/Audio/SFX/Ambient Audio.ogg" id="10_hy50k"]
-
-[sub_resource type="Environment" id="Environment_5h0i3"]
-ambient_light_source = 2
-ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_energy = 0.01
+[ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="3_hmrva"]
+[ext_resource type="Script" path="res://Scripts/Models/Cauldron.gd" id="3_st3s3"]
+[ext_resource type="Script" path="res://Scripts/Managers/InputManager.gd" id="7_g6hdh"]
+[ext_resource type="PackedScene" uid="uid://bdwko5252gepe" path="res://Scenes/Models/paper.tscn" id="8_gka6f"]
+[ext_resource type="Script" path="res://Scripts/Models/PaperScript.gd" id="9_5qjy5"]
+[ext_resource type="PackedScene" uid="uid://bnq1leshxijrk" path="res://Scenes/Models/lantern.tscn" id="10_50gvt"]
+[ext_resource type="Script" path="res://Scripts/Managers/MovementManager.gd" id="10_c1017"]
+[ext_resource type="PackedScene" uid="uid://7o3620f7f4vi" path="res://Scenes/Models/potion.tscn" id="12_c1ri6"]
 
 [node name="PirateShip" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504239, 1.0115, 2.09406)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.979575, 0.201078, 0, -0.201078, 0.979575, 0, 4.76766, -1.01619)
+transform = Transform3D(1, 0, 0, 0, 0.957264, 0.289216, 0, -0.289216, 0.957264, 0, 3.59785, -2.68547)
 fov = 72.4423
 
 [node name="AlchemyTable" parent="." instance=ExtResource("1_baqvx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00770974, 1.38602, -3.26078)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00770974, 0.298335, -5.06048)
 
-[node name="Node3D" parent="." instance=ExtResource("2_j4sdg")]
-transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 3.71543, -3.26835)
-
-[node name="ship" parent="." instance=ExtResource("3_0lkp1")]
-transform = Transform3D(-4.37113e-08, 0, -1, 0, 1, 0, 0.999999, 0, -4.37114e-08, 0.0527358, 4.59445, -7.63269)
-
-[node name="str8pot_red" parent="." instance=ExtResource("4_vk16s")]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.732797, 3.59659, -2.23277)
-
-[node name="InputManager" type="Node3D" parent="."]
-script = ExtResource("7_nvw3p")
-
-[node name="Paper" parent="." instance=ExtResource("7_inofm")]
-transform = Transform3D(0.000916285, 0, -0.0999958, 0, 0.1, 0, 0.0999958, 0, 0.000916285, -1.50437, 3.60872, -2.96976)
-script = ExtResource("7_530c1")
-
-[node name="Lantern" parent="." instance=ExtResource("7_7lbof")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -1.36508, 3.87513, -4.09784)
-script = ExtResource("9_qb51n")
-flicker_probability = 0.2
-light_out_duration = 10.0
+[node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.39538, 2.49222, -5.36437)
+script = ExtResource("3_hmrva")
+flicker_probability = 0.5
+light_out_duration = 5.0
 check_interval = 5.0
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_5h0i3")
+[node name="Cauldron" parent="." instance=ExtResource("2_j4sdg")]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 2.62774, -5.06805)
+script = ExtResource("3_st3s3")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("10_hy50k")
-volume_db = -9.369
-autoplay = true
+[node name="Potion" parent="." instance=ExtResource("12_c1ri6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.920041, 2.51919, -4.56155)
+
+[node name="Potion2" parent="." instance=ExtResource("12_c1ri6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.353453, 2.51756, -4.08371)
+
+[node name="ship" parent="." instance=ExtResource("3_0lkp1")]
+transform = Transform3D(-0.0104718, 0, -0.999945, 0, 1, 0, 0.999944, 0, -0.0104718, 0.0527358, 4.59445, -8.40765)
+
+[node name="Paper" parent="." instance=ExtResource("8_gka6f")]
+transform = Transform3D(-0.0012217, 0, -0.0999925, 0, 0.1, 0, 0.0999926, 0, -0.0012217, -1.57148, 2.5395, -4.7533)
+script = ExtResource("9_5qjy5")
+
+[node name="Managers" type="Node" parent="."]
+
+[node name="InputManager" type="Node3D" parent="Managers"]
+transform = Transform3D(1, 0, 0, 0, 0.964248, 0.265001, 0, -0.265001, 0.964248, -0.0504239, 1.0115, 2.09406)
+script = ExtResource("7_g6hdh")
+
+[node name="MovementManager" type="Node3D" parent="Managers"]
+script = ExtResource("10_c1017")

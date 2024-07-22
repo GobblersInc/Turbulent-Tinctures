@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dc4wwp2qy2xfs"]
+
+[ext_resource type="Shader" path="res://Resources/Shaders/Outline.gdshader" id="1_hbt6r"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_hbt6r")
+shader_parameter/outline_size = 0.001
+shader_parameter/outline_color = Vector4(1, 3, 3, 0.2)
