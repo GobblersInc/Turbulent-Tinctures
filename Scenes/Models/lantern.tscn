@@ -16,3 +16,18 @@ gravity_scale = 0.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Lantern/RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.025322, 1.16092, -0.044342)
 shape = SubResource("BoxShape3D_1h5by")
+
+[node name="LanternLight" type="OmniLight3D" parent="Lantern"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00677758, 1.24118, -0.0155531)
+light_color = Color(0.886682, 0.526667, 0.280714, 1)
+light_energy = 6.626
+shadow_enabled = true
+shadow_normal_bias = 0.0
+shadow_opacity = 0.38
+shadow_blur = 2.5
+distance_fade_begin = 0.0
+omni_range = 12.875
+
+[node name="LightsOutTimer" type="Timer" parent="Lantern"]
+
+[node name="CheckTimer" type="Timer" parent="Lantern"]
