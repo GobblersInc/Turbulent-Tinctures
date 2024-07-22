@@ -1,12 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=10 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cyo3rpx1tcdkt" path="res://Scenes/Models/alchemy_table.tscn" id="1_baqvx"]
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="PackedScene" uid="uid://bwp74jhtg40ma" path="res://Assets/Models/ShipBack/ship.glb" id="3_0lkp1"]
 [ext_resource type="Script" path="res://Scenes/Models/Cauldron.gd" id="3_st3s3"]
-[ext_resource type="PackedScene" uid="uid://bnq1leshxijrk" path="res://Scenes/Models/lantern.tscn" id="6_p11ln"]
 [ext_resource type="Script" path="res://Scripts/Managers/InputManager.gd" id="7_g6hdh"]
-[ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="7_tj60q"]
 [ext_resource type="PackedScene" uid="uid://bdwko5252gepe" path="res://Scenes/Models/paper.tscn" id="8_gka6f"]
 [ext_resource type="Script" path="res://Scripts/Models/PaperScript.gd" id="9_5qjy5"]
 [ext_resource type="Script" path="res://Scripts/Managers/MovementManager.gd" id="10_c1017"]
@@ -34,13 +32,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.353453, 2.51756, -4.08371)
 
 [node name="ship" parent="." instance=ExtResource("3_0lkp1")]
 transform = Transform3D(-0.0104718, 0, -0.999945, 0, 1, 0, 0.999944, 0, -0.0104718, 0.0527358, 4.59445, -8.40765)
-
-[node name="Lantern" parent="." instance=ExtResource("6_p11ln")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -1.16905, 2.67657, -5.94624)
-script = ExtResource("7_tj60q")
-flicker_probability = 0.5
-light_out_duration = 5.0
-check_interval = 5.0
 
 [node name="Paper" parent="." instance=ExtResource("8_gka6f")]
 transform = Transform3D(-0.0012217, 0, -0.0999925, 0, 0.1, 0, 0.0999926, 0, -0.0012217, -1.57148, 2.5395, -4.7533)
