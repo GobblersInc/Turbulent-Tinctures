@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=11 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cyo3rpx1tcdkt" path="res://Scenes/Models/alchemy_table.tscn" id="1_baqvx"]
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/Managers/InputManager.gd" id="7_g6hdh"]
 [ext_resource type="PackedScene" uid="uid://bdwko5252gepe" path="res://Scenes/Models/paper.tscn" id="8_gka6f"]
 [ext_resource type="Script" path="res://Scripts/Models/PaperScript.gd" id="9_5qjy5"]
+[ext_resource type="PackedScene" uid="uid://bnq1leshxijrk" path="res://Scenes/Models/lantern.tscn" id="10_50gvt"]
 [ext_resource type="Script" path="res://Scripts/Managers/MovementManager.gd" id="10_c1017"]
 [ext_resource type="PackedScene" uid="uid://7o3620f7f4vi" path="res://Scenes/Models/potion.tscn" id="12_c1ri6"]
 
@@ -45,3 +46,6 @@ script = ExtResource("7_g6hdh")
 
 [node name="MovementManager" type="Node3D" parent="Managers"]
 script = ExtResource("10_c1017")
+
+[node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.39538, 2.49222, -5.36437)
