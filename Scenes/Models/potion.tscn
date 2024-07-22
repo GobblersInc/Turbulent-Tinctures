@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://7o3620f7f4vi"]
 
 [ext_resource type="PackedScene" uid="uid://b3s63p1r26bv" path="res://Assets/Models/Potion/str8pot_red.glb" id="1_7u4vl"]
-[ext_resource type="Script" path="res://Scenes/Models/Potion.gd" id="1_10hx3"]
+[ext_resource type="Script" path="res://Scripts/Models/Potion.gd" id="1_10hx3"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_uejjc"]
 height = 5.0

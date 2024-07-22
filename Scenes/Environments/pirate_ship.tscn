@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=12 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cyo3rpx1tcdkt" path="res://Scenes/Models/alchemy_table.tscn" id="1_baqvx"]
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="PackedScene" uid="uid://bwp74jhtg40ma" path="res://Assets/Models/ShipBack/ship.glb" id="3_0lkp1"]
-[ext_resource type="Script" path="res://Scenes/Models/Cauldron.gd" id="3_st3s3"]
+[ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="3_hmrva"]
+[ext_resource type="Script" path="res://Scripts/Models/Cauldron.gd" id="3_st3s3"]
 [ext_resource type="Script" path="res://Scripts/Managers/InputManager.gd" id="7_g6hdh"]
 [ext_resource type="PackedScene" uid="uid://bdwko5252gepe" path="res://Scenes/Models/paper.tscn" id="8_gka6f"]
 [ext_resource type="Script" path="res://Scripts/Models/PaperScript.gd" id="9_5qjy5"]
@@ -20,6 +21,13 @@ fov = 72.4423
 
 [node name="AlchemyTable" parent="." instance=ExtResource("1_baqvx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00770974, 0.298335, -5.06048)
+
+[node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.39538, 2.49222, -5.36437)
+script = ExtResource("3_hmrva")
+flicker_probability = 0.5
+light_out_duration = 5.0
+check_interval = 5.0
 
 [node name="Cauldron" parent="." instance=ExtResource("2_j4sdg")]
 transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 2.62774, -5.06805)
@@ -46,6 +54,3 @@ script = ExtResource("7_g6hdh")
 
 [node name="MovementManager" type="Node3D" parent="Managers"]
 script = ExtResource("10_c1017")
-
-[node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.39538, 2.49222, -5.36437)
