@@ -21,7 +21,7 @@ func _ready():
 	# Calculate the camera offset
 	var camera_position = camera.global_transform.origin
 	camera_offset = Vector3(camera_position.x,
-							camera_position.y - 1.25, 
+							camera_position.y - 1.4, 
 							camera_position.z - 3.25)
 	input_manager.ObjectClicked.connect(_on_ObjectClicked)
 
