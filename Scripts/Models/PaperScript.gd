@@ -1,6 +1,6 @@
 extends Node3D
 
-@onready var input_manager = $"../InputManager"
+@onready var input_manager = $"../Managers/InputManager"
 @onready var camera = $"../Camera3D"
 @onready var is_in_front: bool = false
 @onready var light: OmniLight3D = null
