@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=12 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cyo3rpx1tcdkt" path="res://Scenes/Models/alchemy_table.tscn" id="1_baqvx"]
 [ext_resource type="PackedScene" uid="uid://ewc4gyldck2h" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bdwko5252gepe" path="res://Scenes/Models/paper.tscn" id="7_inofm"]
 [ext_resource type="Script" path="res://Scripts/Managers/InputManager.gd" id="7_nvw3p"]
 [ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="9_qb51n"]
+[ext_resource type="AudioStream" uid="uid://c83dmhsw73hgp" path="res://Assets/Audio/SFX/Ambient Audio.ogg" id="10_hy50k"]
 
 [sub_resource type="Environment" id="Environment_5h0i3"]
 ambient_light_source = 2
@@ -50,3 +51,8 @@ check_interval = 5.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_5h0i3")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_hy50k")
+volume_db = -9.369
+autoplay = true
