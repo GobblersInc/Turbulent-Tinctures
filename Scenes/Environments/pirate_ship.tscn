@@ -1,7 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=14 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cyo3rpx1tcdkt" path="res://Scenes/Models/alchemy_table.tscn" id="1_baqvx"]
-[ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
+[ext_resource type="PackedScene" uid="uid://ewc4gyldck2h" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="PackedScene" uid="uid://bwp74jhtg40ma" path="res://Assets/Models/ShipBack/ship.glb" id="3_0lkp1"]
 [ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="3_hmrva"]
 [ext_resource type="Script" path="res://Scripts/Models/Cauldron.gd" id="3_st3s3"]
@@ -10,7 +10,13 @@
 [ext_resource type="Script" path="res://Scripts/Models/PaperScript.gd" id="9_5qjy5"]
 [ext_resource type="PackedScene" uid="uid://bnq1leshxijrk" path="res://Scenes/Models/lantern.tscn" id="10_50gvt"]
 [ext_resource type="Script" path="res://Scripts/Managers/MovementManager.gd" id="10_c1017"]
-[ext_resource type="PackedScene" uid="uid://7o3620f7f4vi" path="res://Scenes/Models/potion.tscn" id="12_c1ri6"]
+[ext_resource type="AudioStream" uid="uid://c83dmhsw73hgp" path="res://Assets/Audio/SFX/Ambient Audio.ogg" id="10_hy50k"]
+[ext_resource type="PackedScene" path="res://Scenes/Models/potion.tscn" id="12_c1ri6"]
+
+[sub_resource type="Environment" id="Environment_fmft1"]
+ambient_light_source = 2
+ambient_light_color = Color(0.974032, 0.804951, 0.476326, 1)
+ambient_light_energy = 0.02
 
 [node name="PirateShip" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504239, 1.0115, 2.09406)
@@ -54,3 +60,11 @@ script = ExtResource("7_g6hdh")
 
 [node name="MovementManager" type="Node3D" parent="Managers"]
 script = ExtResource("10_c1017")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fmft1")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_hy50k")
+volume_db = -10.306
+autoplay = true
