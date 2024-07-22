@@ -1,11 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=10 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cyo3rpx1tcdkt" path="res://Scenes/Models/alchemy_table.tscn" id="1_baqvx"]
 [ext_resource type="PackedScene" uid="uid://ewc4gyldck2h" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="PackedScene" uid="uid://bwp74jhtg40ma" path="res://Assets/Models/ShipBack/ship.glb" id="3_0lkp1"]
 [ext_resource type="PackedScene" uid="uid://b3s63p1r26bv" path="res://Assets/Models/Potion/str8pot_red.glb" id="4_vk16s"]
-[ext_resource type="PackedScene" uid="uid://21mncwhbjvdd" path="res://Assets/Models/Lantern/Lantern.glb" id="5_k6syq"]
-[ext_resource type="PackedScene" uid="uid://cdyl0x1q3ha24" path="res://Assets/Models/RecipePaper/paperob1.glb" id="6_t33qi"]
+[ext_resource type="PackedScene" uid="uid://bnq1leshxijrk" path="res://Scenes/Models/lantern.tscn" id="7_7lbof"]
+[ext_resource type="Script" path="res://Scripts/Models/PaperScript.gd" id="7_530c1"]
+[ext_resource type="PackedScene" uid="uid://bdwko5252gepe" path="res://Scenes/Models/paper.tscn" id="7_inofm"]
+[ext_resource type="Script" path="res://Scripts/Managers/InputManager.gd" id="7_nvw3p"]
+[ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="9_qb51n"]
 
 [node name="PirateShip" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504239, 1.0115, 2.09406)
@@ -18,7 +21,7 @@ fov = 72.4423
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00770974, 1.38602, -3.26078)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.13404, 4.3366, -4.19487)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.27557, 4.3463, -4.1282)
 light_color = Color(0.886682, 0.526667, 0.280714, 1)
 light_energy = 6.626
 shadow_enabled = true
@@ -37,8 +40,13 @@ transform = Transform3D(-4.37113e-08, 0, -1, 0, 1, 0, 0.999999, 0, -4.37114e-08,
 [node name="str8pot_red" parent="." instance=ExtResource("4_vk16s")]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.732797, 3.59659, -2.23277)
 
-[node name="Lantern" parent="." instance=ExtResource("5_k6syq")]
-transform = Transform3D(-0.248349, 0, -0.246622, 0, 0.35, 0, 0.246622, 0, -0.24835, -1.26341, 3.90379, -4.14248)
+[node name="InputManager" type="Node3D" parent="."]
+script = ExtResource("7_nvw3p")
 
-[node name="paperob1" parent="." instance=ExtResource("6_t33qi")]
-transform = Transform3D(-4.37114e-09, 0, 0.0999999, 0, 0.0999999, 0, -0.1, 0, -4.37114e-09, -1.54123, 3.60148, -2.95199)
+[node name="Paper" parent="." instance=ExtResource("7_inofm")]
+transform = Transform3D(0.000916285, 0, -0.0999958, 0, 0.1, 0, 0.0999958, 0, 0.000916285, -1.50437, 3.60872, -2.96976)
+script = ExtResource("7_530c1")
+
+[node name="Lantern" parent="." instance=ExtResource("7_7lbof")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -1.36508, 3.87513, -4.09784)
+script = ExtResource("9_qb51n")
