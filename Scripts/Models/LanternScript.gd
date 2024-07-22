@@ -1,6 +1,6 @@
 extends Node3D
 
-@onready var input_manager = $"../InputManager"
+@onready var input_manager = $"../Managers/InputManager"
 
 func _ready():
 	input_manager.ObjectClicked.connect(_on_ObjectClicked)
