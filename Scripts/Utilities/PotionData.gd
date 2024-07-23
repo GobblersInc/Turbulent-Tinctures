@@ -1,6 +1,6 @@
 extends RefCounted
 
-class_name PotionEquation
+class_name PotionData
 
 enum PotionType {
 	BLUE,
@@ -13,13 +13,53 @@ enum PotionType {
 	PINK,
 }
 
-var result
-var ingredients
+var result: PotionData = null # equivalent to "parent" node
+var ingredients: Array = [] # equivalent to "children" nodes
+var type: PotionType
 
-func _init(result: PotionType, ingredients: Array):
-	self.result = result
-	self.ingredients = ingredients
+func _init(type):
+	self.type = type
+	ingredients = []
 
+func add_child(child: PotionData):
+	child.result = self
+	ingredients.append(child)
+
+func remove_child(child: PotionData):
+	if child in ingredients:
+		ingredients.erase(child)
+		child.result = null
+
+func get_siblings() -> Array:
+	if result == null:
+		return []
+	var siblings = result.ingredients.duplicate()
+	siblings.erase(self)
+	return siblings
+
+func has_ingredients() -> bool:
+	return ingredients.size() > 0
+
+func is_root() -> bool:
+	return result == null
+
+func is_leaf() -> bool:
+	return ingredients.size() == 0
+
+func find_node(type: PotionType, start_node: PotionData = null) -> PotionData:
+	if start_node == null:
+		start_node = self
+	if start_node.type == type:
+		return start_node
+	for child in start_node.children:
+		var found = find_node(type, child)
+		if found != null:
+			return found
+	return null
+
+"""
+Below is code for printing out entire trees easily for testing purposes
+"""
 func get_indent(level: int) -> String:
 	var indent = ""
 	for i in range(level):
@@ -34,16 +74,21 @@ func ingredients_to_string(level: int, stats) -> String:
 	for ingredient in ingredients:
 		if ingredients_str != "":
 			ingredients_str += "\n"
-		
-		if ingredient is PotionEquation:
+
+		if ingredient is PotionData:
 			stats["total_potions"] += 1
 			stats["depth"] = max(stats["depth"], level + 1)
-			ingredients_str += ingredient.gathering_stats(level + 1, stats)
+			ingredients_str += get_indent(level) + PotionType.keys()[ingredient.type]
+			if ingredient.has_ingredients():
+				ingredients_str += ":\n"
+				ingredients_str += ingredient.ingredients_to_string(level + 1, stats)
+			else:
+				ingredients_str += ""
 		else:
 			if level == 1:
 				stats["top_level_non_potions"] += 1
 			ingredients_str += get_indent(level) + PotionType.keys()[ingredient]
-	
+
 	return ingredients_str
 
 func gathering_stats(level: int, stats) -> String:
@@ -54,7 +99,9 @@ func gathering_stats(level: int, stats) -> String:
 		stats["depth"] = 1  # Start counting depth from 1 for the top-level potion
 		stats["total_potions"] = 1  # The top-level potion itself
 
-	var result_str = get_indent(level) + PotionType.keys()[result] + ":\n"
+	var result_str = get_indent(level) + PotionType.keys()[type]
+	if has_ingredients():
+		result_str += ":\n"
 	var ingredients_str = ingredients_to_string(level + 1, stats)
 
 	if level == 0:
