@@ -31,10 +31,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00770974, 0.148961, -3.9789
 [node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.39538, 2.34285, -4.28288)
 script = ExtResource("3_hmrva")
-flicker_probability = 0.2
-light_out_duration = 5.0
-check_interval = 5.0
-lights_out_cooldown = 10.0
+flicker_probability = 0.5
+light_out_duration = 4.0
+check_interval = 4.0
+lights_out_cooldown = 5.0
+light_on_or_off = true
 
 [node name="Cauldron" parent="." instance=ExtResource("2_j4sdg")]
 transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 2.47837, -3.98656)
