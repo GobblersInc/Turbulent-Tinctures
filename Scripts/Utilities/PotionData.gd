@@ -13,9 +13,10 @@ enum PotionType {
 	PINK,
 }
 
-var result: PotionData = null # equivalent to "parent" node
-var ingredients: Array = [] # equivalent to "children" nodes
+var result: PotionData = null # equivalent to "parent"
+var ingredients: Array = [] # equivalent to "children"
 var type: PotionType
+var node: Node3D = null
 
 func _init(type):
 	self.type = type
@@ -34,7 +35,7 @@ func get_siblings() -> Array:
 	if result == null:
 		return []
 	var siblings = result.ingredients.duplicate()
-	siblings.erase(self)
+	#siblings.erase(self)
 	return siblings
 
 func has_ingredients() -> bool:
@@ -111,4 +112,5 @@ func gathering_stats(level: int, stats) -> String:
 		return result_str + ingredients_str
 
 func _to_string() -> String:
-	return gathering_stats(0, null)
+	#return gathering_stats(0, null)
+	return PotionType.keys()[type]

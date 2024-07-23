@@ -1,8 +1,12 @@
 extends Node3D
 
+const POTION_SCENE_PATH = "res://Scenes/Models/potion.tscn"
+@onready var ship = $"../.."
 const PotionType = preload("res://Scripts/Utilities/PotionData.gd").PotionType
 
 var MAX_POTION_TYPES = 8
+
+var cauldron_contents = []
 
 const LEVELS = [
 	{"min_ingredients_per_potion": 2, "max_ingredients_per_potion": 3, "min_nested": 0, "max_nested": 0, "nest_probability": 0.1},
@@ -49,9 +53,57 @@ func _ready():
 		
 		#print(black)
 		
-		var potion_equation = generate_potion_equation(LEVELS[1].min_ingredients_per_potion, LEVELS[1].max_ingredients_per_potion, LEVELS[1].min_nested, LEVELS[1].max_nested, LEVELS[1].nest_probability)
-		print(potion_equation)
+		#var potion_equation = generate_potion_equation(LEVELS[1].min_ingredients_per_potion, LEVELS[1].max_ingredients_per_potion, LEVELS[1].min_nested, LEVELS[1].max_nested, LEVELS[1].nest_probability)
+		#print(potion_equation)
+		
+		var blue = PotionData.new(PotionType.BLUE)
+		var red = PotionData.new(PotionType.RED)
+		
+		var purple = PotionData.new(PotionType.PURPLE)
+		purple.add_child(blue)
+		purple.add_child(red)
+		cauldron_contents.append(blue)
+		cauldron_contents.append(red)
+		
+		print(try_mix_ingredients(cauldron_contents))
+		
+		load_potion_nodes()
+		
 		called = true
+
+func load_potion_nodes() -> void:
+	var potion_scene = load(POTION_SCENE_PATH).instantiate()
+	ship.add_child(potion_scene)
+	potion_scene.global_transform.origin = Vector3(2.31, 0, 0)
+
+func add_to_cauldron():
+	
+	pass
+
+func try_mix_ingredients(ingredients: Array) -> PotionData:
+	if can_mix_ingredients(ingredients):
+		return get_mix_result(ingredients)
+		
+	return null
+
+func can_mix_ingredients(ingredients: Array) -> bool:
+	var first_potion_siblings = ingredients[0].get_siblings()
+	return array_contents_equal(first_potion_siblings, ingredients)
+	
+func get_mix_result(ingredients: Array):
+	return ingredients[0].result
+	
+func array_contents_equal(array_1: Array, array_2: Array) -> bool:
+	var sorted_array_1 = array_1.duplicate()
+	var sorted_array_2 = array_2.duplicate()
+	
+	sorted_array_1.sort()
+	sorted_array_2.sort()
+	
+	return sorted_array_1.hash() == sorted_array_2.hash()
+
+func can_combine(potion_1, potion_2) -> bool:
+	return potion_1 in potion_2.get_siblings()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
