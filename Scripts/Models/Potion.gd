@@ -1,31 +1,59 @@
 extends Node3D
 
 @onready var pouring = false
-@onready var being_poured_into = false
+@onready var cauldron = $"../Cauldron"
+@onready var animation_time: float = .25
 
-func pour_potion(receiver: Node3D, extra_potion_height: float, pour_time: float):
+var original_position: Vector3
+var original_rotation: Vector3
+var cauldron_position: Vector3
+
+@export var pour_time: float
+
+func _ready():
+	original_position = position
+	original_rotation = rotation_degrees
+	cauldron_position = Vector3(cauldron.position.x, cauldron.position.y + 1, cauldron.position.z)
+
+func pour_potion(receiver: Node3D):
 	"""
 	Move to receiver turned upside-down, wait a number of seconds, then return to original position.
 	"""
 	pouring = true
 	receiver.being_poured_into = true
-	var pourer_position = global_transform.origin
-	var receiver_position = receiver.global_transform.origin
-	move_to_coordinates(receiver_position.x, receiver_position.y, receiver_position.z, extra_potion_height)
-
-	flip(true)
+	move_to_cauldron()
+	
 	await delay(pour_time)
-	flip(false)
-
-	move_to_coordinates(pourer_position.x, pourer_position.y, pourer_position.z, 0)
+	
+	move_to_original_position()
 	pouring = false
 	receiver.being_poured_into = false
 
-func flip(turn_upside_down: bool):
-	rotation_degrees.x = 180 if turn_upside_down else 0
-
 func delay(seconds: float):
 	await get_tree().create_timer(seconds).timeout
+	
+func move_to_cauldron():
+	var tween = get_tree().create_tween().set_parallel(true)
+	
+	# Return to original position and rotation
+	tween.tween_property(self, 
+						"position", 
+						cauldron_position,
+						animation_time)
+	tween.tween_property(self, 
+						"rotation_degrees", 
+						Vector3(180, 0 , 0), 
+						animation_time)
 
-func move_to_coordinates(x, y, z, extra_height):
-	global_transform.origin = Vector3(x, y+extra_height, z)
+func move_to_original_position():
+	var tween = get_tree().create_tween().set_parallel(true)
+	
+	# Return to original position and rotation
+	tween.tween_property(self, 
+						"position", 
+						original_position,
+						animation_time)
+	tween.tween_property(self, 
+						"rotation_degrees", 
+						original_position, 
+						animation_time)
