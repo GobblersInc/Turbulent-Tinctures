@@ -29,5 +29,9 @@ distance_fade_begin = 0.0
 omni_range = 12.875
 
 [node name="LightsOutTimer" type="Timer" parent="Lantern"]
+one_shot = true
 
 [node name="CheckTimer" type="Timer" parent="Lantern"]
+
+[node name="LightsOutCooldownTimer" type="Timer" parent="Lantern"]
+one_shot = true

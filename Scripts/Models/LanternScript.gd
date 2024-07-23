@@ -4,43 +4,40 @@ extends Node3D
 @onready var rng = RandomNumberGenerator.new()
 @onready var check_timer : Timer = $Lantern/CheckTimer
 @onready var lights_out_timer : Timer = $Lantern/LightsOutTimer
+@onready var lights_out_cooldown_timer : Timer = $Lantern/LightsOutCooldownTimer
 
-# Probability of flickering and fading (e.g., 0.2 for 20%, 0.4 for 40%)
 @export var flicker_probability: float
-# Duration the light stays out (in seconds)
 @export var light_out_duration: float
-# Interval for checking the flicker probability (in seconds)
 @export var check_interval: float
-
+@export var lights_out_cooldown: float
 
 func _ready():
 	check_timer.wait_time = check_interval
 	lights_out_timer.wait_time = light_out_duration
+	lights_out_cooldown_timer.wait_time = lights_out_cooldown
 	
 	check_timer.connect("timeout", _on_check_timer_timeout)
 	lights_out_timer.connect("timeout", _on_light_out_timer_timeout)
 	
 	check_timer.start()
-
+	
 func _on_check_timer_timeout():
+	print("We're in check timer timout")
 	# Check the probability and trigger the effect if conditions are met
 	if should_flicker_and_fade():
 		flicker_and_fade_light()
-	else:
-		# Restart the check timer if flicker doesn't occur
-		check_timer.start(check_interval)
 
 func _on_light_out_timer_timeout():
 	# Turn the light back on and restart the check timer
 	var tween = get_tree().create_tween()
 	tween.tween_property(light, "light_energy", 6, 1)
-	check_timer.start(check_interval)
+	lights_out_cooldown_timer.start()
 
 func should_flicker_and_fade() -> bool:
-	# Generate a random number between 0 and 1
-	var random_value = rng.randf()
 	# Return true if the random value is less than the flicker probability
-	return random_value < flicker_probability
+	if lights_out_cooldown_timer.is_stopped():
+		return rng.randf() < flicker_probability
+	return false
 
 func flicker_and_fade_light():
 	# Define the flicker durations and intensities
