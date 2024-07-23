@@ -55,5 +55,5 @@ func move_to_original_position():
 						animation_time)
 	tween.tween_property(self, 
 						"rotation_degrees", 
-						original_position, 
+						original_rotation, 
 						animation_time)

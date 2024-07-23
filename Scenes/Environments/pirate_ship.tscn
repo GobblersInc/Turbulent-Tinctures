@@ -16,7 +16,7 @@
 [sub_resource type="Environment" id="Environment_fmft1"]
 ambient_light_source = 2
 ambient_light_color = Color(0.974032, 0.804951, 0.476326, 1)
-ambient_light_energy = 0.02
+ambient_light_energy = 0.0
 
 [node name="PirateShip" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504239, 1.0115, 2.09406)
@@ -31,9 +31,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00770974, 0.148961, -3.9789
 [node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.39538, 2.34285, -4.28288)
 script = ExtResource("3_hmrva")
-flicker_probability = 0.5
+flicker_probability = 0.2
 light_out_duration = 5.0
 check_interval = 5.0
+lights_out_cooldown = 10.0
 
 [node name="Cauldron" parent="." instance=ExtResource("2_j4sdg")]
 transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 2.47837, -3.98656)
