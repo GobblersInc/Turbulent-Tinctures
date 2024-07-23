@@ -73,11 +73,11 @@ func _ready():
 
 func load_potion_nodes() -> void:
 	var potion_scene = load(POTION_SCENE_PATH).instantiate()
-	ship.add_child(potion_scene)
-	potion_scene.global_transform.origin = Vector3(2.31, 0, 0)
+	add_child(potion_scene)
+	potion_scene.global_position = Vector3(-1, 2.4, -2)
+	potion_scene.scale = Vector3(1, 1, 1)
 
 func add_to_cauldron():
-	
 	pass
 
 func try_mix_ingredients(ingredients: Array) -> PotionData:

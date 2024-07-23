@@ -34,7 +34,7 @@ check_interval = 5.0
 transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 1.45005, -5.06805)
 script = ExtResource("3_st3s3")
 
-[node name="Potion" parent="." instance=ExtResource("12_c1ri6")]
+[node name="Potion1" parent="." instance=ExtResource("12_c1ri6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.920041, 1.3415, -4.56155)
 
 [node name="Potion2" parent="." instance=ExtResource("12_c1ri6")]
