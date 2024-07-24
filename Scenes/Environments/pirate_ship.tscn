@@ -10,8 +10,8 @@
 [ext_resource type="Script" path="res://Scripts/Models/PaperScript.gd" id="9_5qjy5"]
 [ext_resource type="PackedScene" uid="uid://bnq1leshxijrk" path="res://Scenes/Models/lantern.tscn" id="10_50gvt"]
 [ext_resource type="Script" path="res://Scripts/Managers/MovementManager.gd" id="10_c1017"]
-[ext_resource type="Script" path="res://Scripts/Managers/GameManager.gd" id="12_8skkv"]
 [ext_resource type="AudioStream" uid="uid://c83dmhsw73hgp" path="res://Assets/Audio/SFX/Ambient Audio.ogg" id="10_hy50k"]
+[ext_resource type="Script" path="res://Scripts/Managers/GameManager.gd" id="11_3v0ec"]
 
 [sub_resource type="Environment" id="Environment_fmft1"]
 ambient_light_source = 2
@@ -56,6 +56,9 @@ script = ExtResource("7_g6hdh")
 
 [node name="MovementManager" type="Node3D" parent="Managers"]
 script = ExtResource("10_c1017")
+
+[node name="GameManager" type="Node3D" parent="Managers"]
+script = ExtResource("11_3v0ec")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_fmft1")

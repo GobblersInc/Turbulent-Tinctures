@@ -1,14 +1,14 @@
 extends Node3D
 
 @onready var pouring = false
-@onready var cauldron = $"../Cauldron"
-@onready var animation_time: float = .25
+@onready var cauldron = $"../../../Cauldron"
+@onready var animation_time: float = 0.25
 
 var original_position: Vector3
 var original_rotation: Vector3
 var cauldron_position: Vector3
 
-@export var pour_time: float
+var pour_time: float = 1
 
 func _ready():
 	original_position = position
@@ -35,6 +35,8 @@ func delay(seconds: float):
 func move_to_cauldron():
 	var tween = get_tree().create_tween().set_parallel(true)
 	
+	print(cauldron_position)
+	
 	# Return to original position and rotation
 	tween.tween_property(self, 
 						"position", 
@@ -47,6 +49,8 @@ func move_to_cauldron():
 
 func move_to_original_position():
 	var tween = get_tree().create_tween().set_parallel(true)
+	
+	print("moving back")
 	
 	# Return to original position and rotation
 	tween.tween_property(self, 

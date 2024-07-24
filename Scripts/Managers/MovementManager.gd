@@ -32,7 +32,7 @@ func clicking_cauldron(cauldron: Node3D):
 func clicking_potion(potion):
 	if selected_potion:
 		remove_selection_outline(selected_potion)
-		selected_potion = null			
+		selected_potion = null
 	# There isn't a potion selected
 	else:
 		selected_potion = potion
