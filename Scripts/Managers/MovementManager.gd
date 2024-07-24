@@ -1,9 +1,9 @@
 extends Node3D 
 
+@onready var input_manager = $"../InputManager"
+
 var selection_mesh: MeshInstance3D = null
 const OUTLINE_MATERIAL_PATH = "res://Resources/Materials/Outline.tres"
-
-@onready var input_manager = $"../InputManager"
 
 var selected_potion = null
 
@@ -35,6 +35,7 @@ func clicking_potion(potion):
 		selected_potion = null			
 	# There isn't a potion selected
 	else:
+		SoundManager.play_random_potion_interact_sound()
 		selected_potion = potion
 		
 		if selection_mesh == null:

@@ -11,9 +11,9 @@ var cauldron_position: Vector3
 @export var pour_time: float
 
 func _ready():
-	original_position = position
-	original_rotation = rotation_degrees
-	cauldron_position = Vector3(cauldron.position.x, cauldron.position.y + 1, cauldron.position.z)
+	original_position = global_transform.origin
+	original_rotation = global_rotation_degrees
+	cauldron_position = Vector3(cauldron.position.x + .5, cauldron.position.y + 1, cauldron.position.z)
 
 func pour_potion(receiver: Node3D):
 	"""
@@ -25,6 +25,10 @@ func pour_potion(receiver: Node3D):
 	
 	await delay(pour_time)
 	
+	throw_potion()
+	
+	await delay(.12)
+	
 	move_to_original_position()
 	pouring = false
 	receiver.being_poured_into = false
@@ -33,27 +37,33 @@ func delay(seconds: float):
 	await get_tree().create_timer(seconds).timeout
 	
 func move_to_cauldron():
+	SoundManager.play_random_mixing_sound()
 	var tween = get_tree().create_tween().set_parallel(true)
 	
-	# Return to original position and rotation
+	# Move to cauldron position and rotate
 	tween.tween_property(self, 
 						"position", 
 						cauldron_position,
 						animation_time)
 	tween.tween_property(self, 
 						"rotation_degrees", 
-						Vector3(180, 0 , 0), 
+						Vector3(0, 0, 130), 
 						animation_time)
-
-func move_to_original_position():
+						
+func throw_potion():
 	var tween = get_tree().create_tween().set_parallel(true)
-	
-	# Return to original position and rotation
+	var x_positions = [-10, 10]
 	tween.tween_property(self, 
 						"position", 
-						original_position,
-						animation_time)
+						Vector3(x_positions[randi() % x_positions.size()], randi_range(1, 10), randi_range(-5, 5)),
+						.1)
 	tween.tween_property(self, 
 						"rotation_degrees", 
-						original_rotation, 
-						animation_time)
+						Vector3(720, 0 , 0), 
+						.1)
+						
+	SoundManager.player_random_glass_break_sound()
+
+func move_to_original_position():
+	self.global_transform.origin = original_position
+	self.global_rotation_degrees = original_rotation
