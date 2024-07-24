@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ccxt2561n8epv"
+path="res://.godot/imported/Paper Interact 012.wav-20a544210054cdca7cc4cd6559d34eb2.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Paper Interact/Paper Interact 012.wav"
+dest_files=["res://.godot/imported/Paper Interact 012.wav-20a544210054cdca7cc4cd6559d34eb2.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

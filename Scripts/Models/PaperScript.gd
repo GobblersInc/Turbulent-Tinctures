@@ -1,10 +1,12 @@
 extends Node3D
 
-@onready var input_manager = $"../Managers/InputManager"
 @onready var camera = $"../Camera3D"
 @onready var is_in_front: bool = false
 @onready var light: OmniLight3D = null
+
 @export var animation_time = .5
+
+@onready var input_manager = $"../Managers/InputManager"
 
 var original_position: Vector3
 var original_rotation: Vector3
@@ -31,6 +33,7 @@ func _on_ObjectClicked(_event_position, clicked_object):
 
 func _handle_paper_clicked() -> void:
 	if is_in_front:
+		SoundManager.play_random_paper_sound()
 		var tween = get_tree().create_tween().set_parallel(true)
 		
 		# Return to original position and rotation
@@ -42,12 +45,15 @@ func _handle_paper_clicked() -> void:
 							"rotation_degrees", 
 							original_rotation, 
 							animation_time)
+		is_in_front = !is_in_front
 	else:
 		# Move and rotate the paper to be in front of the camera
 		if light.light_energy > 0:
+			SoundManager.play_random_paper_sound()
 			var tween = get_tree().create_tween().set_parallel(true)
 			tween.tween_property(self, "position", camera_offset, animation_time)
 			tween.tween_property(self, "rotation_degrees", Vector3(0, -90, -75), animation_time)
-	
-	# Toggle the state
-	is_in_front = !is_in_front
+			is_in_front = !is_in_front
+		
+func play_sound() -> void:
+	SoundManager.play_random_paper_sound()

@@ -1,0 +1,90 @@
+extends Node3D
+
+const PAPER_INTERACT_SOUNDS = [
+	preload("res://Assets/Audio/SFX/Paper Interact/Paper Interact 001.wav"),
+	preload("res://Assets/Audio/SFX/Paper Interact/Paper Interact 002.wav"),
+	preload("res://Assets/Audio/SFX/Paper Interact/Paper Interact 003.wav"),
+	preload("res://Assets/Audio/SFX/Paper Interact/Paper Interact 004.wav"),
+	preload("res://Assets/Audio/SFX/Paper Interact/Paper Interact 005.wav"),
+	preload("res://Assets/Audio/SFX/Paper Interact/Paper Interact 006.wav"),
+	preload("res://Assets/Audio/SFX/Paper Interact/Paper Interact 007.wav"),
+	preload("res://Assets/Audio/SFX/Paper Interact/Paper Interact 008.wav"),
+	preload("res://Assets/Audio/SFX/Paper Interact/Paper Interact 009.wav"),
+	preload("res://Assets/Audio/SFX/Paper Interact/Paper Interact 010.wav"),
+	preload("res://Assets/Audio/SFX/Paper Interact/Paper Interact 011.wav"),
+	preload("res://Assets/Audio/SFX/Paper Interact/Paper Interact 012.wav"),
+	preload("res://Assets/Audio/SFX/Paper Interact/Paper Interact 013.wav")
+]
+
+const POURING_SOUNDS = [
+	preload("res://Assets/Audio/SFX/Pouring/Pouring 001.wav"),
+	preload("res://Assets/Audio/SFX/Pouring/Pouring 002.wav"),
+	preload("res://Assets/Audio/SFX/Pouring/Pouring 003.wav"),
+	preload("res://Assets/Audio/SFX/Pouring/Pouring 004.wav")
+]
+
+const WATER_MIXING_SOUNDS = [
+	preload("res://Assets/Audio/SFX/Water Mixing/Water Mixing 001.wav"),
+	preload("res://Assets/Audio/SFX/Water Mixing/Water Mixing 002.wav"),
+	preload("res://Assets/Audio/SFX/Water Mixing/Water Mixing 003.wav"),
+	preload("res://Assets/Audio/SFX/Water Mixing/Water Mixing 004.wav"),
+	preload("res://Assets/Audio/SFX/Water Mixing/Water Mixing 005.wav")
+]
+
+const POTION_INTERACT_SOUNDS = [
+	preload("res://Assets/Audio/SFX/Potion Interact/Potion Interact 001.wav"),
+	preload("res://Assets/Audio/SFX/Potion Interact/Potion Interact 002.wav"), 
+	preload("res://Assets/Audio/SFX/Potion Interact/Potion Interact 003.wav"), 
+	preload("res://Assets/Audio/SFX/Potion Interact/Potion Interact 004.wav"), 
+	preload("res://Assets/Audio/SFX/Potion Interact/Potion Interact 005.wav"), 
+	preload("res://Assets/Audio/SFX/Potion Interact/Potion Interact 006.wav"), 
+	preload("res://Assets/Audio/SFX/Potion Interact/Potion Interact 007.wav")
+]
+
+const GLASS_BREAK_SOUNDS = [
+	preload("res://Assets/Audio/SFX/Glass Break/Glass Break 001.wav"),
+	preload("res://Assets/Audio/SFX/Glass Break/Glass Break 002.wav"), 
+	preload("res://Assets/Audio/SFX/Glass Break/Glass Break 003.wav"), 
+	preload("res://Assets/Audio/SFX/Glass Break/Glass Break 004.wav"), 
+]
+
+var audio_players = {
+	"paper": null,
+	"water_mixing": null,
+	"pouring": null,
+	"potion_interact": null,
+	"glass_break": null
+}
+
+func _ready():
+	randomize()
+	instantiate_audio_players()
+	
+func play_random_sound(category, sound_list):
+	if audio_players.has(category):
+		var audio_player = audio_players[category]
+		var random_sound = sound_list[randi() % sound_list.size()]
+		audio_player.stream = random_sound
+		audio_player.play()
+	else:
+		print("Error: Audio player for category '%s' not found" % category)
+
+func play_random_paper_sound():
+	play_random_sound("paper", PAPER_INTERACT_SOUNDS)
+	
+func play_random_mixing_sound():
+	play_random_sound("pouring", POURING_SOUNDS)
+	play_random_sound("water_mixing", WATER_MIXING_SOUNDS)
+	
+func play_random_potion_interact_sound():
+	play_random_sound("potion_interact", POTION_INTERACT_SOUNDS)
+
+func player_random_glass_break_sound():
+	play_random_sound("glass_break", GLASS_BREAK_SOUNDS)
+
+func instantiate_audio_players() -> void:
+	for key in audio_players.keys():
+		var audio_player = AudioStreamPlayer.new()
+		audio_player.volume_db = -10
+		add_child(audio_player)
+		audio_players[key] = audio_player

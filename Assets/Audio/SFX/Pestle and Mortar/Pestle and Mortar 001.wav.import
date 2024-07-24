@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dosb0q0yiop6b"
+path="res://.godot/imported/Pestle and Mortar 001.wav-158e0d8ea55b89c5741f5d9a56f140d1.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Pestle and Mortar/Pestle and Mortar 001.wav"
+dest_files=["res://.godot/imported/Pestle and Mortar 001.wav-158e0d8ea55b89c5741f5d9a56f140d1.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

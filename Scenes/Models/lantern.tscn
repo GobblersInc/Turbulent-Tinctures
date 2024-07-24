@@ -1,31 +1,29 @@
 [gd_scene load_steps=3 format=3 uid="uid://bnq1leshxijrk"]
 
-[ext_resource type="PackedScene" uid="uid://21mncwhbjvdd" path="res://Assets/Models/Lantern/Lantern.glb" id="1_qqox1"]
+[ext_resource type="PackedScene" uid="uid://hrl0palbrjah" path="res://Assets/Models/Lantern/Lantern V2.glb" id="1_6m71i"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_1h5by"]
-size = Vector3(1.88713, 2.31226, 1.90143)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7lbat"]
+height = 2.42318
+radius = 0.903421
 
 [node name="Lantern" type="Node3D"]
 
-[node name="Lantern" parent="." instance=ExtResource("1_qqox1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00165993, -1.19209e-07, -0.0699722)
+[node name="Lantern" parent="." instance=ExtResource("1_6m71i")]
 
-[node name="RigidBody3D" type="RigidBody3D" parent="Lantern" groups=["lantern"]]
+[node name="RigidBody3D" type="RigidBody3D" parent="Lantern"]
 gravity_scale = 0.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Lantern/RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.025322, 1.16092, -0.044342)
-shape = SubResource("BoxShape3D_1h5by")
-
-[node name="LanternLight" type="OmniLight3D" parent="Lantern"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00677758, 1.24118, -0.0155531)
-light_color = Color(0.886682, 0.526667, 0.280714, 1)
-light_energy = 6.626
-shadow_enabled = true
-shadow_normal_bias = 0.0
-shadow_opacity = 0.38
-shadow_blur = 2.5
-distance_fade_begin = 0.0
-omni_range = 12.875
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -0.00383472, 0.454294, -0.0399599)
+shape = SubResource("CylinderShape3D_7lbat")
 
 [node name="Timer" type="Timer" parent="Lantern"]
+
+[node name="LanternLight" type="OmniLight3D" parent="Lantern"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.736075, -0.0666256)
+light_color = Color(0.82115, 0.570845, 0.0837236, 1)
+light_energy = 7.0
+shadow_enabled = true
+shadow_opacity = 0.35
+shadow_blur = 4.232
+omni_range = 20.858
