@@ -4,7 +4,7 @@ const POTION_SCENE_PATH = "res://Scenes/Models/potion.tscn"
 @onready var ship = $"../.."
 const PotionType = preload("res://Scripts/Utilities/PotionData.gd").PotionType
 
-var MAX_POTION_TYPES = 8
+var MAX_POTION_TYPES = PotionType.size()
 
 var cauldron_contents = []
 
@@ -37,72 +37,25 @@ func _generate_potion_equation(min_ingredients_per_potion: int, max_ingredients_
 			potion_equation.add_child(ingredient)
 		else:
 			potion_equation.add_child(PotionData.new(ingredient))
+
 	return potion_equation
 
 # Called when the node enters the scene tree for the first time.
 var called = false
 func _ready():
 	if not called:
-		#var green = PotionData.new(PotionType.GREEN)
-		#green.add_child(PotionData.new(PotionType.BLUE))
-		#green.add_child(PotionData.new(PotionType.RED))
-#
-		#var black = PotionData.new(PotionType.BLACK)
-		#black.add_child(PotionData.new(PotionType.YELLOW))
-		#black.add_child(green)
-		
-		#print(black)
-		
-		#var potion_equation = generate_potion_equation(LEVELS[1].min_ingredients_per_potion, LEVELS[1].max_ingredients_per_potion, LEVELS[1].min_nested, LEVELS[1].max_nested, LEVELS[1].nest_probability)
-		#print(potion_equation)
-		
-		var purple = PotionData.new(PotionType.PURPLE)
-		purple.add_child(PotionData.new(PotionType.BLUE))
-		purple.add_child(PotionData.new(PotionType.RED))
-		
-		var yellow = PotionData.new(PotionType.YELLOW)
-		yellow.add_child(purple)
-		yellow.add_child(PotionData.new(PotionType.PINK))
-		
-		var required_potion = yellow
-		
-		#cauldron_contents.append(red)
-		#cauldron_contents.append(blue)
-		#print(try_mix_ingredients(cauldron_contents))
-		
+		var required_potion = generate_potion_equation(LEVELS[0].min_ingredients_per_potion, LEVELS[0].max_ingredients_per_potion, LEVELS[0].min_nested, LEVELS[0].max_nested, LEVELS[0].nest_probability)
+
 		var starting_potions = required_potion.get_all_leaves()
-		
+
 		load_potion_nodes(starting_potions)
-		
-		print(starting_potions)
-		
+
+		print("Potion to make: ", required_potion)
+
 		for potion in starting_potions:
 			change_potion_color(potion)
-		
+
 		called = true
-
-#func add_selection_outline(potion: Node3D) -> void:
-	#var potion_mesh = potion.get_child(0).get_child(0).mesh
-	#var selection_outline = potion_mesh.duplicate()
-	#
-	#selection_outline.surface_set_material(0, load(OUTLINE_MATERIAL_PATH))
-	#
-	#selection_mesh = MeshInstance3D.new()
-	#selection_mesh.mesh = selection_outline
-	#selection_mesh.scale /= 17.8  # Slightly larger to create the outline effect
-	#potion.add_child(selection_mesh)
-
-
-const POTION_TYPE_TO_COLOR = {
-	PotionType.BLUE: Color(0, 0, 1, 1),   
-	PotionType.RED: Color(1, 0, 0, 1),   
-	PotionType.GREEN: Color(0, 1, 0, 1),   
-	PotionType.BLACK: Color(0, 0, 0, 1),   
-	PotionType.YELLOW: Color(1, 1, 0, 1),   
-	PotionType.PURPLE: Color(0.5, 0, 0.5, 1), 
-	PotionType.BROWN: Color(0.6, 0.3, 0, 1),
-	PotionType.PINK: Color(1, 0.08, 0.58, 1)
-}
 
 func change_potion_color(potion: PotionData) -> void:
 	var potion_node = potion.node
@@ -123,9 +76,9 @@ func change_potion_color(potion: PotionData) -> void:
 	new_mesh.surface_set_material(0, fluid_material)
 	
 	# Change the color of the duplicated material
-	var color = POTION_TYPE_TO_COLOR[potion.type]
+	var color = potion.get_color()
 	fluid_material.set_emission(color)
-	
+
 
 func load_potion_nodes(potions_list: Array) -> void:
 	var BOUNDS = {
@@ -145,7 +98,7 @@ func load_potion_nodes(potions_list: Array) -> void:
 
 		if is_position_valid(position, potion_positions):
 			potion_positions.append(position)
-			
+
 	for i in range(len(potions_list)):
 		var potion_node = load(POTION_SCENE_PATH).instantiate()
 		add_child(potion_node)
@@ -153,12 +106,12 @@ func load_potion_nodes(potions_list: Array) -> void:
 		potion_node.scale = Vector3(1, 1, 1)
 		
 		potions_list[i].node = potion_node
-		
+
 func is_position_valid(position: Vector3, positions: Array) -> bool:
 	"""
 	This could almost certainly be done a better way - this way, the outer function runs at O(n^2)
 	"""
-	const POTION_MIN_DISTANCE_APART = .5
+	const POTION_MIN_DISTANCE_APART = .2
 	
 	for existing_position in positions:
 		if position.distance_to(existing_position) < POTION_MIN_DISTANCE_APART:

@@ -6,11 +6,18 @@ enum PotionType {
 	BLUE,
 	RED,
 	GREEN,
-	BLACK,
 	YELLOW,
 	PURPLE,
-	BROWN,
 	PINK,
+}
+
+const POTION_TYPE_TO_COLOR = {
+	PotionType.BLUE: Color(0, 0, 1, 1),   
+	PotionType.RED: Color(1, 0, 0, 1),   
+	PotionType.GREEN: Color(0, 1, 0, 1),   
+	PotionType.YELLOW: Color(1, 1, 0, 1),   
+	PotionType.PURPLE: Color(0.5, 0, 0.5, 1), 
+	PotionType.PINK: Color(1, 0.08, 0.58, 1)
 }
 
 var result: PotionData = null # equivalent to "parent"
@@ -68,6 +75,9 @@ func find_node(type: PotionType, start_node: PotionData = null) -> PotionData:
 		if found != null:
 			return found
 	return null
+
+func get_color():
+	return POTION_TYPE_TO_COLOR[self.type]
 
 """
 Below is code for printing out entire trees easily for testing purposes
