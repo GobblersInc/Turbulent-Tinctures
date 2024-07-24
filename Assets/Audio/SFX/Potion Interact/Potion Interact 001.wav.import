@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dxo7huw81g2tj"
+path="res://.godot/imported/Potion Interact 001.wav-177e0656e0d70b5781f91f2cd23c3947.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Potion Interact/Potion Interact 001.wav"
+dest_files=["res://.godot/imported/Potion Interact 001.wav-177e0656e0d70b5781f91f2cd23c3947.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

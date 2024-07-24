@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bwp74h43hhcku"
+path="res://.godot/imported/Water Mixing 003.wav-557e0fef9853308442074304d4443b59.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Water Mixing/Water Mixing 003.wav"
+dest_files=["res://.godot/imported/Water Mixing 003.wav-557e0fef9853308442074304d4443b59.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

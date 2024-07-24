@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b3kom0nr71rdi"
+path="res://.godot/imported/Glass Crunch 001.wav-67350c418df18c043dec5d55a62e386b.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Glass Crunch/Glass Crunch 001.wav"
+dest_files=["res://.godot/imported/Glass Crunch 001.wav-67350c418df18c043dec5d55a62e386b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
