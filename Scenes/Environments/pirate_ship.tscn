@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=14 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cyo3rpx1tcdkt" path="res://Scenes/Models/alchemy_table.tscn" id="1_baqvx"]
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
@@ -11,6 +11,12 @@
 [ext_resource type="PackedScene" uid="uid://bnq1leshxijrk" path="res://Scenes/Models/lantern.tscn" id="10_50gvt"]
 [ext_resource type="Script" path="res://Scripts/Managers/MovementManager.gd" id="10_c1017"]
 [ext_resource type="Script" path="res://Scripts/Managers/GameManager.gd" id="12_8skkv"]
+[ext_resource type="AudioStream" uid="uid://c83dmhsw73hgp" path="res://Assets/Audio/SFX/Ambient Audio.ogg" id="10_hy50k"]
+
+[sub_resource type="Environment" id="Environment_fmft1"]
+ambient_light_source = 2
+ambient_light_color = Color(0.974032, 0.804951, 0.476326, 1)
+ambient_light_energy = 0.0
 
 [node name="PirateShip" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504239, 1.0115, 2.09406)
@@ -26,8 +32,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00770974, -0.879358, -5.060
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.56279, 1.31453, -5.77949)
 script = ExtResource("3_hmrva")
 flicker_probability = 0.5
-light_out_duration = 5.0
-check_interval = 5.0
+light_out_duration = 4.0
+check_interval = 4.0
+lights_out_cooldown = 5.0
+light_on_or_off = true
 
 [node name="Cauldron" parent="." instance=ExtResource("2_j4sdg")]
 transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 1.45005, -5.35531)
@@ -49,5 +57,10 @@ script = ExtResource("7_g6hdh")
 [node name="MovementManager" type="Node3D" parent="Managers"]
 script = ExtResource("10_c1017")
 
-[node name="GameManager" type="Node3D" parent="Managers"]
-script = ExtResource("12_8skkv")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fmft1")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_hy50k")
+volume_db = -13.868
+autoplay = true

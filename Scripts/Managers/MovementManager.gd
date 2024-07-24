@@ -1,7 +1,5 @@
 extends Node3D 
 
-const EXTRA_POTION_HEIGHT = 1.2
-const POUR_TIME_SECONDS = 1
 var selection_mesh: MeshInstance3D = null
 const OUTLINE_MATERIAL_PATH = "res://Resources/Materials/Outline.tres"
 
@@ -12,7 +10,7 @@ var selected_potion = null
 func _ready():
 	input_manager.ObjectClicked.connect(_on_ObjectClicked)
 
-func _on_ObjectClicked(event_position, object_info):
+func _on_ObjectClicked(_event_position, object_info):
 	var player_clicked_cauldron = object_info.is_in_group("cauldron")
 	var player_clicked_potion = object_info.is_in_group("potion")
 	var object = object_info.get_parent().get_parent()
@@ -24,21 +22,15 @@ func _on_ObjectClicked(event_position, object_info):
 
 func clicking_cauldron(cauldron: Node3D):
 	if selected_potion:
-		var containers_are_available = not (selected_potion.being_poured_into or selected_potion.pouring or cauldron.being_poured_into)
+		var containers_are_available = not (selected_potion.pouring or cauldron.being_poured_into)
 		if containers_are_available:
-			selected_potion.pour_potion(cauldron, EXTRA_POTION_HEIGHT, POUR_TIME_SECONDS)
+			selected_potion.pour_potion(cauldron)
 			remove_selection_outline(selected_potion)
 			selected_potion = null
 			
 		
 func clicking_potion(potion):
 	if selected_potion:
-		
-		var potion_into_another_potion = selected_potion and selected_potion != potion
-		var potions_are_available = not (selected_potion.being_poured_into or selected_potion.pouring or potion.pouring or potion.being_poured_into)
-		if potion_into_another_potion and potions_are_available:
-			selected_potion.pour_potion(potion, EXTRA_POTION_HEIGHT, POUR_TIME_SECONDS)
-		
 		remove_selection_outline(selected_potion)
 		selected_potion = null			
 	# There isn't a potion selected
