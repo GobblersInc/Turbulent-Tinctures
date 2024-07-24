@@ -12,6 +12,8 @@ extends Node3D
 
 var is_light_on: bool
 
+signal LightOff()
+
 func _ready():
 	timer.connect("timeout", _on_check_timer_timeout)
 	is_light_on = light_on_or_off
@@ -48,4 +50,6 @@ func flicker_and_fade_light():
 
 	tween.tween_property(light, "light_energy", 0.0, 0.4)
 	is_light_on = false
+	await tween.finished
+	LightOff.emit()
 	timer.start(light_out_duration)
