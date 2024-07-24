@@ -56,26 +56,114 @@ func _ready():
 		#var potion_equation = generate_potion_equation(LEVELS[1].min_ingredients_per_potion, LEVELS[1].max_ingredients_per_potion, LEVELS[1].min_nested, LEVELS[1].max_nested, LEVELS[1].nest_probability)
 		#print(potion_equation)
 		
-		var blue = PotionData.new(PotionType.BLUE)
-		var red = PotionData.new(PotionType.RED)
-		
 		var purple = PotionData.new(PotionType.PURPLE)
-		purple.add_child(blue)
-		purple.add_child(red)
-		cauldron_contents.append(blue)
-		cauldron_contents.append(red)
+		purple.add_child(PotionData.new(PotionType.BLUE))
+		purple.add_child(PotionData.new(PotionType.RED))
 		
-		print(try_mix_ingredients(cauldron_contents))
+		var yellow = PotionData.new(PotionType.YELLOW)
+		yellow.add_child(purple)
+		yellow.add_child(PotionData.new(PotionType.PINK))
 		
-		load_potion_nodes()
+		var required_potion = yellow
+		
+		#cauldron_contents.append(red)
+		#cauldron_contents.append(blue)
+		#print(try_mix_ingredients(cauldron_contents))
+		
+		var starting_potions = required_potion.get_all_leaves()
+		
+		load_potion_nodes(starting_potions)
+		
+		print(starting_potions)
+		
+		for potion in starting_potions:
+			change_potion_color(potion)
 		
 		called = true
 
-func load_potion_nodes() -> void:
-	var potion_scene = load(POTION_SCENE_PATH).instantiate()
-	add_child(potion_scene)
-	potion_scene.global_position = Vector3(-1, 2.4, -2)
-	potion_scene.scale = Vector3(1, 1, 1)
+#func add_selection_outline(potion: Node3D) -> void:
+	#var potion_mesh = potion.get_child(0).get_child(0).mesh
+	#var selection_outline = potion_mesh.duplicate()
+	#
+	#selection_outline.surface_set_material(0, load(OUTLINE_MATERIAL_PATH))
+	#
+	#selection_mesh = MeshInstance3D.new()
+	#selection_mesh.mesh = selection_outline
+	#selection_mesh.scale /= 17.8  # Slightly larger to create the outline effect
+	#potion.add_child(selection_mesh)
+
+
+const POTION_TYPE_TO_COLOR = {
+	PotionType.BLUE: Color(0, 0, 1, 1),   
+	PotionType.RED: Color(1, 0, 0, 1),   
+	PotionType.GREEN: Color(0, 1, 0, 1),   
+	PotionType.BLACK: Color(0, 0, 0, 1),   
+	PotionType.YELLOW: Color(1, 1, 0, 1),   
+	PotionType.PURPLE: Color(0.5, 0, 0.5, 1), 
+	PotionType.BROWN: Color(0.6, 0.3, 0, 1),
+	PotionType.PINK: Color(1, 0.08, 0.58, 1)
+}
+
+func change_potion_color(potion: PotionData) -> void:
+	var potion_node = potion.node
+	var fluid_mesh_instance = potion_node.get_child(0).get_child(2) as MeshInstance3D
+	
+	# Duplicate the mesh to create a unique instance
+	var original_mesh = fluid_mesh_instance.mesh
+	var new_mesh = original_mesh.duplicate() as ArrayMesh
+	
+	# Apply the new mesh to the mesh instance
+	fluid_mesh_instance.mesh = new_mesh
+	
+	# Duplicate the material to create a unique instance
+	var original_material = new_mesh.surface_get_material(0)
+	var fluid_material = original_material.duplicate()
+	
+	# Apply the duplicated material to the new mesh
+	new_mesh.surface_set_material(0, fluid_material)
+	
+	# Change the color of the duplicated material
+	var color = POTION_TYPE_TO_COLOR[potion.type]
+	fluid_material.set_emission(color)
+	
+
+func load_potion_nodes(potions_list: Array) -> void:
+	var BOUNDS = {
+		"top": -2.735,
+		"bottom": -1.85,
+		"left": -1,
+		"right": 1.45,
+	}
+	
+	const TABLE_HEIGHT = 2.4
+	
+	var potion_positions = []
+	while potion_positions.size() < len(potions_list):
+		var x = randf_range(BOUNDS["left"], BOUNDS["right"])
+		var z = randf_range(BOUNDS["bottom"], BOUNDS["top"])
+		var position = Vector3(x, TABLE_HEIGHT, z)
+
+		if is_position_valid(position, potion_positions):
+			potion_positions.append(position)
+			
+	for i in range(len(potions_list)):
+		var potion_node = load(POTION_SCENE_PATH).instantiate()
+		add_child(potion_node)
+		potion_node.global_position = potion_positions[i]
+		potion_node.scale = Vector3(1, 1, 1)
+		
+		potions_list[i].node = potion_node
+		
+func is_position_valid(position: Vector3, positions: Array) -> bool:
+	"""
+	This could almost certainly be done a better way - this way, the outer function runs at O(n^2)
+	"""
+	const POTION_MIN_DISTANCE_APART = .5
+	
+	for existing_position in positions:
+		if position.distance_to(existing_position) < POTION_MIN_DISTANCE_APART:
+			return false
+	return true
 
 func add_to_cauldron():
 	pass

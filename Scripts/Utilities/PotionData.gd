@@ -35,7 +35,6 @@ func get_siblings() -> Array:
 	if result == null:
 		return []
 	var siblings = result.ingredients.duplicate()
-	#siblings.erase(self)
 	return siblings
 
 func has_ingredients() -> bool:
@@ -46,6 +45,18 @@ func is_root() -> bool:
 
 func is_leaf() -> bool:
 	return ingredients.size() == 0
+
+func get_all_leaves() -> Array:
+	var leaves = []
+	_collect_leaves(self, leaves)
+	return leaves
+	
+func _collect_leaves(node: PotionData, leaves: Array) -> void:
+	if node.is_leaf():
+		leaves.append(node)
+	else:
+		for child in node.ingredients:
+			_collect_leaves(child, leaves)
 
 func find_node(type: PotionType, start_node: PotionData = null) -> PotionData:
 	if start_node == null:

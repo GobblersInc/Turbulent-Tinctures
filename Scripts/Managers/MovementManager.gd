@@ -48,9 +48,9 @@ func clicking_potion(potion):
 		if selection_mesh == null:
 			add_selection_outline(selected_potion)
 		else:
-			remove_selection_outline(selected_potion)			
-		
-		
+			remove_selection_outline(selected_potion)
+
+
 func add_selection_outline(potion: Node3D) -> void:
 	var potion_mesh = potion.get_child(0).get_child(0).mesh
 	var selection_outline = potion_mesh.duplicate()
@@ -66,4 +66,3 @@ func remove_selection_outline(potion: Node3D) -> void:
 	potion.remove_child(selection_mesh)
 	selection_mesh.queue_free()
 	selection_mesh = null
-	
