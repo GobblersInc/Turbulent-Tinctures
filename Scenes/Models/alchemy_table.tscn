@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cyo3rpx1tcdkt"]
-
-[ext_resource type="PackedScene" uid="uid://c5bj5np8qrw4s" path="res://Assets/Models/AlchemyTable/AlchemyTable.glb" id="1_soo70"]
-
-[node name="Node3D" type="Node3D"]
-
-[node name="AlchemyTable" parent="." instance=ExtResource("1_soo70")]

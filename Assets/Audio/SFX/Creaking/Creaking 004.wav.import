@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ngyhvgfoasg3"
+path="res://.godot/imported/Creaking 004.wav-602580b769fba871485fb5c49d339fca.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Creaking/Creaking 004.wav"
+dest_files=["res://.godot/imported/Creaking 004.wav-602580b769fba871485fb5c49d339fca.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
