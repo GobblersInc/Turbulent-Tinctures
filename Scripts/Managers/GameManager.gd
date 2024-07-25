@@ -1,10 +1,18 @@
 extends Node3D
 
-const POTION_SCENE_PATH = "res://Scenes/Models/potion.tscn"
-@onready var ship = $"../.."
-const PotionType = preload("res://Scripts/Utilities/PotionData.gd").PotionType
 
-var MAX_POTION_TYPES = PotionType.size()
+@onready var ship = $"../.."
+const FluidType = preload("res://Scripts/Utilities/PotionData.gd").FluidType
+const BottleType = preload("res://Scripts/Utilities/PotionData.gd").BottleType
+
+const POTION_SCENES = {
+	BottleType.VIAL: "res://Scenes/Models/vial_potion.tscn",
+	BottleType.FLASK: "res://Scenes/Models/flask_potion.tscn",
+	BottleType.JUG: "res://Scenes/Models/jug_potion.tscn",
+}
+
+var MAX_FLUID_TYPES = FluidType.size()
+var MAX_BOTTLE_TYPES = BottleType.size()
 
 var cauldron_contents = []
 
@@ -17,26 +25,26 @@ func generate_potion_equation(min_ingredients_per_potion: int, max_ingredients_p
 	return _generate_potion_equation(min_ingredients_per_potion, max_ingredients_per_potion, min_nested, max_nested, nest_probability)
 
 func _generate_potion_equation(min_ingredients_per_potion: int, max_ingredients_per_potion: int, min_nested: int, max_nested: int, nest_probability: float, current_depth: int = 0) -> PotionData:
-	var potion_type = randi() % MAX_POTION_TYPES
+	var fluid_type = randi() % MAX_FLUID_TYPES
+	var bottle_type = randi() % MAX_BOTTLE_TYPES
+	
 	var num_ingredients = randi_range(min_ingredients_per_potion, max_ingredients_per_potion)
 	var ingredients = []
 
 	while ingredients.size() < num_ingredients:
 		if current_depth < max_nested and randf() < nest_probability:
 			var nested_potion = _generate_potion_equation(min_ingredients_per_potion, max_ingredients_per_potion, min_nested, max_nested, nest_probability, current_depth + 1)
-			if nested_potion.type != potion_type and not nested_potion in ingredients:
+			if nested_potion.fluid != fluid_type and nested_potion.bottle != bottle_type and not nested_potion in ingredients:
 				ingredients.append(nested_potion)
 		else:
-			var ingredient_type = randi() % MAX_POTION_TYPES
-			if ingredient_type != potion_type and not ingredient_type in ingredients:
-				ingredients.append(ingredient_type)
+			var ingredient_fluid_type = randi() % MAX_FLUID_TYPES
+			var ingredient_bottle_type = randi() % MAX_BOTTLE_TYPES
+			if ingredient_fluid_type != fluid_type and ingredient_bottle_type != bottle_type and not ingredient_fluid_type in ingredients:
+				ingredients.append([ingredient_fluid_type, ingredient_bottle_type])
 
-	var potion_equation = PotionData.new(potion_type)
+	var potion_equation = PotionData.new(fluid_type, bottle_type)
 	for ingredient in ingredients:
-		if ingredient is PotionData:
-			potion_equation.add_child(ingredient)
-		else:
-			potion_equation.add_child(PotionData.new(ingredient))
+		potion_equation.add_child(PotionData.new(ingredient[0], ingredient[1]))
 
 	return potion_equation
 
@@ -58,8 +66,15 @@ func _ready():
 		called = true
 
 func change_potion_color(potion: PotionData) -> void:
+	print(potion)
 	var potion_node = potion.node
+	print(potion_node)
+	print(potion_node.get_child(0))
+	print(potion_node.get_child(0).get_child(0))
+	print(potion_node.get_child(0).get_child(1))
+	print(potion_node.get_child(0).get_child(2))
 	var fluid_mesh_instance = potion_node.get_child(0).get_child(2) as MeshInstance3D
+	
 	
 	# Duplicate the mesh to create a unique instance
 	var original_mesh = fluid_mesh_instance.mesh
@@ -79,28 +94,31 @@ func change_potion_color(potion: PotionData) -> void:
 	var color = potion.get_color()
 	fluid_material.set_emission(color)
 
-
-func load_potion_nodes(potions_list: Array) -> void:
+func generate_potion_positions(num_potions: int) -> Array:
 	var BOUNDS = {
 		"top": -2.735,
 		"bottom": -1.85,
 		"left": -1,
 		"right": 1.45,
 	}
-	
 	const TABLE_HEIGHT = 2.4
-	
 	var potion_positions = []
-	while potion_positions.size() < len(potions_list):
+	while potion_positions.size() < num_potions:
 		var x = randf_range(BOUNDS["left"], BOUNDS["right"])
 		var z = randf_range(BOUNDS["bottom"], BOUNDS["top"])
 		var position = Vector3(x, TABLE_HEIGHT, z)
 
 		if is_position_valid(position, potion_positions):
 			potion_positions.append(position)
+			
+	return potion_positions
+
+func load_potion_nodes(potions_list: Array) -> void:
+	var potion_positions = generate_potion_positions(len(potions_list))
 
 	for i in range(len(potions_list)):
-		var potion_node = load(POTION_SCENE_PATH).instantiate()
+		var bottle_type = potions_list[i].bottle
+		var potion_node = load(POTION_SCENES[bottle_type]).instantiate()
 		add_child(potion_node)
 		potion_node.global_position = potion_positions[i]
 		potion_node.scale = Vector3(1, 1, 1)
@@ -145,7 +163,3 @@ func array_contents_equal(array_1: Array, array_2: Array) -> bool:
 
 func can_combine(potion_1, potion_2) -> bool:
 	return potion_1 in potion_2.get_siblings()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

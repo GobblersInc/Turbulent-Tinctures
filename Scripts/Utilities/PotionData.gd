@@ -2,7 +2,7 @@ extends RefCounted
 
 class_name PotionData
 
-enum PotionType {
+enum FluidType {
 	BLUE,
 	RED,
 	GREEN,
@@ -11,22 +11,30 @@ enum PotionType {
 	PINK,
 }
 
+enum BottleType {
+	VIAL,
+	FLASK,
+	JUG,
+}
+
 const POTION_TYPE_TO_COLOR = {
-	PotionType.BLUE: Color(0, 0, 1, 1),   
-	PotionType.RED: Color(1, 0, 0, 1),   
-	PotionType.GREEN: Color(0, 1, 0, 1),   
-	PotionType.YELLOW: Color(1, 1, 0, 1),   
-	PotionType.PURPLE: Color(0.5, 0, 0.5, 1), 
-	PotionType.PINK: Color(1, 0.08, 0.58, 1)
+	FluidType.BLUE: Color(0, 0, 1, 1),   
+	FluidType.RED: Color(1, 0, 0, 1),   
+	FluidType.GREEN: Color(0, 1, 0, 1),   
+	FluidType.YELLOW: Color(1, 1, 0, 1),   
+	FluidType.PURPLE: Color(0.5, 0, 0.5, 1), 
+	FluidType.PINK: Color(1, 0.08, 0.58, 1)
 }
 
 var result: PotionData = null # equivalent to "parent"
 var ingredients: Array = [] # equivalent to "children"
-var type: PotionType
+var fluid: FluidType
+var bottle: BottleType
 var node: Node3D = null
 
-func _init(type):
-	self.type = type
+func _init(fluid: FluidType, bottle: BottleType):
+	self.fluid = fluid
+	self.bottle = bottle
 	ingredients = []
 
 func add_child(child: PotionData):
@@ -58,26 +66,26 @@ func get_all_leaves() -> Array:
 	_collect_leaves(self, leaves)
 	return leaves
 	
-func _collect_leaves(node: PotionData, leaves: Array) -> void:
-	if node.is_leaf():
-		leaves.append(node)
+func _collect_leaves(potion: PotionData, leaves: Array) -> void:
+	if potion.is_leaf():
+		leaves.append(potion)
 	else:
-		for child in node.ingredients:
-			_collect_leaves(child, leaves)
+		for ingredient in potion.ingredients:
+			_collect_leaves(ingredient, leaves)
 
-func find_node(type: PotionType, start_node: PotionData = null) -> PotionData:
+func find_node(fluid: FluidType, bottle: BottleType, start_node: PotionData = null) -> PotionData:
 	if start_node == null:
 		start_node = self
-	if start_node.type == type:
+	if start_node.fluid == fluid and start_node.bottle == bottle:
 		return start_node
 	for child in start_node.children:
-		var found = find_node(type, child)
-		if found != null:
+		var found = find_node(fluid, bottle, child)
+		if fluid != null and bottle != null:
 			return found
 	return null
 
 func get_color():
-	return POTION_TYPE_TO_COLOR[self.type]
+	return POTION_TYPE_TO_COLOR[self.fluid]
 
 """
 Below is code for printing out entire trees easily for testing purposes
@@ -100,7 +108,7 @@ func ingredients_to_string(level: int, stats) -> String:
 		if ingredient is PotionData:
 			stats["total_potions"] += 1
 			stats["depth"] = max(stats["depth"], level + 1)
-			ingredients_str += get_indent(level) + PotionType.keys()[ingredient.type]
+			ingredients_str += get_indent(level) + FluidType.keys()[ingredient.fluid]
 			if ingredient.has_ingredients():
 				ingredients_str += ":\n"
 				ingredients_str += ingredient.ingredients_to_string(level + 1, stats)
@@ -109,7 +117,7 @@ func ingredients_to_string(level: int, stats) -> String:
 		else:
 			if level == 1:
 				stats["top_level_non_potions"] += 1
-			ingredients_str += get_indent(level) + PotionType.keys()[ingredient]
+			ingredients_str += get_indent(level) + FluidType.keys()[ingredient]
 
 	return ingredients_str
 
@@ -121,7 +129,7 @@ func gathering_stats(level: int, stats) -> String:
 		stats["depth"] = 1  # Start counting depth from 1 for the top-level potion
 		stats["total_potions"] = 1  # The top-level potion itself
 
-	var result_str = get_indent(level) + PotionType.keys()[type]
+	var result_str = get_indent(level) + FluidType.keys()[fluid]
 	if has_ingredients():
 		result_str += ":\n"
 	var ingredients_str = ingredients_to_string(level + 1, stats)
@@ -134,4 +142,4 @@ func gathering_stats(level: int, stats) -> String:
 
 func _to_string() -> String:
 	#return gathering_stats(0, null)
-	return PotionType.keys()[type]
+	return FluidType.keys()[fluid] + ":" + BottleType.keys()[bottle]

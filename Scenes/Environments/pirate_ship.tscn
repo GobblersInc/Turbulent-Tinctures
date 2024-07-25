@@ -10,8 +10,8 @@
 [ext_resource type="Script" path="res://Scripts/Models/PaperScript.gd" id="9_5qjy5"]
 [ext_resource type="PackedScene" uid="uid://bnq1leshxijrk" path="res://Scenes/Models/lantern.tscn" id="10_50gvt"]
 [ext_resource type="Script" path="res://Scripts/Managers/MovementManager.gd" id="10_c1017"]
-[ext_resource type="Script" path="res://Scripts/Managers/GameManager.gd" id="11_3v0ec"]
 [ext_resource type="AudioStream" uid="uid://c83dmhsw73hgp" path="res://Assets/Audio/SFX/Ambient/Ambient Audio.ogg" id="10_hy50k"]
+[ext_resource type="Script" path="res://Scripts/Managers/GameManager.gd" id="11_3v0ec"]
 
 [sub_resource type="Environment" id="Environment_fmft1"]
 ambient_light_source = 2
@@ -29,25 +29,17 @@ fov = 72.4423
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00770974, -0.879358, -5.06048)
 
 [node name="Cauldron" parent="." instance=ExtResource("2_j4sdg")]
-transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 2.41447, -4.39386)
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 1.34751, -5.37754)
 script = ExtResource("3_st3s3")
 
 [node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.53712, 2.35846, -4.71773)
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.53712, 1.32438, -5.81566)
 script = ExtResource("3_hmrva")
 flicker_probability = 1.0
 light_out_duration = 8.0
 check_interval = 10.0
 lights_out_cooldown = 10.0
 light_on_or_off = true
-
-[node name="Potion" parent="." instance=ExtResource("12_c1ri6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.920041, 2.36982, -3.48006)
-pour_time = 1.5
-
-[node name="Potion2" parent="." instance=ExtResource("12_c1ri6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.353453, 2.36819, -3.00222)
-pour_time = 1.5
 
 [node name="ship" parent="." instance=ExtResource("3_0lkp1")]
 transform = Transform3D(-0.0104718, 0, -0.999945, 0, 1, 0, 0.999944, 0, -0.0104718, 0.0527358, 2.40247, -8.40765)

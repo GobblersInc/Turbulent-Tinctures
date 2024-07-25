@@ -33,15 +33,15 @@ _subresources={
 "materials": {
 "Cup": {
 "use_external/enabled": true,
-"use_external/path": "res://Assets/Models/Potion/Cup.tres"
+"use_external/path": "res:///Resources/Materials/Cup.tres"
 },
 "Fluid": {
 "use_external/enabled": true,
-"use_external/path": "res://Assets/Models/Potion/Fluid.tres"
+"use_external/path": "res:///Resources/Materials/Fluid.tres"
 },
 "Stopper": {
 "use_external/enabled": true,
-"use_external/path": "res://Assets/Models/Potion/Stopper.tres"
+"use_external/path": "res:///Resources/Materials/Stopper.tres"
 }
 }
 }
