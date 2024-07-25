@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c8h04dbgsoqec"
+path="res://.godot/imported/Boiling Water 001.wav-3feceff40b05b29b1e80410d6b5c8d6b.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Boiling Water/Boiling Water 001.wav"
+dest_files=["res://.godot/imported/Boiling Water 001.wav-3feceff40b05b29b1e80410d6b5c8d6b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

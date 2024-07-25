@@ -33,12 +33,13 @@ func _on_ObjectClicked(_event_position, clicked_object):
 		_handle_paper_clicked()
 
 func _handle_paper_clicked() -> void:
-	if is_in_front:
-		put_down()
-	else:
-		# Move and rotate the paper to be in front of the camera
-		if light.light_energy > 0:
-			put_in_front()
+	if self.position == original_position or self.position == camera_offset:
+		if is_in_front:
+			put_down()
+		else:
+			# Move and rotate the paper to be in front of the camera
+			if light.light_energy > 0:
+				put_in_front()
 			
 func put_down():
 	is_in_front = !is_in_front
@@ -59,11 +60,12 @@ func put_down():
 	
 func put_in_front():
 	is_in_front = !is_in_front
+	set_paper_emmission(true)
 	SoundManager.play_random_paper_sound()
 	var tween = get_tree().create_tween().set_parallel(true)
 	tween.tween_property(self, "position", camera_offset, animation_time)
 	tween.tween_property(self, "rotation_degrees", Vector3(0, -90, -75), animation_time)
-	set_paper_emmission(true)
+	await tween.finished
 
 func _handle_light_off():
 	if is_in_front:

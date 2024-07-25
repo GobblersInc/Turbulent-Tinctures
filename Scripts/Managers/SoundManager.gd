@@ -48,17 +48,44 @@ const GLASS_BREAK_SOUNDS = [
 	preload("res://Assets/Audio/SFX/Glass Break/Glass Break 004.wav"), 
 ]
 
+const AMBIENT_SFX = [
+	preload("res://Assets/Audio/SFX/Ambient/Ambient Audio.ogg")
+]
+
+const SHIP_SOUNDS = [
+	preload("res://Assets/Audio/SFX/Creaking/Creaking 001.wav"),
+	preload("res://Assets/Audio/SFX/Creaking/Creaking 002.wav"),
+	preload("res://Assets/Audio/SFX/Creaking/Creaking 003.wav"),
+	preload("res://Assets/Audio/SFX/Creaking/Creaking 004.wav"),
+	preload("res://Assets/Audio/SFX/Creaking/Creaking 005.wav"),
+	preload("res://Assets/Audio/SFX/Creaking/Creaking 006.wav"),
+	preload("res://Assets/Audio/SFX/Creaking/Creaking 007.wav")
+]
+
+const LANTERN_RELIGHT_SOUND = [
+	preload("res://Assets/Audio/SFX/Match/Match 005.wav")
+]
+
+const LANTERN_EXTINGUISH_SOUND = [
+	preload("res://Assets/Audio/SFX/Extinguish/Extinguish 004.wav")
+]
+
 var audio_players = {
 	"paper": null,
 	"water_mixing": null,
 	"pouring": null,
 	"potion_interact": null,
-	"glass_break": null
+	"glass_break": null,
+	"ambient": null,
+	"ship": null,
+	"lantern_relight": null,
+	"lantern_extinguish": null
 }
 
 func _ready():
 	randomize()
 	instantiate_audio_players()
+	play_ambient_music()
 	
 func play_random_sound(category, sound_list):
 	if audio_players.has(category):
@@ -68,7 +95,18 @@ func play_random_sound(category, sound_list):
 		audio_player.play()
 	else:
 		print("Error: Audio player for category '%s' not found" % category)
-
+		
+func play_random_ship_sound():
+	play_random_sound("ship", SHIP_SOUNDS)
+	
+func play_lantern_relight_sound():
+	audio_players["lantern_relight"].stream = LANTERN_RELIGHT_SOUND[0]
+	audio_players["lantern_relight"].play()
+	
+func play_lantern_extinguish_sound():
+	audio_players["lantern_extinguish"].stream = LANTERN_EXTINGUISH_SOUND[0]
+	audio_players["lantern_extinguish"].play()
+	
 func play_random_paper_sound():
 	play_random_sound("paper", PAPER_INTERACT_SOUNDS)
 	
@@ -82,9 +120,18 @@ func play_random_potion_interact_sound():
 func player_random_glass_break_sound():
 	play_random_sound("glass_break", GLASS_BREAK_SOUNDS)
 
+func play_ambient_music():
+	audio_players["ambient"].stream = AMBIENT_SFX[0]
+	audio_players["ambient"].play()
+	
 func instantiate_audio_players() -> void:
 	for key in audio_players.keys():
 		var audio_player = AudioStreamPlayer.new()
-		audio_player.volume_db = -10
+		audio_player.volume_db = -15
 		add_child(audio_player)
 		audio_players[key] = audio_player
+		
+		if key == "ambient":
+			audio_player.volume_db = -10
+		if key == "ship":
+			audio_player.volume_db = -10
