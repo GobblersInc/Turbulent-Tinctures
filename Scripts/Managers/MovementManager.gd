@@ -2,6 +2,9 @@ extends Node3D
 
 @onready var input_manager = $"../InputManager"
 
+signal AddIngredient(potion)
+signal MixIngredients()
+
 var selection_mesh: MeshInstance3D = null
 const OUTLINE_MATERIAL_PATH = "res://Resources/Materials/Outline.tres"
 
@@ -26,13 +29,17 @@ func clicking_cauldron(cauldron: Node3D):
 		if containers_are_available:
 			selected_potion.pour_potion(cauldron)
 			remove_selection_outline(selected_potion)
-			selected_potion = null
+			AddIngredient.emit(selected_potion.potion_data)
 			
-		
+			selected_potion = null
+	else:
+		MixIngredients.emit()
+
+
 func clicking_potion(potion):
 	if selected_potion:
 		remove_selection_outline(selected_potion)
-		selected_potion = null			
+		selected_potion = null
 	# There isn't a potion selected
 	else:
 		SoundManager.play_random_potion_interact_sound()
@@ -42,8 +49,8 @@ func clicking_potion(potion):
 			add_selection_outline(selected_potion)
 		else:
 			remove_selection_outline(selected_potion)
-		
-		
+
+
 func add_selection_outline(potion: Node3D) -> void:
 	var potion_mesh = potion.get_child(0).get_child(0).mesh
 	var selection_outline = potion_mesh.duplicate()
@@ -59,4 +66,3 @@ func remove_selection_outline(potion: Node3D) -> void:
 	potion.remove_child(selection_mesh)
 	selection_mesh.queue_free()
 	selection_mesh = null
-	

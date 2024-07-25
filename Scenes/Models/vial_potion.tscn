@@ -1,16 +1,16 @@
 [gd_scene load_steps=4 format=3 uid="uid://7o3620f7f4vi"]
 
-[ext_resource type="PackedScene" uid="uid://b3s63p1r26bv" path="res://Assets/Models/Potion/str8pot_red.glb" id="1_7u4vl"]
-[ext_resource type="Script" path="res://Scripts/Models/Potion.gd" id="1_10hx3"]
+[ext_resource type="Script" path="res://Scripts/Models/Potion.gd" id="1_ck0f8"]
+[ext_resource type="PackedScene" uid="uid://b3s63p1r26bv" path="res://Assets/Models/Potion/str8pot_red.glb" id="2_7yu8l"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_uejjc"]
 height = 5.0
 radius = 0.75
 
-[node name="Potion" type="Node3D"]
-script = ExtResource("1_10hx3")
+[node name="VialPotion" type="Node3D"]
+script = ExtResource("1_ck0f8")
 
-[node name="str8pot_red" parent="." instance=ExtResource("1_7u4vl")]
+[node name="str8pot_red" parent="." instance=ExtResource("2_7yu8l")]
 transform = Transform3D(0.08, 0, 0, 0, 0.08, 0, 0, 0, 0.08, 0, 0, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="str8pot_red" groups=["potion"]]

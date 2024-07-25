@@ -1,14 +1,16 @@
 extends Node3D
 
 @onready var pouring = false
-@onready var cauldron = $"../Cauldron"
-@onready var animation_time: float = .25
+@onready var cauldron = $"../../../Cauldron"
+@onready var animation_time: float = 0.25
 
 var original_position: Vector3
 var original_rotation: Vector3
 var cauldron_position: Vector3
 
-@export var pour_time: float
+var potion_data = null
+
+var pour_time: float = 1
 
 func _ready():
 	original_position = global_transform.origin
