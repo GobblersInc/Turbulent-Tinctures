@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bnq1leshxijrk" path="res://Scenes/Models/lantern.tscn" id="10_50gvt"]
 [ext_resource type="Script" path="res://Scripts/Managers/MovementManager.gd" id="10_c1017"]
 [ext_resource type="Script" path="res://Scripts/Managers/GameManager.gd" id="11_3v0ec"]
-[ext_resource type="PackedScene" path="res://Scenes/Models/wooden_table.tscn" id="12_se738"]
+[ext_resource type="PackedScene" uid="uid://dtakfpgycs2gb" path="res://Scenes/Models/wooden_table.tscn" id="12_se738"]
 
 [sub_resource type="Environment" id="Environment_fmft1"]
 ambient_light_source = 2

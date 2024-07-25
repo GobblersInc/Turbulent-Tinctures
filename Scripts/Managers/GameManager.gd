@@ -5,12 +5,12 @@ extends Node3D
 
 const TABLE_HEIGHT = 2.4
 const BOUNDS = {
-	"top": -2.735,
+	"top": -2.7,
 	"bottom": -1.85,
 	"left": -1,
 	"right": 1.45,
 }
-const POTION_MIN_DISTANCE_APART = .2
+const POTION_MIN_DISTANCE_APART = .4
 
 const FluidType = preload("res://Scripts/Utilities/PotionData.gd").FluidType
 const BottleType = preload("res://Scripts/Utilities/PotionData.gd").BottleType
@@ -28,13 +28,13 @@ var potions_on_table = [] # this should update as the game does
 var cauldron_contents = []
 var required_potion = null
 
+var level = 1
 
 const LEVELS = [
 	{"min_ingredients_per_potion": 2, "max_ingredients_per_potion": 3, "min_nested": 0, "max_nested": 0, "nest_probability": 0.1},
-	{"min_ingredients_per_potion": 3, "max_ingredients_per_potion": 5, "min_nested": 1, "max_nested": 1, "nest_probability": 0.5}
+	{"min_ingredients_per_potion": 3, "max_ingredients_per_potion": 5, "min_nested": 3, "max_nested": 3, "nest_probability": 1}
 ]
 
-var game_started = false
 
 func generate_potion_equation(min_ingredients_per_potion: int, max_ingredients_per_potion: int, min_nested: int, max_nested: int, nest_probability: float) -> PotionData:
 	return _generate_potion_equation(min_ingredients_per_potion, max_ingredients_per_potion, min_nested, max_nested, nest_probability)
@@ -50,7 +50,7 @@ func _generate_potion_equation(min_ingredients_per_potion: int, max_ingredients_
 		if current_depth < max_nested and randf() < nest_probability:
 			var nested_potion = _generate_potion_equation(min_ingredients_per_potion, max_ingredients_per_potion, min_nested, max_nested, nest_probability, current_depth + 1)
 			if nested_potion.fluid != fluid_type and nested_potion.bottle != bottle_type and not nested_potion in ingredients:
-				ingredients.append(nested_potion)
+				ingredients.append([nested_potion.fluid, nested_potion.bottle])
 		else:
 			var ingredient_fluid_type = randi() % MAX_FLUID_TYPES
 			var ingredient_bottle_type = randi() % MAX_BOTTLE_TYPES
@@ -64,12 +64,13 @@ func _generate_potion_equation(min_ingredients_per_potion: int, max_ingredients_
 	return potion_equation
 
 func _ready():
-	if not game_started:
-		start_game()
-		game_started = true
-
+	initialize()
+	
 	movement_manager.AddIngredient.connect(_on_AddIngredient)
 	movement_manager.MixIngredients.connect(_on_MixIngredients)
+	
+func initialize():
+	start_level()
 
 func _on_AddIngredient(potion: PotionData):
 	add_to_cauldron(potion)
@@ -79,11 +80,12 @@ func _on_AddIngredient(potion: PotionData):
 
 func _on_MixIngredients():
 	if can_mix_ingredients(cauldron_contents):
-		print("can mix ingredients!")
 		var resulting_potion = get_mix_result(cauldron_contents)
-		print("mix_result", get_mix_result)
-		
-		spawn_new_potion(resulting_potion, potions_on_table)
+		if resulting_potion == required_potion:
+			level += 1
+			start_level()
+		else:
+			spawn_new_potion(resulting_potion, potions_on_table)
 		cauldron_contents.clear()
 	else:
 		while len(cauldron_contents) > 0:
@@ -92,10 +94,14 @@ func _on_MixIngredients():
 		
 	print("potions_on_table", potions_on_table)
 	print("cauldron_contents", cauldron_contents)
-# Called when the node enters the scene tree for the first time.
 
-func start_game():
-	required_potion = generate_potion_equation(LEVELS[0].min_ingredients_per_potion, LEVELS[0].max_ingredients_per_potion, LEVELS[0].min_nested, LEVELS[0].max_nested, LEVELS[0].nest_probability)
+func start_level():
+	if level >= len(LEVELS):
+		print("You beat the game, wow!")
+		return
+	
+	potions_on_table = []
+	required_potion = generate_potion_equation(LEVELS[level].min_ingredients_per_potion, LEVELS[level].max_ingredients_per_potion, LEVELS[level].min_nested, LEVELS[level].max_nested, LEVELS[level].nest_probability)
 
 	print(required_potion.gathering_stats(0, null))
 
@@ -161,7 +167,7 @@ func is_position_valid(position: Vector3, potions: Array) -> bool:
 
 
 func spawn_potion(potion: PotionData) -> void:
-	"""
+	"""https://github.com/GobblersInc/Turbulent-Tinctures/pull/72
 	Spawn in a single potion, setting its position, bottle type, and color as defined by the object's fields
 	"""
 	var bottle_type = potion.bottle
