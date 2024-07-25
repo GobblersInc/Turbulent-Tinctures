@@ -2,6 +2,9 @@ extends Node3D
 
 @onready var input_manager = $"../InputManager"
 
+signal AddIngredient(potion)
+signal MixIngredients()
+
 var selection_mesh: MeshInstance3D = null
 const OUTLINE_MATERIAL_PATH = "res://Resources/Materials/Outline.tres"
 
@@ -26,9 +29,13 @@ func clicking_cauldron(cauldron: Node3D):
 		if containers_are_available:
 			selected_potion.pour_potion(cauldron)
 			remove_selection_outline(selected_potion)
-			selected_potion = null
+			AddIngredient.emit(selected_potion.potion_data)
 			
-		
+			selected_potion = null
+	else:
+		MixIngredients.emit()
+
+
 func clicking_potion(potion):
 	if selected_potion:
 		remove_selection_outline(selected_potion)

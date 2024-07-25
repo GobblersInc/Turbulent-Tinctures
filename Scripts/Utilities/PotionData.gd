@@ -28,9 +28,12 @@ const POTION_TYPE_TO_COLOR = {
 
 var result: PotionData = null # equivalent to "parent"
 var ingredients: Array = [] # equivalent to "children"
+
 var fluid: FluidType
 var bottle: BottleType
+
 var node: Node3D = null
+var position: Vector3
 
 func _init(fluid: FluidType, bottle: BottleType):
 	self.fluid = fluid
@@ -65,7 +68,7 @@ func get_all_leaves() -> Array:
 	var leaves = []
 	_collect_leaves(self, leaves)
 	return leaves
-	
+
 func _collect_leaves(potion: PotionData, leaves: Array) -> void:
 	if potion.is_leaf():
 		leaves.append(potion)
@@ -86,6 +89,21 @@ func find_node(fluid: FluidType, bottle: BottleType, start_node: PotionData = nu
 
 func get_color():
 	return POTION_TYPE_TO_COLOR[self.fluid]
+
+# Custom comparison function
+static func compare_potion_data(a: PotionData, b: PotionData) -> int:
+	return hash(a) < hash(b)
+	
+	#if a.bottle == b.bottle:
+		#return a.fluid < b.fluid
+	#return a.bottle < b.bottle
+
+# Sort function for an array of PotionData objects
+static func sort_potion_data_array(array: Array) -> Array:
+	var sorted_array = array.duplicate()
+	sorted_array.sort_custom(compare_potion_data)
+
+	return sorted_array
 
 """
 Below is code for printing out entire trees easily for testing purposes

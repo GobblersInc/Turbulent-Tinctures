@@ -8,6 +8,8 @@ var original_position: Vector3
 var original_rotation: Vector3
 var cauldron_position: Vector3
 
+var potion_data = null
+
 var pour_time: float = 1
 
 func _ready():
@@ -27,7 +29,7 @@ func pour_potion(receiver: Node3D):
 	
 	throw_potion()
 	
-	await delay(.12)
+	await delay(.15)
 	
 	move_to_original_position()
 	pouring = false
@@ -52,15 +54,15 @@ func move_to_cauldron():
 						
 func throw_potion():
 	var tween = get_tree().create_tween().set_parallel(true)
-	var x_positions = [-10, 10]
+	var x_positions = [-2, 2]
 	tween.tween_property(self, 
 						"position", 
-						Vector3(x_positions[randi() % x_positions.size()], randi_range(1, 10), randi_range(-5, 5)),
-						.1)
+						Vector3(x_positions[randi() % x_positions.size()], randi_range(2, 4), randi_range(-3, 3)),
+						.15)
 	tween.tween_property(self, 
 						"rotation_degrees", 
 						Vector3(720, 0 , 0), 
-						.1)
+						.15)
 						
 	SoundManager.player_random_glass_break_sound()
 
