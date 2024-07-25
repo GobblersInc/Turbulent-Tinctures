@@ -1,17 +1,18 @@
 [gd_scene load_steps=14 format=3 uid="uid://dqgcpsjwic2mr"]
 
-[ext_resource type="PackedScene" uid="uid://cyo3rpx1tcdkt" path="res://Scenes/Models/alchemy_table.tscn" id="1_baqvx"]
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="PackedScene" uid="uid://bwp74jhtg40ma" path="res://Assets/Models/ShipBack/ship.glb" id="3_0lkp1"]
 [ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="3_hmrva"]
 [ext_resource type="Script" path="res://Scripts/Models/Cauldron.gd" id="3_st3s3"]
 [ext_resource type="Script" path="res://Scripts/Managers/InputManager.gd" id="7_g6hdh"]
+[ext_resource type="Script" path="res://Scripts/Models/Ship.gd" id="8_50gug"]
 [ext_resource type="PackedScene" uid="uid://bdwko5252gepe" path="res://Scenes/Models/paper.tscn" id="8_gka6f"]
 [ext_resource type="Script" path="res://Scripts/Models/PaperScript.gd" id="9_5qjy5"]
 [ext_resource type="PackedScene" uid="uid://bnq1leshxijrk" path="res://Scenes/Models/lantern.tscn" id="10_50gvt"]
 [ext_resource type="Script" path="res://Scripts/Managers/MovementManager.gd" id="10_c1017"]
 [ext_resource type="AudioStream" uid="uid://c83dmhsw73hgp" path="res://Assets/Audio/SFX/Ambient/Ambient Audio.ogg" id="10_hy50k"]
 [ext_resource type="Script" path="res://Scripts/Managers/GameManager.gd" id="11_3v0ec"]
+[ext_resource type="PackedScene" uid="uid://dtakfpgycs2gb" path="res://Scenes/Models/wooden_table.tscn" id="12_se738"]
 
 [sub_resource type="Environment" id="Environment_fmft1"]
 ambient_light_source = 2
@@ -24,9 +25,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504239, 1.0115, 2.09406)
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.900918, 0.43399, 0, -0.43399, 0.900918, 0, 2.77486, -3.04204)
 fov = 72.4423
-
-[node name="AlchemyTable" parent="." instance=ExtResource("1_baqvx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00770974, -0.879358, -5.06048)
 
 [node name="Cauldron" parent="." instance=ExtResource("2_j4sdg")]
 transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 1.34751, -5.37754)
@@ -42,7 +40,13 @@ lights_out_cooldown = 10.0
 light_on_or_off = true
 
 [node name="ship" parent="." instance=ExtResource("3_0lkp1")]
-transform = Transform3D(-0.0104718, 0, -0.999945, 0, 1, 0, 0.999944, 0, -0.0104718, 0.0527358, 2.40247, -8.40765)
+transform = Transform3D(-0.0104718, 0, -0.999945, 0, 1, 0, 0.999944, 0, -0.0104718, 0.0527358, 3.63823, -8.40765)
+script = ExtResource("8_50gug")
+checkFrequency = 10
+percentChance = 0.2
+
+[node name="Timer" type="Timer" parent="ship"]
+autostart = true
 
 [node name="Paper" parent="." instance=ExtResource("8_gka6f")]
 transform = Transform3D(-0.0012217, 0, -0.0999925, 0, 0.1, 0, 0.0999926, 0, -0.0012217, -1.57148, 1.36181, -4.7533)
@@ -62,7 +66,5 @@ script = ExtResource("7_g6hdh")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_fmft1")
 
-[node name="AmbientSounds" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("10_hy50k")
-volume_db = -13.868
-autoplay = true
+[node name="WoodenTable" parent="." instance=ExtResource("12_se738")]
+transform = Transform3D(-1.53505e-08, 0, -0.450706, 0, 1, 0, 0.351178, 0, -1.9701e-08, 0.0504239, -1.22816, -4.40424)

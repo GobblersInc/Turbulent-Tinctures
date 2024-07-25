@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtakfpgycs2gb"]
+
+[ext_resource type="PackedScene" uid="uid://ctpyi7ch5y02r" path="res://Assets/Models/Wood Table/wooden_table.glb" id="1_ig6sg"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u0bvr"]
+size = Vector3(8.04315, 0.544373, 10.1606)
+
+[node name="WoodenTable" type="Node3D"]
+
+[node name="wooden_table" parent="." instance=ExtResource("1_ig6sg")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="wooden_table"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="wooden_table/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.699249, 3.30267, -0.0681152)
+shape = SubResource("BoxShape3D_u0bvr")
