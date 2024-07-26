@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://nf1ymh6ody68"
+path="res://.godot/imported/Boiling-Water-001.ogg-cd3ed80c662bb78c77b7a119af9e39bd.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Boiling Water/Boiling-Water-001.ogg"
+dest_files=["res://.godot/imported/Boiling-Water-001.ogg-cd3ed80c662bb78c77b7a119af9e39bd.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

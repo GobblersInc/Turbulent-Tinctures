@@ -70,6 +70,18 @@ const LANTERN_EXTINGUISH_SOUND = [
 	preload("res://Assets/Audio/SFX/Extinguish/Extinguish 004.wav")
 ]
 
+const BUBBLING_SOUND = [
+	preload("res://Assets/Audio/SFX/Bubbling/Bubbling.ogg")
+]
+
+const BOILING_WATER_SOUND = [
+	preload("res://Assets/Audio/SFX/Boiling Water/Boiling-Water-001.ogg")
+]
+
+const BACKGROUND_MUSIC_SOUND = [
+	preload("res://Assets/Audio/Music/Sea Shanty 2 (GameJam Version).ogg")
+]
+
 var audio_players = {
 	"paper": null,
 	"water_mixing": null,
@@ -79,14 +91,18 @@ var audio_players = {
 	"ambient": null,
 	"ship": null,
 	"lantern_relight": null,
-	"lantern_extinguish": null
+	"lantern_extinguish": null,
+	"bubbling": null,
+	"boiling_water": null,
+	"background_music": null
 }
 
 func _ready():
 	randomize()
 	instantiate_audio_players()
 	play_ambient_music()
-	
+	play_background_music()
+
 func play_random_sound(category, sound_list):
 	if audio_players.has(category):
 		var audio_player = audio_players[category]
@@ -124,6 +140,18 @@ func play_ambient_music():
 	audio_players["ambient"].stream = AMBIENT_SFX[0]
 	audio_players["ambient"].play()
 	
+func play_random_bubbling_sound():
+	audio_players["bubbling"].stream = BUBBLING_SOUND[0]
+	audio_players["bubbling"].play()
+	
+func play_boiling_water_sound():
+	audio_players["boiling_water"].stream = BOILING_WATER_SOUND[0]
+	audio_players["boiling_water"].play()
+	
+func play_background_music():
+	audio_players["background_music"].stream = BACKGROUND_MUSIC_SOUND[0]
+	audio_players["background_music"].play()
+	
 func instantiate_audio_players() -> void:
 	for key in audio_players.keys():
 		var audio_player = AudioStreamPlayer.new()
@@ -131,7 +159,7 @@ func instantiate_audio_players() -> void:
 		add_child(audio_player)
 		audio_players[key] = audio_player
 		
-		if key == "ambient":
+		if key == "ambient" or key == "ship":
 			audio_player.volume_db = -10
-		if key == "ship":
-			audio_player.volume_db = -10
+		if key == "background_music":
+			audio_player.volume_db = -20

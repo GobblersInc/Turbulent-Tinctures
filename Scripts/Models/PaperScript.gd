@@ -23,8 +23,8 @@ func _ready():
 	# Calculate the camera offset
 	var camera_position = camera.global_transform.origin
 	camera_offset = Vector3(camera_position.x,
-							camera_position.y - 1.4, 
-							camera_position.z - 3.25)
+							camera_position.y - 1.625, 
+							camera_position.z - 3.1)
 	input_manager.ObjectClicked.connect(_on_ObjectClicked)
 	lantern.LightOff.connect(_handle_light_off)
 
@@ -64,7 +64,7 @@ func put_in_front():
 	SoundManager.play_random_paper_sound()
 	var tween = get_tree().create_tween().set_parallel(true)
 	tween.tween_property(self, "position", camera_offset, animation_time)
-	tween.tween_property(self, "rotation_degrees", Vector3(0, -90, -75), animation_time)
+	tween.tween_property(self, "rotation_degrees", Vector3(0, -90, -70), animation_time)
 	await tween.finished
 
 func _handle_light_off():

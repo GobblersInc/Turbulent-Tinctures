@@ -8,6 +8,8 @@ extends Node3D
 func _ready():
 	lantern.LightOff.connect(_lantern_light_off)
 	lantern.LightOn.connect(_lantern_light_on)
+	SoundManager.play_boiling_water_sound()
+	SoundManager.play_random_bubbling_sound()
 	
 func _lantern_light_off():
 	_set_cauldron_emission(true)
