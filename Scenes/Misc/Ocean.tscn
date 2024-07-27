@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://ci6wpm00p7h4g"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vmbhv"]
+resource_local_to_scene = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vh7q1"]
+material = SubResource("StandardMaterial3D_vmbhv")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_syu4i"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_xxm4n"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y2fi8"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_syu4i")
+emission_enabled = true
+emission_energy_multiplier = 5.0
+emission_texture = SubResource("ViewportTexture_xxm4n")
+
+[sub_resource type="VideoStreamTheora" id="VideoStreamTheora_apuee"]
+file = "res://Resources/Misc/Ocean BG Anim Render.ogv"
+
+[node name="Ocean" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.77, 0, 0, 0, 1, 0, 0, 0, 1, 0.00567055, 0, 0.00567067)
+mesh = SubResource("PlaneMesh_vh7q1")
+surface_material_override/0 = SubResource("StandardMaterial3D_y2fi8")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="SubViewport"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="SubViewport/SubViewportContainer"]
+layout_mode = 2
+stream = SubResource("VideoStreamTheora_apuee")
+autoplay = true
+loop = true
