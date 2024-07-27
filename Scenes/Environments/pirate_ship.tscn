@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=16 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="PackedScene" uid="uid://bwp74jhtg40ma" path="res://Assets/Models/ShipBack/ship.glb" id="3_0lkp1"]
@@ -12,6 +12,8 @@
 [ext_resource type="Script" path="res://Scripts/Managers/MovementManager.gd" id="10_c1017"]
 [ext_resource type="Script" path="res://Scripts/Managers/GameManager.gd" id="11_3v0ec"]
 [ext_resource type="PackedScene" uid="uid://dtakfpgycs2gb" path="res://Scenes/Models/wooden_table.tscn" id="12_se738"]
+[ext_resource type="PackedScene" uid="uid://bghd1a77hyutu" path="res://Scenes/Misc/Rain.tscn" id="13_hr1be"]
+[ext_resource type="PackedScene" uid="uid://ci6wpm00p7h4g" path="res://Scenes/Misc/Ocean.tscn" id="14_bklud"]
 
 [sub_resource type="Environment" id="Environment_fmft1"]
 ambient_light_source = 2
@@ -29,15 +31,6 @@ fov = 72.4423
 transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 1.34751, -5.37754)
 script = ExtResource("3_st3s3")
 
-[node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.53712, 1.32438, -5.81566)
-script = ExtResource("3_hmrva")
-flicker_probability = 1.0
-light_out_duration = 8.0
-check_interval = 10.0
-lights_out_cooldown = 10.0
-light_on_or_off = true
-
 [node name="ship" parent="." instance=ExtResource("3_0lkp1")]
 transform = Transform3D(-0.0104718, 0, -0.999945, 0, 1, 0, 0.999944, 0, -0.0104718, 0.0527358, 3.63823, -8.40765)
 script = ExtResource("8_50gug")
@@ -46,6 +39,15 @@ percentChance = 0.2
 
 [node name="Timer" type="Timer" parent="ship"]
 autostart = true
+
+[node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.71303, 1.54337, -5.54781)
+script = ExtResource("3_hmrva")
+flicker_probability = 1.0
+light_out_duration = 8.0
+check_interval = 10.0
+lights_out_cooldown = 10.0
+light_on_or_off = true
 
 [node name="Paper" parent="." instance=ExtResource("8_gka6f")]
 transform = Transform3D(-0.0012217, 0, -0.0999925, 0, 0.1, 0, 0.0999926, 0, -0.0012217, -1.57148, 1.36181, -4.7533)
@@ -67,3 +69,9 @@ environment = SubResource("Environment_fmft1")
 
 [node name="WoodenTable" parent="." instance=ExtResource("12_se738")]
 transform = Transform3D(-1.53505e-08, 0, -0.450706, 0, 1, 0, 0.351178, 0, -1.9701e-08, 0, -2.261, -5.225)
+
+[node name="Rain" parent="." instance=ExtResource("13_hr1be")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.512862, 5.4723, -15.0363)
+
+[node name="Ocean" parent="." instance=ExtResource("14_bklud")]
+transform = Transform3D(9.01887, 0, 0, 0, -6.74209e-08, -7.5241, 0, 1.54241, -3.28889e-07, -0.189906, 4.43166, -25.4139)
