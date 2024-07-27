@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://dy4ry5i0jvgwb"
+path.s3tc="res://.godot/imported/Ship_floor.png-38005ea171527b6fac51f9d4a67cba8e.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "6eac57a54d987c026847c7e6b1d73245"
+}
+
+[deps]
+
+source_file="res://Assets/Models/Ship/Ship_floor.png"
+dest_files=["res://.godot/imported/Ship_floor.png-38005ea171527b6fac51f9d4a67cba8e.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0
