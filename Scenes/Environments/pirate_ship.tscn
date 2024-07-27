@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=16 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="3_hmrva"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dtakfpgycs2gb" path="res://Scenes/Models/wooden_table.tscn" id="12_se738"]
 [ext_resource type="PackedScene" uid="uid://beqvwlrc4ft47" path="res://Scenes/Models/Ship.tscn" id="13_5gnq8"]
 [ext_resource type="PackedScene" uid="uid://bghd1a77hyutu" path="res://Scenes/Misc/Rain.tscn" id="13_hr1be"]
+[ext_resource type="Script" path="res://Scenes/Environments/Lightning.gd" id="14_3hnv4"]
 [ext_resource type="PackedScene" uid="uid://ci6wpm00p7h4g" path="res://Scenes/Misc/Ocean.tscn" id="14_bklud"]
 
 [sub_resource type="Environment" id="Environment_qqkxg"]
@@ -34,10 +35,10 @@ script = ExtResource("3_st3s3")
 [node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.61674, 1.55368, -6.00023)
 script = ExtResource("3_hmrva")
-flicker_probability = 1.0
+flicker_probability = 0.3
 light_out_duration = 8.0
-check_interval = 10.0
-lights_out_cooldown = 10.0
+check_interval = 3.0
+lights_out_cooldown = 6.0
 light_on_or_off = true
 
 [node name="Paper" parent="." instance=ExtResource("8_gka6f")]
@@ -70,7 +71,7 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -6.068
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_qqkxg")
 
-[node name="SpotLight3D" type="SpotLight3D" parent="."]
+[node name="Moonlight" type="SpotLight3D" parent="."]
 transform = Transform3D(-0.998373, 0.0266105, -0.0504406, -0.0142509, 0.739994, 0.672462, 0.0552203, 0.672087, -0.738411, -0.43106, 12.5655, -24.6405)
 light_color = Color(0.893476, 0.912847, 1, 1)
 light_energy = 2.5
@@ -79,3 +80,20 @@ shadow_opacity = 0.5
 shadow_blur = 0.5
 spot_range = 22.0
 spot_angle = 24.9422
+
+[node name="Lightning" type="SpotLight3D" parent="."]
+transform = Transform3D(-0.998515, -0.00520806, -0.0542221, -0.0473293, 0.575705, 0.816287, 0.0269646, 0.817641, -0.575096, -0.221757, 8.75633, -16.6422)
+light_color = Color(0.893476, 0.912847, 1, 1)
+light_energy = 0.0
+shadow_enabled = true
+shadow_opacity = 0.5
+shadow_blur = 0.5
+spot_range = 71.0
+spot_angle = 44.6555
+script = ExtResource("14_3hnv4")
+lightning_chance = 0.25
+timer_wait_time = 6.0
+
+[node name="Timer" type="Timer" parent="Lightning"]
+wait_time = 8.0
+autostart = true
