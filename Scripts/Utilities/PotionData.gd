@@ -40,9 +40,9 @@ func _init(fluid: FluidType, bottle: BottleType):
 	self.bottle = bottle
 	ingredients = []
 
-func add_child(child: PotionData):
-	child.result = self
-	ingredients.append(child)
+func add_ingredient(ingredient: PotionData):
+	ingredient.result = self
+	ingredients.append(ingredient)
 
 func remove_child(child: PotionData):
 	if child in ingredients:
@@ -108,13 +108,16 @@ static func sort_potion_data_array(array: Array) -> Array:
 """
 Below is code for printing out entire trees easily for testing purposes
 """
+"""
+Below is code for printing out entire trees easily for testing purposes
+"""
 func get_indent(level: int) -> String:
 	var indent = ""
 	for i in range(level):
 		indent += "    "
 	return indent
 
-func ingredients_to_string(level: int, stats) -> String:
+func ingredients_to_string(level: int, ingredients: Array, stats: Dictionary) -> String:
 	var ingredients_str = ""
 	stats["total_ingredients"] += ingredients.size()
 	stats["max_ingredients"] = max(stats["max_ingredients"], ingredients.size())
@@ -123,40 +126,35 @@ func ingredients_to_string(level: int, stats) -> String:
 		if ingredients_str != "":
 			ingredients_str += "\n"
 
-		if ingredient is PotionData:
+		if ingredient != null:
 			stats["total_potions"] += 1
 			stats["depth"] = max(stats["depth"], level + 1)
-			ingredients_str += get_indent(level) + FluidType.keys()[ingredient.fluid]
-			if ingredient.has_ingredients():
+			ingredients_str += get_indent(level) + str(ingredient)
+			
+			if ingredient.ingredients != []:
 				ingredients_str += ":\n"
-				ingredients_str += ingredient.ingredients_to_string(level + 1, stats)
+				ingredients_str += ingredients_to_string(level + 1, ingredient.ingredients, stats)
 			else:
 				ingredients_str += ""
 		else:
-			if level == 1:
-				stats["top_level_non_potions"] += 1
 			ingredients_str += get_indent(level) + FluidType.keys()[ingredient]
 
 	return ingredients_str
 
-func gathering_stats(level: int, stats) -> String:
-	if stats == null:
-		stats = {"depth": 0, "total_potions": 0, "top_level_non_potions": 0, "total_ingredients": 0, "max_ingredients": 0}
+func print_game_info(show_stats: bool) -> void:
+	var stats = {"depth": 0, "total_potions": 0, "total_ingredients": 0, "max_ingredients": 0}
 
-	if level == 0:
-		stats["depth"] = 1  # Start counting depth from 1 for the top-level potion
-		stats["total_potions"] = 1  # The top-level potion itself
-
-	var result_str = get_indent(level) + FluidType.keys()[fluid]
-	if has_ingredients():
+	var result_str = str(self)
+	if self.ingredients != []:
 		result_str += ":\n"
-	var ingredients_str = ingredients_to_string(level + 1, stats)
+	var ingredients_str = ingredients_to_string(1, self.ingredients, stats)
 
-	if level == 0:
-		var stats_str = "Deepest recursion level: %d\nTotal PotionEquations: %d\nTop-level non-PotionEquation ingredients: %d\nTotal ingredients: %d\nMax ingredients in a potion: %d\n\n" % [stats["depth"], stats["total_potions"], stats["top_level_non_potions"], stats["total_ingredients"], stats["max_ingredients"]]
-		return stats_str + result_str + ingredients_str
+	if show_stats:
+		var stats_str = "Deepest recursion level: %d\nTotal PotionEquations: %d\nTotal ingredients: %d\nMax ingredients in a potion: %d\n\n" % [stats["depth"], stats["total_potions"], stats["total_ingredients"], stats["max_ingredients"]]
+		print(stats_str + result_str + ingredients_str + "\n")
 	else:
-		return result_str + ingredients_str
+		print(result_str + ingredients_str + "\n")
+
 
 func _to_string() -> String:
 	#return gathering_stats(0, null)

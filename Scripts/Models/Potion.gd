@@ -15,7 +15,7 @@ var pour_time: float = 1
 func _ready():
 	original_position = global_transform.origin
 	original_rotation = global_rotation_degrees
-	cauldron_position = Vector3(cauldron.position.x + .5, cauldron.position.y + 1, cauldron.position.z)
+	cauldron_position = Vector3(cauldron.position.x + .25, cauldron.position.y + 2, cauldron.position.z + 2)
 
 func pour_potion(receiver: Node3D):
 	"""
