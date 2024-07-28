@@ -36,7 +36,10 @@ func clicking_cauldron(cauldron: Node3D):
 		MixIngredients.emit()
 
 
-func clicking_potion(potion):
+func clicking_potion(potion: Node3D):
+	if not potion.can_be_selected:
+		return
+	
 	if selected_potion:
 		remove_selection_outline(selected_potion)
 		selected_potion = null

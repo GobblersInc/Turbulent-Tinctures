@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=25 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="3_hmrva"]
@@ -14,12 +14,103 @@
 [ext_resource type="PackedScene" uid="uid://bghd1a77hyutu" path="res://Scenes/Misc/Rain.tscn" id="13_hr1be"]
 [ext_resource type="Script" path="res://Scenes/Environments/Lightning.gd" id="14_3hnv4"]
 [ext_resource type="PackedScene" uid="uid://ci6wpm00p7h4g" path="res://Scenes/Misc/Ocean.tscn" id="14_bklud"]
+[ext_resource type="Script" path="res://Scripts/Environments/FadeToBlack.gd" id="16_0jn4v"]
+[ext_resource type="Script" path="res://Scripts/Utilities/TextDisplay.gd" id="16_o481d"]
 
 [sub_resource type="Environment" id="Environment_qqkxg"]
 background_mode = 2
 ambient_light_source = 2
 ambient_light_color = Color(0.819608, 0.572549, 0.0823529, 1)
 ambient_light_energy = 0.0
+adjustment_enabled = true
+
+[sub_resource type="Animation" id="Animation_stxj8"]
+resource_name = "FadeBackIn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:environment:adjustment_brightness")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.01, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_t83bq"]
+resource_name = "FadeToBlack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:environment:adjustment_brightness")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.01]
+}
+
+[sub_resource type="Animation" id="Animation_dq8sm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:environment:adjustment_brightness")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jlq8a"]
+_data = {
+"FadeBackIn": SubResource("Animation_stxj8"),
+"FadeToBlack": SubResource("Animation_t83bq"),
+"RESET": SubResource("Animation_dq8sm")
+}
+
+[sub_resource type="Animation" id="Animation_uqa0j"]
+resource_name = "FadeTextIn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_tqjxv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2pgs0"]
+_data = {
+"FadeTextIn": SubResource("Animation_uqa0j"),
+"RESET": SubResource("Animation_tqjxv")
+}
 
 [node name="PirateShip" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504239, 1.0115, 2.09406)
@@ -35,7 +126,6 @@ script = ExtResource("3_st3s3")
 [node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.61674, 1.55368, -6.00023)
 script = ExtResource("3_hmrva")
-flicker_probability = 0.3
 light_out_duration = 8.0
 check_interval = 3.0
 lights_out_cooldown = 6.0
@@ -71,6 +161,13 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -6.068
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_qqkxg")
 
+[node name="FadeToBlack" type="AnimationPlayer" parent="WorldEnvironment"]
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_jlq8a")
+}
+script = ExtResource("16_0jn4v")
+
 [node name="Moonlight" type="SpotLight3D" parent="."]
 transform = Transform3D(-0.998373, 0.0266105, -0.0504406, -0.0142509, 0.739994, 0.672462, 0.0552203, 0.672087, -0.738411, -0.43106, 12.5655, -24.6405)
 light_color = Color(0.893476, 0.912847, 1, 1)
@@ -97,3 +194,19 @@ timer_wait_time = 6.0
 [node name="Timer" type="Timer" parent="Lightning"]
 wait_time = 8.0
 autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0)
+offset_right = 1152.0
+offset_bottom = 648.0
+text = "NEXT LEVEL"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PopupTextFade" type="AnimationPlayer" parent="CanvasLayer"]
+libraries = {
+"": SubResource("AnimationLibrary_2pgs0")
+}
+script = ExtResource("16_o481d")
