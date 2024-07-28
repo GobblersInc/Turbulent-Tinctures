@@ -79,7 +79,10 @@ const BOILING_WATER_SOUND = [
 ]
 
 const BACKGROUND_MUSIC_SOUND = [
-	preload("res://Assets/Audio/Music/Sea Shanty 2 (GameJam Version).ogg")
+	preload("res://Assets/Audio/Music/Sea Shanty 2 (GameJam Version).ogg"),
+	preload("res://Assets/Audio/Music/Lament for the Hallowed.ogg"),
+	preload("res://Assets/Audio/Music/Autumn Voyage.ogg"),
+	preload("res://Assets/Audio/Music/Monkey Badness.ogg")
 ]
 
 var audio_players = {
@@ -109,8 +112,6 @@ func play_random_sound(category, sound_list):
 		var random_sound = sound_list[randi() % sound_list.size()]
 		audio_player.stream = random_sound
 		audio_player.play()
-	else:
-		print("Error: Audio player for category '%s' not found" % category)
 		
 func play_random_ship_sound():
 	play_random_sound("ship", SHIP_SOUNDS)
@@ -149,8 +150,7 @@ func play_boiling_water_sound():
 	audio_players["boiling_water"].play()
 	
 func play_background_music():
-	audio_players["background_music"].stream = BACKGROUND_MUSIC_SOUND[0]
-	audio_players["background_music"].play()
+	play_random_sound("background_music", BACKGROUND_MUSIC_SOUND)
 	
 func instantiate_audio_players() -> void:
 	for key in audio_players.keys():
@@ -162,4 +162,11 @@ func instantiate_audio_players() -> void:
 		if key == "ambient" or key == "ship":
 			audio_player.volume_db = -10
 		if key == "background_music":
-			audio_player.volume_db = -20
+			audio_player.volume_db = -10
+			audio_player.connect("finished", play_background_music)
+			
+func adjust_volume(category, amount: int):
+	if audio_players.has(category):
+		var audio_player: AudioStreamPlayer3D = audio_players[category]
+		audio_player.volume_db += amount
+		audio_player.play()

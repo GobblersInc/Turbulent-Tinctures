@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://j2oeqhuvicrp"]
+
+[ext_resource type="PackedScene" uid="uid://dmw8fieacdu7e" path="res://Assets/Models/Couch/couch.glb" id="1_2vydu"]
+
+[node name="Couch" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0294659, -1.07355, 0.676438)
+
+[node name="couch" parent="." instance=ExtResource("1_2vydu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00580299, 0, 0.79193)
