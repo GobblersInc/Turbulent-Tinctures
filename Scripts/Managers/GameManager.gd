@@ -4,11 +4,17 @@ extends Node3D
 @onready var ship = $"../.."
 @onready var fade_to_black = $"../../WorldEnvironment/FadeToBlack"
 @onready var popup_text = $"../../CanvasLayer/PopupTextFade"
-
+@onready var lantern = $"../../Lantern"
+@onready var cauldron = $"../../Cauldron"
 var PotionGeneration = preload("res://Scripts/Utilities/PotionGeneration.gd").new()
 
 const FluidType = preload("res://Scripts/Utilities/PotionData.gd").FluidType
 const BottleType = preload("res://Scripts/Utilities/PotionData.gd").BottleType
+const LANTERN_SCRIPT_PATH = "res://Scripts/Models/LanternScript.gd"
+const LANTERN_SCENE = "res://Scenes/Models/lantern.tscn"
+
+const water_color = Color(0.064, 0.142, 0.482)
+
 const POTION_SCENES = {
 	BottleType.VIAL: "res://Scenes/Models/vial_potion.tscn",
 	BottleType.FLASK: "res://Scenes/Models/flask_potion.tscn",
@@ -39,10 +45,35 @@ var level = 0
 """
 The minimum nesting one can do is 1 - otherwise there wouldn't be any potion equations!
 """
-var LEVELS = [
-	{"ingredients_per_potion": MinMax.new(1, 1), "times_nested": MinMax.new(1, 1), "nest_probability": 0},
-	{"ingredients_per_potion": MinMax.new(1, 1), "times_nested": MinMax.new(2, 2), "nest_probability": 0.3},
+var LEVEL_CONFIG = [
+	{
+		"ingredients_per_potion": MinMax.new(2, 3), 
+		"times_nested": MinMax.new(1, 1), 
+		"nest_probability": 0,
+		"flicker_probability": 0,
+		"light_out_duration": 0,
+		"check_interval": 0,
+		"lights_out_cooldown": 0,
+		"light_on_or_off": true,
+	},
+	{
+		"ingredients_per_potion": MinMax.new(1, 1), 
+		"times_nested": MinMax.new(2, 2), 
+		"nest_probability": 0.3,
+		"flicker_probability": 0.3,
+		"light_out_duration": 8,
+		"check_interval": 3,
+		"lights_out_cooldown": 6,
+		"light_on_or_off": true,
+	},
 ]
+
+func set_lantern_values(level_config):
+	lantern.flicker_probability = level_config.flicker_probability
+	lantern.light_out_duration = level_config.light_out_duration
+	lantern.check_interval = level_config.check_interval
+	lantern.lights_out_cooldown = level_config.lights_out_cooldown
+	lantern.light_on_or_off = level_config.light_on_or_off
 
 func _ready():
 	initialize()
@@ -53,10 +84,43 @@ func _ready():
 func initialize():
 	start_level()
 
+func get_combined_potion_color(potions: Array) -> Color:
+	var combined_color = Color(0, 0, 0, 0)
+	var color_count = potions.size()
+	
+	if color_count == 0:
+		return combined_color
+	
+	for potion in potions:
+		var color = potion.get_color()
+		combined_color.r += color.r
+		combined_color.g += color.g
+		combined_color.b += color.b
+		combined_color.a += color.a
+	
+	combined_color.r /= color_count
+	combined_color.g /= color_count
+	combined_color.b /= color_count
+	combined_color.a /= color_count
+	
+	return combined_color
+
 func _on_AddIngredient(potion: PotionData):
 	cauldron_contents.append(potion)
 	potions_on_table.erase(potion)
-	
+
+	# If the cauldron was empty
+	if len(cauldron_contents) == 1:
+		change_cauldron_liquid_color(potion.get_color())
+	# If the ingredients can make a potion
+	elif can_mix_ingredients(cauldron_contents):
+		var color = get_mix_result(cauldron_contents).get_color()
+		change_cauldron_liquid_color(color)
+	else:
+		var combined_color = get_combined_potion_color(cauldron_contents)
+		change_cauldron_liquid_color(combined_color)
+
+
 func fade_in(input_text: String):
 	fade_to_black.fade_to_black()
 	popup_text.fade_text_in(input_text)
@@ -86,21 +150,26 @@ func failed_mix_ingredients():
 	while len(cauldron_contents) > 0:
 		var potion_from_cauldron = cauldron_contents.pop_front()
 		spawn_potion(potion_from_cauldron)
+		
+	change_cauldron_liquid_color(water_color)
 
 func successful_mix_ingredients():
 	var resulting_potion = get_mix_result(cauldron_contents)
 	cauldron_contents.clear()
 
+	change_cauldron_liquid_color(resulting_potion.get_color())
+
 	if resulting_potion == required_potion:
 		spawn_required_potion(resulting_potion)
 		level += 1
-		if level >= len(LEVELS):
+		if level >= len(LEVEL_CONFIG):
 			end_game()
 		else:
 			await delay("time_before_level_transition")
 			await fade_in("Starting Level " + str(level+1))
 			await fade_pause()
 			resulting_potion.node.queue_free()
+			change_cauldron_liquid_color(water_color)
 			start_level()
 			await fade_out()
 	else:
@@ -112,8 +181,9 @@ func end_game():
 	await fade_pause()
 	
 func start_level():
+	set_lantern_values(LEVEL_CONFIG[level])
 	potions_on_table = []
-	required_potion = PotionGeneration.generate_potion_equation(LEVELS[level])
+	required_potion = PotionGeneration.generate_potion_equation(LEVEL_CONFIG[level])
 	
 	required_potion.print_game_info(false)
 	
@@ -150,27 +220,40 @@ func spawn_new_potion(potion: PotionData, potion_list: Array) -> void:
 	spawn_potion(potion)
 	potions_on_table.append(potion)
 
-func change_potion_color(potion: PotionData) -> void:
-	var potion_node = potion.node
-	var fluid_mesh_instance = potion_node.get_child(0).get_child(2) as MeshInstance3D
-	
+func set_mesh_material_emission(mesh_instance: MeshInstance3D, color):
 	# Duplicate the mesh to create a unique instance
-	var original_mesh = fluid_mesh_instance.mesh
+	var original_mesh = mesh_instance.mesh
 	var new_mesh = original_mesh.duplicate() as ArrayMesh
 	
 	# Apply the new mesh to the mesh instance
-	fluid_mesh_instance.mesh = new_mesh
+	mesh_instance.mesh = new_mesh
 	
 	# Duplicate the material to create a unique instance
 	var original_material = new_mesh.surface_get_material(0)
-	var fluid_material = original_material.duplicate()
+	var new_material = original_material.duplicate()
 	
 	# Apply the duplicated material to the new mesh
-	new_mesh.surface_set_material(0, fluid_material)
+	new_mesh.surface_set_material(0, new_material)
 	
 	# Change the color of the duplicated material
-	var color = potion.get_color()
-	fluid_material.set_emission(color)
+	new_material.set_emission(color)
+	
+func change_cauldron_liquid_color(color: Color):
+	var liquid_CSGCylinder = cauldron.get_child(1)
+	var material = liquid_CSGCylinder.material.duplicate()
+	
+	material.set_emission(color)
+	print("material")
+	print(material)
+	liquid_CSGCylinder.material = material
+	
+func change_potion_color(potion: PotionData) -> void:
+	var potion_node = potion.node
+	var fluid_mesh_instance = potion_node.get_child(0).get_child(2) as MeshInstance3D
+	var color = potion.get_color()	
+	
+	# Duplicate the mesh to create a unique instance
+	set_mesh_material_emission(fluid_mesh_instance, color)
 
 func generate_position() -> Vector3:
 	var x = randf_range(BOUNDS["left"], BOUNDS["right"])

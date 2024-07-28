@@ -17,13 +17,13 @@
 [ext_resource type="Script" path="res://Scripts/Utilities/Lightning.gd" id="15_rqvca"]
 [ext_resource type="Script" path="res://Scripts/Environments/FadeToBlack.gd" id="16_0jn4v"]
 [ext_resource type="Script" path="res://Scripts/Utilities/TextDisplay.gd" id="16_o481d"]
-[ext_resource type="PackedScene" uid="uid://dsp4nveah1hwt" path="res://Scenes/Models/Plant.tscn" id="17_gcw34"]
-[ext_resource type="PackedScene" uid="uid://cfoceqiaqe1iu" path="res://Scenes/Models/Chest.tscn" id="18_ue5c0"]
+[ext_resource type="PackedScene" path="res://Scenes/Models/Plant.tscn" id="17_gcw34"]
+[ext_resource type="PackedScene" path="res://Scenes/Models/Chest.tscn" id="18_ue5c0"]
 [ext_resource type="Script" path="res://Scripts/Models/Chest.gd" id="19_5dhtr"]
-[ext_resource type="PackedScene" uid="uid://buixtsarcvcwq" path="res://Scenes/Models/lantern_holder.tscn" id="20_72ql5"]
-[ext_resource type="PackedScene" uid="uid://4r4c2tf6sqp4" path="res://Scenes/Models/Rug.tscn" id="22_84ulk"]
-[ext_resource type="PackedScene" uid="uid://j2oeqhuvicrp" path="res://Scenes/Models/Couch.tscn" id="23_l8oa3"]
-[ext_resource type="PackedScene" uid="uid://ccgb73x8jkigj" path="res://Scenes/Models/PestelAndMortar.tscn" id="24_2rltw"]
+[ext_resource type="PackedScene" path="res://Scenes/Models/lantern_holder.tscn" id="20_72ql5"]
+[ext_resource type="PackedScene" path="res://Scenes/Models/Rug.tscn" id="22_84ulk"]
+[ext_resource type="PackedScene" path="res://Scenes/Models/Couch.tscn" id="23_l8oa3"]
+[ext_resource type="PackedScene" path="res://Scenes/Models/PestelAndMortar.tscn" id="24_2rltw"]
 
 [sub_resource type="Environment" id="Environment_qqkxg"]
 background_mode = 2
@@ -134,10 +134,6 @@ script = ExtResource("3_st3s3")
 [node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 1.62355, 1.7327, -5.92914)
 script = ExtResource("3_hmrva")
-flicker_probability = 1.0
-light_out_duration = 8.0
-check_interval = 3.0
-lights_out_cooldown = 6.0
 light_on_or_off = true
 
 [node name="Paper" parent="." instance=ExtResource("8_gka6f")]
