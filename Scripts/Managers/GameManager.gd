@@ -114,13 +114,9 @@ func end_game():
 func start_level():
 	potions_on_table = []
 	required_potion = PotionGeneration.generate_potion_equation(LEVELS[level])
-	print(required_potion)
-	print(required_potion.get_all_non_leaves())
 	
-	print("Level ", level)
-	print("-------------------------")
 	required_potion.print_game_info(false)
-
+	
 	var starting_potions = required_potion.get_all_leaves()
 
 	for potion in starting_potions:

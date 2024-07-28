@@ -22,6 +22,8 @@ func _on_ObjectClicked(_event_position, object_info):
 		clicking_cauldron(object)
 	elif player_clicked_potion:
 		clicking_potion(object)
+		
+	print(selected_potion)
 
 func clicking_cauldron(cauldron: Node3D):
 	if selected_potion:
@@ -34,6 +36,7 @@ func clicking_cauldron(cauldron: Node3D):
 			selected_potion = null
 	else:
 		MixIngredients.emit()
+		
 
 
 func clicking_potion(potion: Node3D):
