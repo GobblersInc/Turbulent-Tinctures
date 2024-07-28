@@ -130,7 +130,7 @@ skeleton = NodePath("")
 mesh = SubResource("ArrayMesh_dr0w4")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="conical flask" groups=["potion"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="conical flask" groups=["clickable", "potion"]]
 transform = Transform3D(12.5, 0, 0, 0, 12.5, 0, 0, 0, 12.5, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="conical flask/StaticBody3D"]

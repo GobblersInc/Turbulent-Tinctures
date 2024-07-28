@@ -42,6 +42,8 @@ var cauldron_contents = []
 var required_potion = null
 var level = 0
 
+signal Recipe(potion_recipe: Array)
+
 """
 The minimum nesting one can do is 1 - otherwise there wouldn't be any potion equations!
 """
@@ -188,6 +190,8 @@ func start_level():
 	required_potion.print_game_info(false)
 	
 	var starting_potions = required_potion.get_all_leaves()
+	var potion_recipe = required_potion.get_all_non_leaves()
+	Recipe.emit(potion_recipe)
 
 	for potion in starting_potions:
 		spawn_new_potion(potion, starting_potions)

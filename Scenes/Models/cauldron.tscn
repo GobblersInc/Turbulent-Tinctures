@@ -17,7 +17,7 @@ backlight = Color(1, 1, 1, 1)
 [node name="Cauldron" parent="." instance=ExtResource("1_4jvqk")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Cauldron" groups=["cauldron"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="Cauldron" groups=["cauldron", "clickable"]]
 transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cauldron/StaticBody3D"]

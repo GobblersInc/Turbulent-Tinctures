@@ -132,7 +132,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.02167, 0)
 mesh = SubResource("ArrayMesh_8nv5s")
 skeleton = NodePath("")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="isohedron flask" groups=["potion"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="isohedron flask" groups=["clickable", "potion"]]
 transform = Transform3D(12.5, 0, 0, 0, 12.5, 0, 0, 0, 12.5, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="isohedron flask/StaticBody3D"]
