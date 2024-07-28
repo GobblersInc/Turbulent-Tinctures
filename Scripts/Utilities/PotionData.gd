@@ -90,6 +90,17 @@ func find_node(fluid: FluidType, bottle: BottleType, start_node: PotionData = nu
 func get_color():
 	return POTION_TYPE_TO_COLOR[self.fluid]
 
+func get_all_non_leaves() -> Array:
+	var non_leaves = []
+	_collect_non_leaves(self, non_leaves)
+	return non_leaves
+
+func _collect_non_leaves(potion: PotionData, non_leaves: Array) -> void:
+	if not potion.is_leaf():
+		non_leaves.append(potion)
+		for ingredient in potion.ingredients:
+			_collect_non_leaves(ingredient, non_leaves)
+
 # Custom comparison function
 static func compare_potion_data(a: PotionData, b: PotionData) -> int:
 	return hash(a) < hash(b)

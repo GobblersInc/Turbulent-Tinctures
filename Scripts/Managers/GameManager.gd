@@ -2,6 +2,8 @@ extends Node3D
 
 @onready var movement_manager = $"../MovementManager"
 @onready var ship = $"../.."
+@onready var fade_to_black = $"../../WorldEnvironment/FadeToBlack"
+@onready var popup_text = $"../../CanvasLayer/PopupTextFade"
 
 var PotionGeneration = preload("res://Scripts/Utilities/PotionGeneration.gd").new()
 
@@ -16,12 +18,18 @@ const POTION_SCENES = {
 const POTION_MIN_DISTANCE_APART = .4
 const TABLE_HEIGHT = 2.4
 const BOUNDS = {
-	"top": -2.7,
+	"top": -2.4,
 	"bottom": -1.85,
 	"left": -1,
 	"right": 1.45,
 }
 
+const TIMES = {
+	"time_before_level_transition": 0.5,
+	"fading_in": 1,
+	"pause_to_read_text": 1,
+	"fading_out": 1,
+}
 
 var potions_on_table = []
 var cauldron_contents = []
@@ -36,7 +44,6 @@ var LEVELS = [
 	{"ingredients_per_potion": MinMax.new(1, 1), "times_nested": MinMax.new(2, 2), "nest_probability": 0.3},
 ]
 
-
 func _ready():
 	initialize()
 	
@@ -49,36 +56,67 @@ func initialize():
 func _on_AddIngredient(potion: PotionData):
 	cauldron_contents.append(potion)
 	potions_on_table.erase(potion)
+	
+func fade_in(input_text: String):
+	fade_to_black.fade_to_black()
+	popup_text.fade_text_in(input_text)
+
+	await delay("fading_in")
+	
+func fade_pause():
+	fade_to_black.playback_active = false
+	popup_text.playback_active = false
+
+	await delay("pause_to_read_text")
+	
+func fade_out():
+	fade_to_black.fade_from_black()
+	popup_text.fade_text_out()
+	fade_to_black.playback_active = true
+	popup_text.playback_active = true
+	await delay("fading_out")
 
 func _on_MixIngredients():
 	if can_mix_ingredients(cauldron_contents):
-		var resulting_potion = get_mix_result(cauldron_contents)
-		spawn_new_potion(resulting_potion, potions_on_table)
-		
-		cauldron_contents.clear()
-		if resulting_potion == required_potion:
-			level += 1
-			await get_tree().create_timer(2.0).timeout
-			
+		successful_mix_ingredients()
+	else:
+		failed_mix_ingredients()
+
+func failed_mix_ingredients():
+	while len(cauldron_contents) > 0:
+		var potion_from_cauldron = cauldron_contents.pop_front()
+		spawn_potion(potion_from_cauldron)
+
+func successful_mix_ingredients():
+	var resulting_potion = get_mix_result(cauldron_contents)
+	cauldron_contents.clear()
+
+	if resulting_potion == required_potion:
+		spawn_required_potion(resulting_potion)
+		level += 1
+		if level >= len(LEVELS):
+			end_game()
+		else:
+			await delay("time_before_level_transition")
+			await fade_in("Starting Level " + str(level+1))
+			await fade_pause()
 			resulting_potion.node.queue_free()
 			start_level()
+			await fade_out()
 	else:
-		while len(cauldron_contents) > 0:
-			var potion_from_cauldron = cauldron_contents.pop_front()
-			spawn_potion(potion_from_cauldron)
+		spawn_new_potion(resulting_potion, potions_on_table)
 
+func end_game():
+	await delay("time_before_level_transition")
+	await fade_in("You beat the game, wow!")
+	await fade_pause()
+	
 func start_level():
-	if level >= len(LEVELS):
-		print("You beat the game, wow!")
-		return
-		
 	potions_on_table = []
 	required_potion = PotionGeneration.generate_potion_equation(LEVELS[level])
 	
-	print("Level ", level)
-	print("-------------------------")
 	required_potion.print_game_info(false)
-
+	
 	var starting_potions = required_potion.get_all_leaves()
 
 	for potion in starting_potions:
@@ -91,14 +129,20 @@ func spawn_potion(potion: PotionData) -> void:
 	var bottle_type = potion.bottle
 	var potion_node = load(POTION_SCENES[bottle_type]).instantiate()
 	add_child(potion_node)
-	
+
 	potion_node.global_position = potion.position
 	potion_node.scale = Vector3(1, 1, 1)
 	potion_node.potion_data = potion
-	
+
 	potion.node = potion_node
-	
+
 	change_potion_color(potion)
+
+func spawn_required_potion(potion: PotionData):
+	potion.position = Vector3(BOUNDS["left"] + .96, TABLE_HEIGHT+1.25, BOUNDS["top"] - .7)
+	spawn_potion(potion)
+	potion.node.can_be_selected = false
+	potions_on_table.append(potion)
 
 func spawn_new_potion(potion: PotionData, potion_list: Array) -> void:
 	var position = get_valid_position(potion_list)
@@ -174,3 +218,6 @@ func array_contents_equal(array_1: Array, array_2: Array) -> bool:
 	sorted_array_2 = PotionData.sort_potion_data_array(sorted_array_2)
 	
 	return sorted_array_1.hash() == sorted_array_2.hash()
+	
+func delay(timer_name: String):
+	await get_tree().create_timer(TIMES[timer_name]).timeout

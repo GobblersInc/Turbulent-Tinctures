@@ -8,6 +8,7 @@ var original_position: Vector3
 var original_rotation: Vector3
 var cauldron_position: Vector3
 
+var can_be_selected = true # This is only false if it's a resulting potion being spawned
 var potion_data = null
 
 var pour_time: float = 1
