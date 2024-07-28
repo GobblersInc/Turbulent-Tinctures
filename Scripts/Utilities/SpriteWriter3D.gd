@@ -7,7 +7,7 @@ extends Area3D
 #new line 
 # Called when the node enters the scene tree for the first time.
 
-var sprite_path = "res://Assets/Sprites/FormulaSprites/"
+var sprite_path = "res://Assets/Sprites/WhiteTint/RecipeSpriteSheet3/"
 var flask_image = sprite_path + "Flask.PNG"
 var sphere_image = sprite_path + "Sphere.PNG"
 var tube_image = sprite_path + "Tube.PNG"
@@ -16,6 +16,7 @@ var arrow_image = sprite_path + "Arrow.PNG"
 
 const FluidType = preload("res://Scripts/Utilities/PotionData.gd").FluidType
 const BottleType = preload("res://Scripts/Utilities/PotionData.gd").BottleType
+const ColorChart = preload("res://Scripts/Utilities/PotionData.gd").POTION_TYPE_TO_COLOR
 
 const POTION_SCENES = {
 	BottleType.VIAL: "res://Scenes/Models/vial_potion.tscn",
@@ -30,15 +31,11 @@ func _ready():
 func _process(delta):
 	#write up a node cleanup process, then retrigger the sprite writer 
 	pass
-	
+
 func IndividualWrite(potion, pos_x, pos_y, x_bound, y_bound, start_x, start_z):
 	print(potion, " - ", pos_x, " - ", pos_y, " - ", x_bound, " - ", y_bound)
 	var sprite_temp = Sprite3D.new()
 	var scale_value = x_bound * y_bound
-
-#var image = Image.load_from_file("res://icon.svg")
-#var texture = ImageTexture.create_from_image(image)
-#$Sprite2D.texture = texture
 
 	#STILL NEED TO CHECK FOR BOTTLE COLOR
 	if typeof(potion) == TYPE_OBJECT:
@@ -57,6 +54,7 @@ func IndividualWrite(potion, pos_x, pos_y, x_bound, y_bound, start_x, start_z):
 		sprite_temp.position = Vector3((start_z+0.5) + (-pos_y * y_bound), 0.08667, (start_x+0.5) + (-pos_x * x_bound)) 
 		sprite_temp.scale = Vector3(x_bound, x_bound, x_bound)
 		sprite_temp.rotation_degrees = Vector3(-90, 90, 0) 
+		sprite_temp.modulate = ColorChart[potion.fluid]
 		
 		add_child(sprite_temp)
 		print(sprite_temp.position, " - sprite added!")
@@ -70,8 +68,9 @@ func IndividualWrite(potion, pos_x, pos_y, x_bound, y_bound, start_x, start_z):
 			var texture = ImageTexture.create_from_image(image)
 			sprite_temp.texture = texture
 		sprite_temp.position = Vector3((start_z+0.5) + (-pos_y * y_bound), 0.08667, (start_x+0.5) + (-pos_x * x_bound))
-		sprite_temp.scale = Vector3(x_bound, x_bound, x_bound)
-		sprite_temp.rotation_degrees = Vector3(-90, 90, 0) 
+		sprite_temp.scale = Vector3(x_bound*(0.55), x_bound*(0.55), x_bound*(0.55))
+		sprite_temp.rotation_degrees = Vector3(-90, 90, 0)
+		sprite_temp.modulate = Color(0, 0, 0)
 		
 		add_child(sprite_temp)
 		print(sprite_temp.position, " - sprite added!")
