@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dbsqyo4f8wa3u"
+path="res://.godot/imported/Monkey Badness.ogg-d8a029b9ba05cde097e3f1a67481db9e.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Audio/Music/Monkey Badness.ogg"
+dest_files=["res://.godot/imported/Monkey Badness.ogg-d8a029b9ba05cde097e3f1a67481db9e.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

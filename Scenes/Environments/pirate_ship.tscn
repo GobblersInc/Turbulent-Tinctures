@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=33 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="3_hmrva"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://beqvwlrc4ft47" path="res://Scenes/Models/Ship.tscn" id="13_5gnq8"]
 [ext_resource type="PackedScene" uid="uid://bghd1a77hyutu" path="res://Scenes/Misc/Rain.tscn" id="13_hr1be"]
 [ext_resource type="PackedScene" uid="uid://ci6wpm00p7h4g" path="res://Scenes/Misc/Ocean.tscn" id="14_bklud"]
+[ext_resource type="Script" path="res://Scripts/Models/Ship.gd" id="14_soqe2"]
 [ext_resource type="Script" path="res://Scripts/Utilities/Lightning.gd" id="15_rqvca"]
 [ext_resource type="Script" path="res://Scripts/Environments/FadeToBlack.gd" id="16_0jn4v"]
 [ext_resource type="Script" path="res://Scripts/Utilities/TextDisplay.gd" id="16_o481d"]
@@ -20,6 +21,9 @@
 [ext_resource type="PackedScene" uid="uid://cfoceqiaqe1iu" path="res://Scenes/Models/Chest.tscn" id="18_ue5c0"]
 [ext_resource type="Script" path="res://Scripts/Models/Chest.gd" id="19_5dhtr"]
 [ext_resource type="PackedScene" uid="uid://buixtsarcvcwq" path="res://Scenes/Models/lantern_holder.tscn" id="20_72ql5"]
+[ext_resource type="PackedScene" uid="uid://4r4c2tf6sqp4" path="res://Scenes/Models/Rug.tscn" id="22_84ulk"]
+[ext_resource type="PackedScene" uid="uid://j2oeqhuvicrp" path="res://Scenes/Models/Couch.tscn" id="23_l8oa3"]
+[ext_resource type="PackedScene" uid="uid://ccgb73x8jkigj" path="res://Scenes/Models/PestelAndMortar.tscn" id="24_2rltw"]
 
 [sub_resource type="Environment" id="Environment_qqkxg"]
 background_mode = 2
@@ -162,6 +166,11 @@ transform = Transform3D(9.01887, 0, 0, 0, 0.0645087, -7.51752, 0, 1.54106, 0.314
 
 [node name="Ship" parent="." instance=ExtResource("13_5gnq8")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -6.06816, -1.0115, -3.8574)
+script = ExtResource("14_soqe2")
+checkFrequency = 15
+percentChance = 0.2
+
+[node name="Timer" type="Timer" parent="Ship"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_qqkxg")
@@ -226,3 +235,12 @@ open_chance = 1.0
 
 [node name="LanternHolder" parent="." instance=ExtResource("20_72ql5")]
 transform = Transform3D(-0.0142763, 0, 0.999898, 0, 1, 0, -0.999898, 0, -0.0142763, 1.74936, 1.22322, -6.19333)
+
+[node name="Rug" parent="." instance=ExtResource("22_84ulk")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -0.420926, -0.284417, -8.93986)
+
+[node name="Couch" parent="." instance=ExtResource("23_l8oa3")]
+transform = Transform3D(0.952868, 0, -0.303385, 0, 1, 0, 0.303385, 0, 0.952868, -6.62078, -0.799963, -8.09406)
+
+[node name="PestelAndMortar" parent="." instance=ExtResource("24_2rltw")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.0491038, 2.4849, -14.0761)
