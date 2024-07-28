@@ -16,7 +16,7 @@ func get_intersect_ray(mouse_position, camera, space_state):
 func _input(event: InputEvent) -> void:
 	var space_state = get_world_3d().direct_space_state
 	
-	var intersect_ray = get_intersect_ray(event.position, camera, space_state)
+	var intersect_ray
 	
 	if event is InputEventMouseMotion or event is InputEventMouseButton:
 		intersect_ray = get_intersect_ray(event.position, camera, space_state)
