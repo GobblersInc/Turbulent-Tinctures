@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsp4nveah1hwt"]
+
+[ext_resource type="PackedScene" uid="uid://47noevg1bh84" path="res://Assets/Models/PottedPlant/Potted Plant.glb" id="1_e07y3"]
+
+[node name="Plant" type="Node3D"]
+
+[node name="Potted Plant" parent="." instance=ExtResource("1_e07y3")]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 0)

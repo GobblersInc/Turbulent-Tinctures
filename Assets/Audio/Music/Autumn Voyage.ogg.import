@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bvqooqtbbyppv"
+path="res://.godot/imported/Autumn Voyage.ogg-6512c537c8c66a56455079ac6e14042b.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Audio/Music/Autumn Voyage.ogg"
+dest_files=["res://.godot/imported/Autumn Voyage.ogg-6512c537c8c66a56455079ac6e14042b.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

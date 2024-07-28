@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccgb73x8jkigj"]
+
+[ext_resource type="PackedScene" uid="uid://6bqhds71u3t" path="res://Assets/Models/MortarAndPestel/Pestle and Mortar.glb" id="1_ke6ys"]
+
+[node name="PestelAndMortar" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.300885, 0, 0.501475)
+
+[node name="Pestle and Mortar" parent="." instance=ExtResource("1_ke6ys")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.257863, 0, -0.404594)
