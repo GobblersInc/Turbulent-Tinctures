@@ -11,6 +11,17 @@ var cauldron_position: Vector3
 var can_be_selected = true # This is only false if it's a resulting potion being spawned
 var potion_data = null
 
+const JUG_POTION_Y_OFFSET: float = 3.7
+const FLASK_POTION_Y_OFFSET: float = .5
+const VIAL_POTION_Y_OFFSET: float = 0
+
+const JUG_POTION_POURING_POSITION: Vector3 = Vector3(0, 3.7, 0)
+const FLASK_POTION_POURING_POSITION: Vector3 = Vector3(0, .5, 0)
+const VIAL_POTION_POURING_POSITION: Vector3 = Vector3(0, 0, 0)
+const JUG_POTION_POURING_SCALE: Vector3 = Vector3(.423, .17, .429)
+const FLASK_POTION_POURING_SCALE: Vector3 = Vector3(0, 0, 0)
+const VIAL_POTION_POURING_SCALE: Vector3 = Vector3(0, 0 , 0)
+
 var pour_time: float = 1
 
 func _ready():
@@ -26,11 +37,12 @@ func pour_potion(receiver: Node3D):
 	receiver.being_poured_into = true
 	move_to_cauldron()
 	
+	pour_liquid()
 	await delay(pour_time)
 	
 	throw_potion()
 	
-	await delay(.15)
+	await delay(.17)
 	
 	move_to_original_position()
 	pouring = false
@@ -42,7 +54,7 @@ func delay(seconds: float):
 func move_to_cauldron():
 	SoundManager.play_random_mixing_sound()
 	var tween = get_tree().create_tween().set_parallel(true)
-	
+	set_cork_visibility(false)
 	# Move to cauldron position and rotate
 	tween.tween_property(self, 
 						"position", 
@@ -52,6 +64,37 @@ func move_to_cauldron():
 						"rotation_degrees", 
 						Vector3(0, 0, 130), 
 						animation_time)
+						
+func pour_liquid():
+	var tween = get_tree().create_tween().set_parallel(true)
+	var fluid: MeshInstance3D = self.find_child("Fluid")
+	var final_scale: Vector3
+	var final_position: Vector3
+	if self.is_in_group("vial_potion"):
+		final_position = VIAL_POTION_POURING_POSITION
+		final_scale = VIAL_POTION_POURING_SCALE
+	elif self.is_in_group("jug_potion"):
+		final_position = JUG_POTION_POURING_POSITION
+		final_scale = JUG_POTION_POURING_SCALE
+	else:
+		final_position = FLASK_POTION_POURING_POSITION
+		final_scale = FLASK_POTION_POURING_SCALE
+	
+	
+	if fluid:
+		tween.tween_property(fluid, 
+						"scale", 
+						final_scale,
+						.75).set_ease(Tween.EASE_IN_OUT)
+		tween.tween_property(fluid, 
+						"position", 
+						final_position,
+						.75).set_ease(Tween.EASE_IN_OUT)
+						
+func set_cork_visibility(isVisible: bool):
+	var cork: MeshInstance3D = self.find_child("Cork")
+	if cork:
+		cork.visible = isVisible
 						
 func throw_potion():
 	var tween = get_tree().create_tween().set_parallel(true)
@@ -68,5 +111,6 @@ func throw_potion():
 	SoundManager.player_random_glass_break_sound()
 
 func move_to_original_position():
+	set_cork_visibility(true)
 	self.global_transform.origin = original_position
 	self.global_rotation_degrees = original_rotation
