@@ -18,7 +18,9 @@ func _input(event: InputEvent) -> void:
 	
 	var intersect_ray = get_intersect_ray(event.position, camera, space_state)
 	
-	
+	if event is InputEventMouseMotion or event is InputEventMouseButton:
+		intersect_ray = get_intersect_ray(event.position, camera, space_state)
+
 	var cursor_shape = Input.CURSOR_ARROW
 
 	if intersect_ray:
