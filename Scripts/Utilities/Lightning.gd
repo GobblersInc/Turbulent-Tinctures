@@ -21,8 +21,8 @@ func do_lightning_strike():
 	var tween = get_tree().create_tween()
 	
 	# Return to original position and rotation
-	tween.tween_property(self, "light_energy", 15, 0.2)
-	tween.tween_property(self, "light_energy", 7, 0.2)
-	tween.tween_property(self, "light_energy", 18, 0.2)
+	tween.tween_property(self, "light_energy", 45, 0.2)
+	tween.tween_property(self, "light_energy", 20, 0.2)
+	tween.tween_property(self, "light_energy", 40, 0.2)
 	tween.tween_property(self, "light_energy", 0, 0.1)
 	

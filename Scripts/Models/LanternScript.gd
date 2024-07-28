@@ -22,7 +22,7 @@ func _ready():
 		timer.start(check_interval)
 	else:
 		flicker_and_fade_light()
-
+		
 func _on_check_timer_timeout():
 	if is_light_on:
 		if should_flicker_and_fade():
@@ -58,3 +58,4 @@ func flicker_and_fade_light():
 	await tween.finished
 	LightOff.emit()
 	timer.start(light_out_duration)
+	
