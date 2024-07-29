@@ -9,6 +9,17 @@ enum FluidType {
 	YELLOW,
 	PURPLE,
 	PINK,
+	WHITE,
+}
+
+const FLUID_TYPE_TO_COLOR = {
+	FluidType.BLUE: Color(0, 0, 1, 1),
+	FluidType.RED: Color(1, 0, 0, 1),
+	FluidType.GREEN: Color(0, 1, 0, 1),
+	FluidType.YELLOW: Color(1, 1, 0, 1),
+	FluidType.PURPLE: Color(0.5, 0, 0.5, 1),
+	FluidType.PINK: Color(1, 0.08, 0.58, 1),
+	FluidType.WHITE: Color(1, 1, 1, 1),
 }
 
 enum BottleType {
@@ -17,14 +28,6 @@ enum BottleType {
 	JUG,
 }
 
-const POTION_TYPE_TO_COLOR = {
-	FluidType.BLUE: Color(0, 0, 1, 1),   
-	FluidType.RED: Color(1, 0, 0, 1),   
-	FluidType.GREEN: Color(0, 1, 0, 1),   
-	FluidType.YELLOW: Color(1, 1, 0, 1),   
-	FluidType.PURPLE: Color(0.5, 0, 0.5, 1), 
-	FluidType.PINK: Color(1, 0.08, 0.58, 1)
-}
 
 var result: PotionData = null # equivalent to "parent"
 var ingredients: Array = [] # equivalent to "children"
@@ -88,7 +91,7 @@ func find_node(fluid: FluidType, bottle: BottleType, start_node: PotionData = nu
 	return null
 
 func get_color():
-	return POTION_TYPE_TO_COLOR[self.fluid]
+	return FLUID_TYPE_TO_COLOR[self.fluid]
 
 func get_all_non_leaves() -> Array:
 	var non_leaves = []

@@ -17,7 +17,7 @@ func generate_potion_equation(level_config: Dictionary, parent_potion=null, curr
 		potion.add_ingredient(new_potion)
 
 	return potion
-	
+
 func generate_random_potion():
 	var fluid = randi() % MAX_FLUID_TYPES
 	var bottle = randi() % MAX_BOTTLE_TYPES

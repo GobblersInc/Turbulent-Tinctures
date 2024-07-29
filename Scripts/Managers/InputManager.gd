@@ -37,7 +37,7 @@ func get_intersect_ray(mouse_position, camera, space_state):
 
 func _input(event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
-	var cursor_shape = Input.CURSOR_ARROW	
+	var cursor_shape = Input.CURSOR_ARROW
 
 	var clicked = Input.is_action_just_pressed("LeftClick")
 	if game_lost:
