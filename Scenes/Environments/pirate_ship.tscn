@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=40 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="3_hmrva"]
@@ -27,6 +27,7 @@
 [ext_resource type="PackedScene" uid="uid://j2oeqhuvicrp" path="res://Scenes/Models/Couch.tscn" id="23_l8oa3"]
 [ext_resource type="PackedScene" uid="uid://ccgb73x8jkigj" path="res://Scenes/Models/PestelAndMortar.tscn" id="24_2rltw"]
 [ext_resource type="PackedScene" uid="uid://c3petass72uot" path="res://Scenes/Models/Spoon.tscn" id="28_353lb"]
+[ext_resource type="Script" path="res://Scripts/Models/Spoon.gd" id="28_qs1kq"]
 
 [sub_resource type="Environment" id="Environment_qqkxg"]
 background_mode = 2
@@ -174,6 +175,10 @@ script = ExtResource("3_st3s3")
 [node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
 transform = Transform3D(0.963905, 0, -0.266246, 0, 1, 0, 0.266246, 0, 0.963905, 1.62355, 1.35134, -5.62367)
 script = ExtResource("3_hmrva")
+flicker_probability = 1.0
+light_out_duration = 5.0
+check_interval = 5.0
+lights_out_cooldown = 5.0
 light_on_or_off = true
 
 [node name="Paper" parent="." instance=ExtResource("8_gka6f")]
@@ -303,3 +308,4 @@ transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.0491038, 2.4849, -14.
 
 [node name="Spoon" parent="." instance=ExtResource("28_353lb")]
 transform = Transform3D(-0.648279, 0.581608, -0.491392, 5.78948e-09, 0.645378, 0.763864, 0.761403, 0.495197, -0.418385, -0.102677, 1.6268, -5.47842)
+script = ExtResource("28_qs1kq")
