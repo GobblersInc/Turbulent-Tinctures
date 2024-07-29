@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=38 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="3_hmrva"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Scripts/Managers/InputManager.gd" id="7_g6hdh"]
 [ext_resource type="PackedScene" uid="uid://bdwko5252gepe" path="res://Scenes/Models/paper.tscn" id="8_gka6f"]
 [ext_resource type="Script" path="res://Scripts/Models/PaperScript.gd" id="9_5qjy5"]
+[ext_resource type="Script" path="res://Scripts/Managers/GameTimer.gd" id="9_euo7d"]
 [ext_resource type="PackedScene" uid="uid://bnq1leshxijrk" path="res://Scenes/Models/lantern.tscn" id="10_50gvt"]
 [ext_resource type="Script" path="res://Scripts/Managers/MovementManager.gd" id="10_c1017"]
 [ext_resource type="Script" path="res://Scripts/Managers/GameManager.gd" id="11_3v0ec"]
@@ -20,6 +21,7 @@
 [ext_resource type="PackedScene" path="res://Scenes/Models/Plant.tscn" id="17_gcw34"]
 [ext_resource type="PackedScene" path="res://Scenes/Models/Chest.tscn" id="18_ue5c0"]
 [ext_resource type="Script" path="res://Scripts/Models/Chest.gd" id="19_5dhtr"]
+[ext_resource type="Script" path="res://Scripts/Utilities/TimerDisplay.gd" id="19_knol4"]
 [ext_resource type="PackedScene" path="res://Scenes/Models/lantern_holder.tscn" id="20_72ql5"]
 [ext_resource type="PackedScene" path="res://Scenes/Models/Rug.tscn" id="22_84ulk"]
 [ext_resource type="PackedScene" path="res://Scenes/Models/Couch.tscn" id="23_l8oa3"]
@@ -89,7 +91,7 @@ resource_name = "FadeTextIn"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Label:self_modulate")
+tracks/0/path = NodePath("TimeLeft:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -104,6 +106,42 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
+tracks/0/path = NodePath("TimeLeft:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2pgs0"]
+_data = {
+"FadeTextIn": SubResource("Animation_uqa0j"),
+"RESET": SubResource("Animation_tqjxv")
+}
+
+[sub_resource type="Animation" id="Animation_k60kh"]
+resource_name = "FadeTextIn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_1g3kv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Label:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
@@ -114,10 +152,10 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 0)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_2pgs0"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vvwfr"]
 _data = {
-"FadeTextIn": SubResource("Animation_uqa0j"),
-"RESET": SubResource("Animation_tqjxv")
+"FadeTextIn": SubResource("Animation_k60kh"),
+"RESET": SubResource("Animation_1g3kv")
 }
 
 [node name="PirateShip" type="Node3D"]
@@ -148,6 +186,11 @@ script = ExtResource("10_c1017")
 [node name="GameManager" type="Node3D" parent="Managers"]
 script = ExtResource("11_3v0ec")
 
+[node name="Timer" type="Timer" parent="Managers/GameManager"]
+wait_time = 60.0
+one_shot = true
+script = ExtResource("9_euo7d")
+
 [node name="InputManager" type="Node3D" parent="Managers"]
 script = ExtResource("7_g6hdh")
 
@@ -167,6 +210,7 @@ checkFrequency = 15
 percentChance = 0.2
 
 [node name="Timer" type="Timer" parent="Ship"]
+autostart = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_qqkxg")
@@ -215,9 +259,23 @@ text = "NEXT LEVEL"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PopupTextFade" type="AnimationPlayer" parent="CanvasLayer"]
+[node name="TimeLeft" type="Label" parent="CanvasLayer"]
+offset_left = 1080.0
+offset_right = 1152.0
+offset_bottom = 69.0
+text = "60"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeLeftFade" type="AnimationPlayer" parent="CanvasLayer"]
 libraries = {
 "": SubResource("AnimationLibrary_2pgs0")
+}
+script = ExtResource("19_knol4")
+
+[node name="PopupTextFade" type="AnimationPlayer" parent="CanvasLayer"]
+libraries = {
+"": SubResource("AnimationLibrary_vvwfr")
 }
 script = ExtResource("16_o481d")
 

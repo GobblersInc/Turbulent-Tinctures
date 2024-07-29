@@ -1,11 +1,15 @@
 extends Node3D
 
 @onready var movement_manager = $"../MovementManager"
+@onready var input_manager = $"../InputManager"
 @onready var ship = $"../.."
 @onready var fade_to_black = $"../../WorldEnvironment/FadeToBlack"
 @onready var popup_text = $"../../CanvasLayer/PopupTextFade"
 @onready var lantern = $"../../Lantern"
 @onready var cauldron = $"../../Cauldron"
+@onready var game_timer = $Timer
+@onready var timer_fade = $"../../CanvasLayer/TimeLeftFade"
+
 var PotionGeneration = preload("res://Scripts/Utilities/PotionGeneration.gd").new()
 
 const FluidType = preload("res://Scripts/Utilities/PotionData.gd").FluidType
@@ -35,23 +39,27 @@ const TIMES = {
 	"fading_in": 1,
 	"pause_to_read_text": 1,
 	"fading_out": 1,
+	"waiting_for_reload": 0.1
 }
 
 var potions_on_table = []
 var cauldron_contents = []
 var required_potion = null
 var level = 0
+var lost = false
 
 signal Recipe(potion_recipe: Array)
+signal GameLoss()
+signal GamePause(is_paused: bool)
 
 """
 The minimum nesting one can do is 1 - otherwise there wouldn't be any potion equations!
 """
 var LEVEL_CONFIG = [
 	{
-		"ingredients_per_potion": MinMax.new(2, 3), 
+		"ingredients_per_potion": MinMax.new(1, 1), 
 		"times_nested": MinMax.new(1, 1), 
-		"nest_probability": 0,
+		"nest_probability": 0.9,
 		"flicker_probability": 0,
 		"light_out_duration": 0,
 		"check_interval": 0,
@@ -83,61 +91,75 @@ func _ready():
 	movement_manager.AddIngredient.connect(_on_AddIngredient)
 	movement_manager.MixIngredients.connect(_on_MixIngredients)
 	
+	game_timer.TimeOut.connect(_on_LevelTimer_timeout)
+	input_manager.ClickAfterGameLoss.connect(_on_LossClick)
+		
+func _on_LossClick():
+	restart_game()
+	
 func initialize():
 	start_level()
 
 func get_combined_potion_color(potions: Array) -> Color:
 	var combined_color = Color(0, 0, 0, 0)
 	var color_count = potions.size()
-	
+
 	if color_count == 0:
 		return combined_color
-	
+
 	for potion in potions:
 		var color = potion.get_color()
 		combined_color.r += color.r
 		combined_color.g += color.g
 		combined_color.b += color.b
 		combined_color.a += color.a
-	
+
 	combined_color.r /= color_count
 	combined_color.g /= color_count
 	combined_color.b /= color_count
 	combined_color.a /= color_count
-	
+
 	return combined_color
 
 func _on_AddIngredient(potion: PotionData):
 	cauldron_contents.append(potion)
 	potions_on_table.erase(potion)
 
-	# If the cauldron was empty
-	if len(cauldron_contents) == 1:
-		change_cauldron_liquid_color(potion.get_color())
 	# If the ingredients can make a potion
-	elif can_mix_ingredients(cauldron_contents):
+	if can_mix_ingredients(cauldron_contents):
 		var color = get_mix_result(cauldron_contents).get_color()
 		change_cauldron_liquid_color(color)
+	# If the cauldron was empty
+	elif len(cauldron_contents) == 1:
+		change_cauldron_liquid_color(potion.get_color())
+
 	else:
 		var combined_color = get_combined_potion_color(cauldron_contents)
 		change_cauldron_liquid_color(combined_color)
 
 
 func fade_in(input_text: String):
-	fade_to_black.fade_to_black()
+	fade_to_black.fade_to_black(1)
+	
 	popup_text.fade_text_in(input_text)
+	timer_fade.fade_text_out()
 
 	await delay("fading_in")
 	
 func fade_pause():
 	fade_to_black.playback_active = false
 	popup_text.playback_active = false
+	timer_fade.playback_active = false
 
 	await delay("pause_to_read_text")
 	
 func fade_out():
-	fade_to_black.fade_from_black()
+	fade_to_black.fade_from_black(1)
+	
 	popup_text.fade_text_out()
+	timer_fade.fade_text_in()
+	
+	timer_fade.playback_active = true
 	fade_to_black.playback_active = true
 	popup_text.playback_active = true
 	await delay("fading_out")
@@ -156,6 +178,9 @@ func failed_mix_ingredients():
 	change_cauldron_liquid_color(water_color)
 
 func successful_mix_ingredients():
+	game_timer.paused = true
+	GamePause.emit(true)
+	
 	var resulting_potion = get_mix_result(cauldron_contents)
 	cauldron_contents.clear()
 
@@ -195,6 +220,21 @@ func start_level():
 
 	for potion in starting_potions:
 		spawn_new_potion(potion, starting_potions)
+		
+	game_timer.start()
+	game_timer.paused = false
+	GamePause.emit(false)
+	
+func _on_LevelTimer_timeout():
+	GameLoss.emit()
+	await delay("time_before_level_transition")
+	await fade_in("You lost, wow! Click to restart.")
+	await fade_pause()
+
+func restart_game():
+	get_tree().reload_current_scene()
+	
+	#await fade_out()
 
 func spawn_potion(potion: PotionData) -> void:
 	"""
@@ -228,29 +268,33 @@ func set_mesh_material_emission(mesh_instance: MeshInstance3D, color):
 	# Duplicate the mesh to create a unique instance
 	var original_mesh = mesh_instance.mesh
 	var new_mesh = original_mesh.duplicate() as ArrayMesh
-	
+
 	# Apply the new mesh to the mesh instance
 	mesh_instance.mesh = new_mesh
-	
+
 	# Duplicate the material to create a unique instance
 	var original_material = new_mesh.surface_get_material(0)
 	var new_material = original_material.duplicate()
-	
+
 	# Apply the duplicated material to the new mesh
 	new_mesh.surface_set_material(0, new_material)
-	
+
 	# Change the color of the duplicated material
 	new_material.set_emission(color)
-	
+
 func change_cauldron_liquid_color(color: Color):
 	var liquid_CSGCylinder = cauldron.get_child(1)
-	var material = liquid_CSGCylinder.material.duplicate()
+	var material = liquid_CSGCylinder.material
 	
-	material.set_emission(color)
-	print("material")
-	print(material)
-	liquid_CSGCylinder.material = material
+	var tween = get_tree().create_tween().set_parallel(true)
+	tween.tween_property(material, 
+					"emission", 
+					color,
+					1)
 	
+	#material.set_emission(color)
+	#liquid_CSGCylinder.material = material
+
 func change_potion_color(potion: PotionData) -> void:
 	var potion_node = potion.node
 	var fluid_mesh_instance = potion_node.get_child(0).get_child(2) as MeshInstance3D
@@ -293,18 +337,18 @@ func can_mix_ingredients(ingredients: Array) -> bool:
 
 	var first_potion_siblings = ingredients[0].get_siblings()
 	return array_contents_equal(first_potion_siblings, ingredients)
-	
+
 func get_mix_result(ingredients: Array):
 	return ingredients[0].result
-	
+
 func array_contents_equal(array_1: Array, array_2: Array) -> bool:
 	var sorted_array_1 = array_1.duplicate()
 	var sorted_array_2 = array_2.duplicate()
-	
+
 	sorted_array_1 = PotionData.sort_potion_data_array(sorted_array_1)
 	sorted_array_2 = PotionData.sort_potion_data_array(sorted_array_2)
-	
+
 	return sorted_array_1.hash() == sorted_array_2.hash()
-	
+
 func delay(timer_name: String):
 	await get_tree().create_timer(TIMES[timer_name]).timeout

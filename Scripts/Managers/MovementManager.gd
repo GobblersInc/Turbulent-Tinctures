@@ -23,8 +23,6 @@ func _on_ObjectClicked(_event_position, object_info):
 	elif player_clicked_potion:
 		clicking_potion(object)
 		
-	print(selected_potion)
-
 func clicking_cauldron(cauldron: Node3D):
 	if selected_potion:
 		var containers_are_available = not (selected_potion.pouring or cauldron.being_poured_into)

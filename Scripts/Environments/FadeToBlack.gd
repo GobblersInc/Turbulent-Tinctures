@@ -1,10 +1,9 @@
 extends AnimationPlayer
 
-func fade_to_black():
+func fade_to_black(seconds):
 	self.play("FadeToBlack")
-	self.speed_scale = 1
+	self.speed_scale = seconds
 
-func fade_from_black():
+func fade_from_black(seconds):
 	self.play("FadeToBlack")
-	print("fade_from_black")
-	self.speed_scale = -1
+	self.speed_scale = -seconds
