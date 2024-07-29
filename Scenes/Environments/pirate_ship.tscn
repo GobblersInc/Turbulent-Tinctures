@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=39 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="3_hmrva"]
@@ -23,7 +23,6 @@
 [ext_resource type="PackedScene" uid="uid://cfoceqiaqe1iu" path="res://Scenes/Models/Chest.tscn" id="18_ue5c0"]
 [ext_resource type="Script" path="res://Scripts/Models/Chest.gd" id="19_5dhtr"]
 [ext_resource type="Script" path="res://Scripts/Utilities/TimerDisplay.gd" id="19_knol4"]
-[ext_resource type="PackedScene" uid="uid://buixtsarcvcwq" path="res://Scenes/Models/lantern_holder.tscn" id="20_72ql5"]
 [ext_resource type="PackedScene" uid="uid://4r4c2tf6sqp4" path="res://Scenes/Models/Rug.tscn" id="22_84ulk"]
 [ext_resource type="PackedScene" uid="uid://j2oeqhuvicrp" path="res://Scenes/Models/Couch.tscn" id="23_l8oa3"]
 [ext_resource type="PackedScene" uid="uid://ccgb73x8jkigj" path="res://Scenes/Models/PestelAndMortar.tscn" id="24_2rltw"]
@@ -173,7 +172,7 @@ transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107
 script = ExtResource("3_st3s3")
 
 [node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 1.62355, 1.7327, -5.92914)
+transform = Transform3D(0.963905, 0, -0.266246, 0, 1, 0, 0.266246, 0, 0.963905, 1.62355, 1.35134, -5.62367)
 script = ExtResource("3_hmrva")
 light_on_or_off = true
 
@@ -292,9 +291,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.58116, -0.312098, -13.2945
 transform = Transform3D(-0.288998, 0, 0.95733, 0, 1, 0, -0.95733, 0, -0.288998, 6.76321, -1.0115, -10.0941)
 script = ExtResource("19_5dhtr")
 open_chance = 1.0
-
-[node name="LanternHolder" parent="." instance=ExtResource("20_72ql5")]
-transform = Transform3D(-0.0142763, 0, 0.999898, 0, 1, 0, -0.999898, 0, -0.0142763, 1.74936, 1.22322, -6.19333)
 
 [node name="Rug" parent="." instance=ExtResource("22_84ulk")]
 transform = Transform3D(0.626755, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.424681, -0.255017, -9.65388)
