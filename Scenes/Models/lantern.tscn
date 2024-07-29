@@ -248,43 +248,43 @@ transform = Transform3D(0.998628, 0, 0, 0, 0.998628, 0, 0, 0, 0.998628, 0, 0, 0)
 script = ExtResource("1_upalu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Lantern"]
-transform = Transform3D(0.293178, 0, 0, 0, 0.293178, 0, 0, 0, 0.293178, 0, 0.551767, 0)
+transform = Transform3D(0.293178, 0, 0, 0, 0.293178, 0, 0, 0, 0.293178, 0, 0.538698, 0)
 shape = SubResource("BoxShape3D_3mbsj")
 
 [node name="Lantern Base" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(0.293178, 0, 0, 0, 0.293178, 0, 0, 0, 0.293178, 0, 0.201345, 0)
+transform = Transform3D(0.293178, 0, 0, 0, 0.293178, 0, 0, 0, 0.293178, 0, 0.188276, 0)
 mesh = SubResource("ArrayMesh_yeoxw")
 skeleton = NodePath("")
 
 [node name="Lantern Top" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(0.293178, 0, 0, 0, 0.293178, 0, 0, 0, 0.293178, 0, 0.201345, 0)
+transform = Transform3D(0.296638, 0, 0, 0, 0.296638, 0, 0, 0, 0.296638, 0, 0.188276, 0)
 mesh = SubResource("ArrayMesh_0kkp6")
 skeleton = NodePath("")
 
 [node name="Lantern Metal Panel" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(0.272966, 0, 0, 0, 0.272966, 0, 0, 0, 0.272966, 0, 0.20712, 0)
+transform = Transform3D(0.272966, 0, 0, 0, 0.272966, 0, 0, 0, 0.272966, 0, 0.194051, 0)
 mesh = SubResource("ArrayMesh_qxvjr")
 skeleton = NodePath("")
 
 [node name="Lantern Glass" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(0.293178, 0, 0, 0, 0.293178, 0, 0, 0, 0.293178, 0, 0.201345, 0)
+transform = Transform3D(0.293178, 0, 0, 0, 0.293178, 0, 0, 0, 0.293178, 0, 0.188276, 0)
 mesh = SubResource("ArrayMesh_ulrsk")
 skeleton = NodePath("")
 
 [node name="Wick" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(0.00251874, 0, 0, 0, 0.00251874, 0, 0, 0, 0.00251874, 0, 0.345821, 0)
+transform = Transform3D(0.00251874, 0, 0, 0, 0.00251874, 0, 0, 0, 0.00251874, 0, 0.332752, 0)
 mesh = SubResource("ArrayMesh_d6aus")
 skeleton = NodePath("")
 
 [node name="Candle Base" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(0.0732945, 0, 0, 0, 0.110824, 0, 0, 0, 0.0732945, 0, 0.285276, 0)
+transform = Transform3D(0.0732945, 0, 0, 0, 0.110824, 0, 0, 0, 0.0732945, 0, 0.272207, 0)
 mesh = SubResource("ArrayMesh_6p16i")
 skeleton = NodePath("")
 
 [node name="Timer" type="Timer" parent="Lantern"]
 
 [node name="LanternLight" type="OmniLight3D" parent="Lantern"]
-transform = Transform3D(1.66709, 0, 0, 0, 1.66709, 0, 0, 0, 1.66709, -0.00533555, 0.633107, 0.0012932)
+transform = Transform3D(10.0137, 0, 0, 0, 10.0137, 0, 0, 0, 10.0137, -0.00533555, 0.633107, 0.0012932)
 light_color = Color(0.82115, 0.570845, 0.0837236, 1)
 light_energy = 7.0
 light_indirect_energy = 0.0
