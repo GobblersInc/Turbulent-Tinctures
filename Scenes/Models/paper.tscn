@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bdwko5252gepe"]
 
-[ext_resource type="PackedScene" uid="uid://cdyl0x1q3ha24" path="res://Assets/Models/RecipePaper/paperob1.glb" id="1_gt5a5"]
+[ext_resource type="PackedScene" uid="uid://c5e2albhgoqdp" path="res://Assets/Models/RecipePaper/paper small tex.glb" id="1_gt5a5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bwcdq"]
 size = Vector3(16.6791, 0.21587, 7.53992)
