@@ -11,7 +11,7 @@ func generate_potion_equation(level_config: Dictionary, parent_potion=null, curr
 
 	var num_ingredients = randi_range(level_config.ingredients_per_potion.min, level_config.ingredients_per_potion.max)
 	while potion.ingredients.size() < num_ingredients:
-		var should_nest = current_depth < level_config.times_nested.max and randf() < level_config.nest_probability
+		var should_nest = current_depth < level_config.times_nested.max - 2 and randf() < level_config.nest_probability
 		var new_potion
 		new_potion = generate_potion_equation(level_config, potion, current_depth + 1) if should_nest else generate_unique_potion(potion)
 		potion.add_ingredient(new_potion)
