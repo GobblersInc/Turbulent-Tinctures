@@ -58,7 +58,7 @@ The minimum nesting one can do is 1 - otherwise there wouldn't be any potion equ
 """
 var LEVEL_CONFIG = [
 	{
-		"ingredients_per_potion": MinMax.new(1, 1), 
+		"ingredients_per_potion": MinMax.new(8, 8), 
 		"times_nested": MinMax.new(1, 1), 
 		"nest_probability": 0.9,
 		"flicker_probability": 0,
