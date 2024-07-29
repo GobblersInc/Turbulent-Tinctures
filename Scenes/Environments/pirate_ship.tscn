@@ -163,28 +163,6 @@ _data = {
 [node name="PirateShip" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504239, 1.0115, 2.09406)
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.900918, 0.43399, 0, -0.43399, 0.900918, 0, 2.77486, -3.04204)
-current = true
-fov = 72.4423
-
-[node name="Cauldron" parent="." instance=ExtResource("2_j4sdg")]
-transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 1.34751, -5.37754)
-script = ExtResource("3_st3s3")
-
-[node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
-transform = Transform3D(0.963905, 0, -0.266246, 0, 1, 0, 0.266246, 0, 0.963905, 1.62355, 1.35134, -5.62367)
-script = ExtResource("3_hmrva")
-flicker_probability = 1.0
-light_out_duration = 5.0
-check_interval = 5.0
-lights_out_cooldown = 5.0
-light_on_or_off = true
-
-[node name="Paper" parent="." instance=ExtResource("8_gka6f")]
-transform = Transform3D(-0.0012217, 0, -0.0999925, 0, 0.1, 0, 0.0999926, 0, -0.0012217, -1.57148, 1.36181, -4.7533)
-script = ExtResource("9_5qjy5")
-
 [node name="Managers" type="Node" parent="."]
 
 [node name="RecipeManager" type="Node3D" parent="Managers"]
@@ -204,8 +182,30 @@ script = ExtResource("9_euo7d")
 [node name="InputManager" type="Node3D" parent="Managers"]
 script = ExtResource("7_g6hdh")
 
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.900918, 0.43399, 0, -0.43399, 0.900918, 0, 2.77486, -3.04204)
+current = true
+fov = 72.4423
+
+[node name="Cauldron" parent="." instance=ExtResource("2_j4sdg")]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 1.34751, -5.37754)
+script = ExtResource("3_st3s3")
+
+[node name="Paper" parent="." instance=ExtResource("8_gka6f")]
+transform = Transform3D(-0.0012217, 0, -0.0999925, 0, 0.1, 0, 0.0999926, 0, -0.0012217, -1.57148, 1.36181, -4.7533)
+script = ExtResource("9_5qjy5")
+
 [node name="WoodenTable" parent="." instance=ExtResource("12_se738")]
 transform = Transform3D(-1.53505e-08, 0, -0.450706, 0, 1, 0, 0.351178, 0, -1.9701e-08, 0, -2.261, -5.225)
+
+[node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
+transform = Transform3D(0.963905, 0, -0.266246, 0, 1, 0, 0.266246, 0, 0.963905, 1.62355, 1.35134, -5.62367)
+script = ExtResource("3_hmrva")
+flicker_probability = 1.0
+light_out_duration = 5.0
+check_interval = 5.0
+lights_out_cooldown = 5.0
+light_on_or_off = true
 
 [node name="Rain" parent="." instance=ExtResource("13_hr1be")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.512862, 5.4723, -15.7077)
