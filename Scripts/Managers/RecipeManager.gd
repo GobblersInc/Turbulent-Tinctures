@@ -23,10 +23,17 @@ var CURRENT_POINTER_POSITION: Vector3
 
 func _ready():
 	game_manager.Recipe.connect(_do_display_recipe)
+	game_manager.GamePause.connect(_clear_recipe)
 	CURRENT_POINTER_POSITION = paper.position + Vector3(-6.4, -1.3, 7.85)
 	lantern.LightOff.connect(_handle_light_off)
 	lantern.LightOn.connect(_handle_light_on)
 	
+func _clear_recipe(isPaused: bool):
+	for child in paper.get_children():
+		if child is Sprite3D:
+			paper.remove_child(child)
+	CURRENT_POINTER_POSITION = paper.position + Vector3(-6.4, -1.3, 7.85)
+
 func _handle_light_off():
 	set_sprites_transparency(0.0)  # Set transparency to fully transparent
 

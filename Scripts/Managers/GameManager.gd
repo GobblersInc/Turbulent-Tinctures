@@ -220,7 +220,6 @@ func start_level():
 	
 	var starting_potions = required_potion.get_all_leaves()
 	var potion_recipe = required_potion.get_all_non_leaves()
-	Recipe.emit(potion_recipe)
 
 	for potion in starting_potions:
 		spawn_new_potion(potion, starting_potions)
@@ -228,6 +227,7 @@ func start_level():
 	game_timer.start()
 	game_timer.paused = false
 	GamePause.emit(false)
+	Recipe.emit(potion_recipe)
 	
 func _on_LevelTimer_timeout():
 	GameLoss.emit()

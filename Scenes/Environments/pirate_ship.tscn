@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=40 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="3_hmrva"]
@@ -19,14 +19,15 @@
 [ext_resource type="Script" path="res://Scripts/Utilities/Lightning.gd" id="15_rqvca"]
 [ext_resource type="Script" path="res://Scripts/Environments/FadeToBlack.gd" id="16_0jn4v"]
 [ext_resource type="Script" path="res://Scripts/Utilities/TextDisplay.gd" id="16_o481d"]
-[ext_resource type="PackedScene" path="res://Scenes/Models/Plant.tscn" id="17_gcw34"]
-[ext_resource type="PackedScene" path="res://Scenes/Models/Chest.tscn" id="18_ue5c0"]
+[ext_resource type="PackedScene" uid="uid://dsp4nveah1hwt" path="res://Scenes/Models/Plant.tscn" id="17_gcw34"]
+[ext_resource type="PackedScene" uid="uid://cfoceqiaqe1iu" path="res://Scenes/Models/Chest.tscn" id="18_ue5c0"]
 [ext_resource type="Script" path="res://Scripts/Models/Chest.gd" id="19_5dhtr"]
 [ext_resource type="Script" path="res://Scripts/Utilities/TimerDisplay.gd" id="19_knol4"]
-[ext_resource type="PackedScene" path="res://Scenes/Models/lantern_holder.tscn" id="20_72ql5"]
-[ext_resource type="PackedScene" path="res://Scenes/Models/Rug.tscn" id="22_84ulk"]
-[ext_resource type="PackedScene" path="res://Scenes/Models/Couch.tscn" id="23_l8oa3"]
-[ext_resource type="PackedScene" path="res://Scenes/Models/PestelAndMortar.tscn" id="24_2rltw"]
+[ext_resource type="PackedScene" uid="uid://buixtsarcvcwq" path="res://Scenes/Models/lantern_holder.tscn" id="20_72ql5"]
+[ext_resource type="PackedScene" uid="uid://4r4c2tf6sqp4" path="res://Scenes/Models/Rug.tscn" id="22_84ulk"]
+[ext_resource type="PackedScene" uid="uid://j2oeqhuvicrp" path="res://Scenes/Models/Couch.tscn" id="23_l8oa3"]
+[ext_resource type="PackedScene" uid="uid://ccgb73x8jkigj" path="res://Scenes/Models/PestelAndMortar.tscn" id="24_2rltw"]
+[ext_resource type="PackedScene" uid="uid://c3petass72uot" path="res://Scenes/Models/Spoon.tscn" id="28_353lb"]
 
 [sub_resource type="Environment" id="Environment_qqkxg"]
 background_mode = 2
@@ -296,10 +297,13 @@ open_chance = 1.0
 transform = Transform3D(-0.0142763, 0, 0.999898, 0, 1, 0, -0.999898, 0, -0.0142763, 1.74936, 1.22322, -6.19333)
 
 [node name="Rug" parent="." instance=ExtResource("22_84ulk")]
-transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -0.420926, -0.284417, -8.93986)
+transform = Transform3D(0.626755, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.424681, -0.255017, -9.65388)
 
 [node name="Couch" parent="." instance=ExtResource("23_l8oa3")]
 transform = Transform3D(0.952868, 0, -0.303385, 0, 1, 0, 0.303385, 0, 0.952868, -6.62078, -0.799963, -8.09406)
 
 [node name="PestelAndMortar" parent="." instance=ExtResource("24_2rltw")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.0491038, 2.4849, -14.0761)
+
+[node name="Spoon" parent="." instance=ExtResource("28_353lb")]
+transform = Transform3D(-0.648279, 0.581608, -0.491392, 5.78948e-09, 0.645378, 0.763864, 0.761403, 0.495197, -0.418385, -0.102677, 1.6268, -5.47842)
