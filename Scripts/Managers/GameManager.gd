@@ -45,7 +45,7 @@ const TIMES = {
 var potions_on_table = []
 var cauldron_contents = []
 var required_potion = null
-var level = 1
+var level = 0
 var lost = false
 var pouring = false
 
@@ -182,15 +182,15 @@ func failed_mix_ingredients():
 	change_cauldron_liquid_color(water_color)
 
 func successful_mix_ingredients():
-	game_timer.paused = true
-	GamePause.emit(true)
-	
 	var resulting_potion = get_mix_result(cauldron_contents)
 	cauldron_contents.clear()
 
 	change_cauldron_liquid_color(resulting_potion.get_color())
 
 	if resulting_potion == required_potion:
+		game_timer.paused = true
+		GamePause.emit(true)
+		
 		spawn_required_potion(resulting_potion)
 		level += 1
 		if level >= len(LEVEL_CONFIG):
