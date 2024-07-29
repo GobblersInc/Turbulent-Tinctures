@@ -124,6 +124,8 @@ func get_combined_potion_color(potions: Array) -> Color:
 func _on_AddIngredient(potion: PotionData):
 	cauldron_contents.append(potion)
 	potions_on_table.erase(potion)
+	
+	potion.node.can_be_selected = false
 
 	# If the ingredients can make a potion
 	if can_mix_ingredients(cauldron_contents):
