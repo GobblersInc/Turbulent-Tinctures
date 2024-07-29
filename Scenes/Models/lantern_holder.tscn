@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://buixtsarcvcwq"]
+[gd_scene load_steps=11 format=3 uid="uid://buixtsarcvcwq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uahp0"]
 resource_name = "Wood"
@@ -119,19 +119,27 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_15nao")
 
-[node name="LanternHolder" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_7cyvs"]
+size = Vector3(0.469299, 0.103516, 0.179199)
 
-[node name="Lantern Holder" type="Node3D" parent="."]
+[node name="LanternHolder" type="StaticBody3D"]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0)
+
+[node name="Base" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.0657725, 1.19209e-07, -0.0601611)
-
-[node name="Base" type="MeshInstance3D" parent="Lantern Holder"]
 mesh = SubResource("ArrayMesh_ll0j3")
 skeleton = NodePath("")
 
-[node name="Arm" type="MeshInstance3D" parent="Lantern Holder"]
+[node name="Arm" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.0657725, 1.19209e-07, -0.0601611)
 mesh = SubResource("ArrayMesh_ftc2x")
 skeleton = NodePath("")
 
-[node name="Hook" type="MeshInstance3D" parent="Lantern Holder"]
+[node name="Hook" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.0657725, 1.19209e-07, -0.0601611)
 mesh = SubResource("ArrayMesh_8xid5")
 skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0861058, 1.38821, -0.0488863)
+shape = SubResource("BoxShape3D_7cyvs")
