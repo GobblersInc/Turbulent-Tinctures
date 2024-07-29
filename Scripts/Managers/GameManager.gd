@@ -52,6 +52,7 @@ var pouring = false
 signal Recipe(potion_recipe: Array)
 signal GameLoss()
 signal GamePause(is_paused: bool)
+signal MixAttempt()
 
 """
 The minimum nesting one can do is 1 - otherwise there wouldn't be any potion equations!
@@ -173,6 +174,7 @@ func _on_MixIngredients():
 			successful_mix_ingredients()
 		else:
 			failed_mix_ingredients()
+		MixAttempt.emit()
 
 func failed_mix_ingredients():
 	while len(cauldron_contents) > 0:
