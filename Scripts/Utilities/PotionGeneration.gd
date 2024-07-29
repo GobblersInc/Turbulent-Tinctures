@@ -6,24 +6,45 @@ const BottleType = preload("res://Scripts/Utilities/PotionData.gd").BottleType
 var MAX_FLUID_TYPES = FluidType.size()
 var MAX_BOTTLE_TYPES = BottleType.size()
 
-func generate_potion_equation(level_config: Dictionary, parent_potion=null, current_depth: int = 0) -> PotionData:
-	var potion = generate_unique_potion(parent_potion)
+# Function to generate a potion equation with unique potions
+func generate_potion_equation(level_config: Dictionary, parent_potion=null, current_depth: int = 0, used_combinations = null) -> PotionData:
+	if used_combinations == null:
+		used_combinations = []
+	
+	var result = generate_unique_potion(used_combinations)
+	var potion = result[0]
+	used_combinations = result[1]
 
 	var num_ingredients = randi_range(level_config.ingredients_per_potion.min, level_config.ingredients_per_potion.max)
 	while potion.ingredients.size() < num_ingredients:
 		var should_nest = current_depth < level_config.times_nested.max - 2 and randf() < level_config.nest_probability
 		var new_potion
-		new_potion = generate_potion_equation(level_config, potion, current_depth + 1) if should_nest else generate_unique_potion(potion)
+		if should_nest:
+			new_potion = generate_potion_equation(level_config, potion, current_depth + 1, used_combinations) 
+		else:
+			result = generate_unique_potion(used_combinations)
+			new_potion = result[0]
+			used_combinations = result[1]
 		potion.add_ingredient(new_potion)
 
 	return potion
+
+func generate_unique_potion(used_combinations: Array):
+	while true:
+		var fluid = randi() % MAX_FLUID_TYPES
+		var bottle = randi() % MAX_BOTTLE_TYPES
+		var combination = [bottle, fluid]
+
+		if combination not in used_combinations:
+			used_combinations.append(combination)
+			return [PotionData.new(fluid, bottle), used_combinations]
 
 func generate_random_potion():
 	var fluid = randi() % MAX_FLUID_TYPES
 	var bottle = randi() % MAX_BOTTLE_TYPES
 	return PotionData.new(fluid, bottle)
 
-func generate_unique_potion(parent_potion: PotionData = null) -> PotionData:
+func _generate_unique_potion(parent_potion: PotionData = null) -> PotionData:
 	"""
 	Keeps generating new potions until it finds one that is a "unique ingredient"
 	"""
