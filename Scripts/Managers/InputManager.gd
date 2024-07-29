@@ -37,23 +37,22 @@ func get_intersect_ray(mouse_position, camera, space_state):
 
 func _input(event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
-	var cursor_shape = Input.CURSOR_ARROW
-	
-	if event is InputEventMouseButton:
-		var clicked = Input.is_action_just_pressed("LeftClick")
-		if game_lost:
-			if clicked:
-				ClickAfterGameLoss.emit()
-		elif not game_paused:
-			var space_state = get_world_3d().direct_space_state
-			
-			var intersect_ray = get_intersect_ray(event.position, camera, space_state)
-			
-			if intersect_ray:
-				var clicked_object = intersect_ray.collider
-				if clicked_object.is_in_group("clickable"):
-					cursor_shape = Input.CURSOR_POINTING_HAND
-					if clicked:
-						ObjectClicked.emit(event.position, clicked_object)
+	var cursor_shape = Input.CURSOR_ARROW	
+
+	var clicked = Input.is_action_just_pressed("LeftClick")
+	if game_lost:
+		if clicked:
+			ClickAfterGameLoss.emit()
+	elif not game_paused:
+		var space_state = get_world_3d().direct_space_state
+		
+		var intersect_ray = get_intersect_ray(event.position, camera, space_state)
+		
+		if intersect_ray:
+			var clicked_object = intersect_ray.collider
+			if clicked_object.is_in_group("clickable"):
+				cursor_shape = Input.CURSOR_POINTING_HAND
+				if clicked and event is InputEventMouseButton:
+					ObjectClicked.emit(event.position, clicked_object)
 
 	Input.set_default_cursor_shape(cursor_shape)
