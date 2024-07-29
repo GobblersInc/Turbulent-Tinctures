@@ -1,3 +1,37 @@
-[gd_scene format=3 uid="uid://d3vruvavia8nm"]
+[gd_scene load_steps=7 format=3 uid="uid://d3vruvavia8nm"]
+
+[ext_resource type="Shader" path="res://Assets/Shaders/Bubbles.gdshader" id="1_r3ucn"]
+
+[sub_resource type="Curve" id="Curve_lcv3w"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_p6r6u"]
+curve = SubResource("Curve_lcv3w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_w1g0y"]
+lifetime_randomness = 1.0
+emission_shape = 3
+emission_box_extents = Vector3(0.2, 0, 0.2)
+gravity = Vector3(0, 1, 0)
+scale_min = 0.05
+scale_max = 0.1
+scale_curve = SubResource("CurveTexture_p6r6u")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2oysv"]
+render_priority = 0
+shader = ExtResource("1_r3ucn")
+shader_parameter/smoothness = null
+shader_parameter/rgb = null
+
+[sub_resource type="SphereMesh" id="SphereMesh_b2gba"]
+material = SubResource("ShaderMaterial_2oysv")
+radius = 0.05
+height = 0.1
 
 [node name="Bubbles" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+amount = 25
+process_material = SubResource("ParticleProcessMaterial_w1g0y")
+draw_pass_1 = SubResource("SphereMesh_b2gba")

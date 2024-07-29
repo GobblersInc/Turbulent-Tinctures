@@ -170,3 +170,8 @@ func adjust_volume(category, amount: int):
 		var audio_player: AudioStreamPlayer3D = audio_players[category]
 		audio_player.volume_db += amount
 		audio_player.play()
+		
+func stop_audio_player(category):
+	if audio_players.has(category):
+		var audio_player = audio_players[category]
+		audio_player.stop()
