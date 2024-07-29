@@ -8,7 +8,9 @@ var original_position: Vector3
 var original_rotation: Vector3
 var cauldron_position: Vector3
 
-var can_be_selected = true # This is only false if it's a resulting potion being spawned
+# This is only false if it's a resulting potion being spawned or it's pouring into a cauldron
+var can_be_selected = true 
+
 var potion_data = null
 
 const JUG_POTION_Y_OFFSET: float = 3.7
@@ -36,17 +38,19 @@ func pour_potion(receiver: Node3D):
 	pouring = true
 	receiver.being_poured_into = true
 	move_to_cauldron()
-	
+
 	pour_liquid()
 	await delay(pour_time)
-	
+
 	throw_potion()
-	
+
 	await delay(.17)
-	
+
 	move_to_original_position()
 	pouring = false
 	receiver.being_poured_into = false
+
+	queue_free()
 
 func delay(seconds: float):
 	await get_tree().create_timer(seconds).timeout
