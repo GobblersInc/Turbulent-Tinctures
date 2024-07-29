@@ -174,10 +174,6 @@ script = ExtResource("3_st3s3")
 [node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 1.62355, 1.7327, -5.92914)
 script = ExtResource("3_hmrva")
-flicker_probability = 1.0
-light_out_duration = 5.0
-check_interval = 5.0
-lights_out_cooldown = 5.0
 light_on_or_off = true
 
 [node name="Paper" parent="." instance=ExtResource("8_gka6f")]
