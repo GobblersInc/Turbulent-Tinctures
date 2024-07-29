@@ -45,7 +45,7 @@ const TIMES = {
 var potions_on_table = []
 var cauldron_contents = []
 var required_potion = null
-var level = 0
+var level = 1
 var lost = false
 var pouring = false
 
@@ -58,9 +58,9 @@ The minimum nesting one can do is 1 - otherwise there wouldn't be any potion equ
 """
 var LEVEL_CONFIG = [
 	{
-		"ingredients_per_potion": MinMax.new(8, 8), 
-		"times_nested": MinMax.new(1, 1), 
-		"nest_probability": 0.9,
+		"ingredients_per_potion": MinMax.new(2, 3), 
+		"times_nested": MinMax.new(2, 2), 
+		"nest_probability": 0,
 		"flicker_probability": 0,
 		"light_out_duration": 0,
 		"check_interval": 0,
@@ -68,9 +68,9 @@ var LEVEL_CONFIG = [
 		"light_on_or_off": true,
 	},
 	{
-		"ingredients_per_potion": MinMax.new(1, 1), 
-		"times_nested": MinMax.new(2, 2), 
-		"nest_probability": 0.3,
+		"ingredients_per_potion": MinMax.new(2, 3), 
+		"times_nested": MinMax.new(3, 3), 
+		"nest_probability": 0.5,
 		"flicker_probability": 0.3,
 		"light_out_duration": 8,
 		"check_interval": 3,
@@ -100,6 +100,7 @@ func _on_LossClick():
 	
 func initialize():
 	start_level()
+	fade_to_black.fade_from_black(1)
 
 func get_combined_potion_color(potions: Array) -> Color:
 	var combined_color = Color(0, 0, 0, 0)

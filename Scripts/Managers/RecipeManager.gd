@@ -16,7 +16,7 @@ const SYMBOLS_TO_FILE_PATH = {
 
 const fluid_type = preload("res://Scripts/Utilities/PotionData.gd").FluidType
 const bottle_type = preload("res://Scripts/Utilities/PotionData.gd").BottleType
-const fluid_to_color = preload("res://Scripts/Utilities/PotionData.gd").POTION_TYPE_TO_COLOR
+const fluid_to_color = preload("res://Scripts/Utilities/PotionData.gd").FLUID_TYPE_TO_COLOR
 
 var CURRENT_POINTER_POSITION: Vector3
 
