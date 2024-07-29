@@ -31,12 +31,12 @@ func _ready():
 	original_rotation = global_rotation_degrees
 	cauldron_position = Vector3(cauldron.position.x + .25, cauldron.position.y + 2, cauldron.position.z + 2)
 
-func pour_potion(receiver: Node3D):
+func pour_potion(cauldron: Node3D):
 	"""
-	Move to receiver turned upside-down, wait a number of seconds, then return to original position.
+	Move to cauldron turned upside-down, wait a number of seconds, then return to original position.
 	"""
 	pouring = true
-	receiver.being_poured_into = true
+	cauldron.being_poured_into = true
 	move_to_cauldron()
 
 	pour_liquid()
@@ -48,7 +48,7 @@ func pour_potion(receiver: Node3D):
 
 	move_to_original_position()
 	pouring = false
-	receiver.being_poured_into = false
+	cauldron.being_poured_into = false
 
 	queue_free()
 

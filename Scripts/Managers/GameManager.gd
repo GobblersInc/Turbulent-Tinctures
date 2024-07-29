@@ -47,6 +47,7 @@ var cauldron_contents = []
 var required_potion = null
 var level = 0
 var lost = false
+var pouring = false
 
 signal Recipe(potion_recipe: Array)
 signal GameLoss()
@@ -134,7 +135,6 @@ func _on_AddIngredient(potion: PotionData):
 	# If the cauldron was empty
 	elif len(cauldron_contents) == 1:
 		change_cauldron_liquid_color(potion.get_color())
-
 	else:
 		var combined_color = get_combined_potion_color(cauldron_contents)
 		change_cauldron_liquid_color(combined_color)
@@ -167,10 +167,11 @@ func fade_out():
 	await delay("fading_out")
 
 func _on_MixIngredients():
-	if can_mix_ingredients(cauldron_contents):
-		successful_mix_ingredients()
-	else:
-		failed_mix_ingredients()
+	if not cauldron.being_poured_into:
+		if can_mix_ingredients(cauldron_contents):
+			successful_mix_ingredients()
+		else:
+			failed_mix_ingredients()
 
 func failed_mix_ingredients():
 	while len(cauldron_contents) > 0:
@@ -293,9 +294,6 @@ func change_cauldron_liquid_color(color: Color):
 					"emission", 
 					color,
 					1)
-	
-	#material.set_emission(color)
-	#liquid_CSGCylinder.material = material
 
 func change_potion_color(potion: PotionData) -> void:
 	var potion_node = potion.node
