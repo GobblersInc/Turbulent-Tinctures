@@ -1,3 +1,77 @@
-[gd_scene format=3 uid="uid://dno0c4gt88ey7"]
+[gd_scene load_steps=12 format=3 uid="uid://wjolbn3xjjau"]
 
-[node name="MainMenu" type="Node2D"]
+[ext_resource type="VideoStream" path="res://Resources/Misc/Ocean BG Anim Render.ogv" id="1_auusa"]
+[ext_resource type="Script" path="res://Scripts/UI/MainMenu.gd" id="1_hustl"]
+[ext_resource type="Texture2D" uid="uid://cdrtputehaypf" path="res://Resources/Misc/TTLogoTransparentWhiteOutline.png" id="2_hipc2"]
+[ext_resource type="Texture2D" uid="uid://ep13naobwfeg" path="res://Resources/Misc/StartWTransparent.png" id="3_fsvva"]
+[ext_resource type="Texture2D" uid="uid://darwv80famofn" path="res://Resources/Misc/ExitWTransparent.png" id="4_3od7k"]
+[ext_resource type="Texture2D" uid="uid://sa81ecoysi56" path="res://Resources/Misc/StartWOutUnder.png" id="4_b51b6"]
+[ext_resource type="Texture2D" uid="uid://b3kao5ycj7t7x" path="res://Resources/Misc/ExitWOutUnder.png" id="7_kwa6r"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_phrc0"]
+texture = ExtResource("3_fsvva")
+region_rect = Rect2(581.862, 589.273, 1655.71, 1002.54)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y3cuw"]
+texture = ExtResource("4_b51b6")
+region_rect = Rect2(308.345, 506.578, 2198.75, 1351.91)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_162u1"]
+texture = ExtResource("4_3od7k")
+region_rect = Rect2(627.335, 666.073, 1389.89, 679.752)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6u3n7"]
+texture = ExtResource("7_kwa6r")
+region_rect = Rect2(448.853, 586.325, 1651.91, 1063.3)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hustl")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 13.0
+offset_top = 4.0
+offset_right = 1933.0
+offset_bottom = 1092.0
+scale = Vector2(0.6, 0.6)
+stream = ExtResource("1_auusa")
+autoplay = true
+loop = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -84.0
+offset_top = -14.0
+offset_right = 695.0
+offset_bottom = 638.0
+texture = ExtResource("2_hipc2")
+expand_mode = 1
+
+[node name="Start" type="Button" parent="."]
+layout_mode = 0
+offset_left = 619.0
+offset_top = 178.0
+offset_right = 915.0
+offset_bottom = 319.0
+theme_override_styles/normal = SubResource("StyleBoxTexture_phrc0")
+theme_override_styles/hover = SubResource("StyleBoxTexture_y3cuw")
+
+[node name="Exit" type="Button" parent="."]
+layout_mode = 0
+offset_left = 629.0
+offset_top = 339.0
+offset_right = 3159.0
+offset_bottom = 1499.0
+scale = Vector2(0.1, 0.1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_162u1")
+theme_override_styles/hover = SubResource("StyleBoxTexture_6u3n7")
+
+[connection signal="pressed" from="Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
