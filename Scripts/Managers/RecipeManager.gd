@@ -2,6 +2,7 @@ extends Node3D
 
 @onready var paper: Node3D = $"../../Paper"
 @onready var game_manager = $"../GameManager"
+@onready var lantern = $"../../Lantern"
 
 const BOTTLE_TYPE_TO_FILE_PATH = {
 	bottle_type.VIAL: "res://Assets/Sprites/FormulaSprites/Tube.PNG",
@@ -23,13 +24,33 @@ var CURRENT_POINTER_POSITION: Vector3
 func _ready():
 	game_manager.Recipe.connect(_do_display_recipe)
 	CURRENT_POINTER_POSITION = paper.position + Vector3(-6.4, -1.3, 7.85)
+	lantern.LightOff.connect(_handle_light_off)
+	lantern.LightOn.connect(_handle_light_on)
+	
+func _handle_light_off():
+	set_sprites_transparency(0.0)  # Set transparency to fully transparent
+
+func _handle_light_on():
+	set_sprites_transparency(1.0)  # Set transparency to fully opaque
+
+func set_sprites_transparency(alpha: float) -> void:
+	for child in paper.get_children():
+		if child is Sprite3D:
+			var sprite: Sprite3D = child as Sprite3D
+			var color = sprite.modulate
+			color.a = alpha  # Set the alpha component
+			sprite.modulate = color
 
 func _do_display_recipe(potions: Array):
 	for potion in potions:
 		var ingredient_count = potion.ingredients.size()
 		CURRENT_POINTER_POSITION.z = paper.position.z + 7.85  # Reset Z position for each potion
-
+		
 		for i in range(ingredient_count):
+			if CURRENT_POINTER_POSITION.z < -2.5:
+				CURRENT_POINTER_POSITION.x += 1
+				CURRENT_POINTER_POSITION.z = paper.position.z + 7.85
+				
 			var ingredient = potion.ingredients[i]
 			output_potion_sprite(ingredient)  # Output the potion ingredient
 			CURRENT_POINTER_POSITION.z -= 0.75
@@ -60,7 +81,7 @@ func output_symbol_sprite(symbol: String):
 	var sprite: Sprite3D = Sprite3D.new()
 	var texture: Texture2D = load(get_symbol_sprite_image(symbol))  # Use the symbol argument
 	sprite.texture = texture
-	sprite.scale = Vector3(0.55, 0.55, 0.55)  # Set scale directly
+	sprite.scale = Vector3(0.4, 0.4, 0.4)  # Set scale directly
 	sprite.position = CURRENT_POINTER_POSITION  # Position the sprite
 	sprite.rotation_degrees = Vector3(-90, 90, 0)  # Set rotation in one line
 
@@ -71,3 +92,4 @@ func get_symbol_sprite_image(symbol: String) -> String:
 
 func get_potion_sprite_image(potion: Object) -> String:
 	return BOTTLE_TYPE_TO_FILE_PATH[potion.bottle]
+	
