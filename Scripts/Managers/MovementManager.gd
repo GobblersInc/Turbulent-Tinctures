@@ -56,17 +56,52 @@ func clicking_potion(potion: Node3D):
 
 
 func add_selection_outline(potion: Node3D) -> void:
-	var potion_mesh = potion.get_child(0).get_child(0).mesh
-	var selection_outline = potion_mesh.duplicate()
+	# Get the MeshInstance3D from the potion node
+	var mesh_instance: MeshInstance3D = potion.get_child(0).get_child(0).get_child(0)
 	
-	selection_outline.surface_set_material(0, load(OUTLINE_MATERIAL_PATH))
+	# Duplicate the current mesh to ensure we are not modifying a shared mesh
+	var duplicated_mesh: ArrayMesh = mesh_instance.mesh.duplicate()
 	
-	selection_mesh = MeshInstance3D.new()
-	selection_mesh.mesh = selection_outline
-	selection_mesh.scale /= 17.8  # Slightly larger to create the outline effect
-	potion.add_child(selection_mesh)
+	# Get the original material from the duplicated mesh
+	var original_material: Material = duplicated_mesh.surface_get_material(0)
+	
+	# Duplicate the original material to create a unique copy
+	var potion_outline_material: Material = original_material.duplicate()
+	
+	# Modify the duplicated material for the outline effect
+	potion_outline_material.emission_enabled = true
+	potion_outline_material.emission = Color(1, 1, 1)
+	potion_outline_material.emission_energy = .7
+	
+	# Assign the duplicated material to the duplicated mesh
+	duplicated_mesh.surface_set_material(0, potion_outline_material)
+	
+	# Assign the duplicated mesh to the mesh_instance
+	mesh_instance.mesh = duplicated_mesh
+	
+	# Store the duplicated material in the potion node for later reference (e.g., removing the outline)
+	potion.set_meta("outline_material", potion_outline_material)
+	potion.set_meta("original_material", original_material)
+	potion.set_meta("original_mesh", mesh_instance.mesh)
+
 
 func remove_selection_outline(potion: Node3D) -> void:
-	potion.remove_child(selection_mesh)
-	selection_mesh.queue_free()
-	selection_mesh = null
+	# Get the MeshInstance3D from the potion node
+	var mesh_instance: MeshInstance3D = potion.get_child(0).get_child(0).get_child(0)
+	
+	# Retrieve the original material and mesh from the potion node's metadata
+	var original_material: Material = potion.get_meta("original_material")
+	var outline_material: Material = potion.get_meta("outline_material")
+	var original_mesh: ArrayMesh = potion.get_meta("original_mesh")
+	
+	if outline_material:
+		outline_material.emission_enabled = false
+		
+		# Restore the original material and mesh to the mesh_instance
+		mesh_instance.mesh.surface_set_material(0, original_material)
+		mesh_instance.mesh = original_mesh
+		
+		# Clear the metadata
+		potion.set_meta("outline_material", null)
+		potion.set_meta("original_material", null)
+		potion.set_meta("original_mesh", null)

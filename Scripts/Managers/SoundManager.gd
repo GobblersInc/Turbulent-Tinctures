@@ -160,9 +160,9 @@ func instantiate_audio_players() -> void:
 		audio_players[key] = audio_player
 		
 		if key == "ambient" or key == "ship":
-			audio_player.volume_db = -10
+			audio_player.volume_db = -15
 		if key == "background_music":
-			audio_player.volume_db = -10
+			audio_player.volume_db = -15
 			audio_player.connect("finished", play_background_music)
 			
 func adjust_volume(category, amount: int):
