@@ -8,7 +8,7 @@ size = Vector3(16.6791, 0.21587, 7.53992)
 [node name="Paper" type="Node3D"]
 
 [node name="Paper" parent="." instance=ExtResource("1_206j3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.186778, 0.117352, -0.0503238)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.187, 0, -0.05)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Paper" groups=["clickable", "paper"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.315199, -0.117352, -0.130863)
