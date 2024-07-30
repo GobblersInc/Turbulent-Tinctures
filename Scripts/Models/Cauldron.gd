@@ -1,8 +1,14 @@
 extends Node3D
 
-@onready var being_poured_into = false
 @onready var lantern = $"../Lantern"
 
+var being_poured_into = false
+var selected = false
+
+signal DonePouring
+
+func is_disabled():
+	return being_poured_into
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

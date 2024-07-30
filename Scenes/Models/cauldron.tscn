@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cpnvesw4e2gn0"]
 
-[ext_resource type="PackedScene" uid="uid://bjidsi2leo6vo" path="res://Assets/Models/Cauldron/cauldron.glb" id="1_4jvqk"]
+[ext_resource type="PackedScene" uid="uid://smxgg4aj3lrk" path="res://Assets/Models/Cauldron/cauldron.tscn" id="1_i4no3"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_og24v"]
 height = 0.653534
@@ -12,15 +12,15 @@ emission_enabled = true
 emission = Color(0.0639579, 0.14224, 0.482355, 1)
 backlight = Color(1, 1, 1, 1)
 
-[node name="Cauldron" type="Node3D"]
+[node name="Cauldron" type="Node3D" groups=["cauldron"]]
 
-[node name="Cauldron" parent="." instance=ExtResource("1_4jvqk")]
+[node name="cauldron" parent="." instance=ExtResource("1_i4no3")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Cauldron" groups=["cauldron", "clickable"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="cauldron" groups=["cauldron", "clickable"]]
 transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Cauldron/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="cauldron/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.301344, 0)
 shape = SubResource("CylinderShape3D_og24v")
 

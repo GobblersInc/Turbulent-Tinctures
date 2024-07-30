@@ -28,7 +28,6 @@ enum BottleType {
 	JUG,
 }
 
-
 var result: PotionData = null # equivalent to "parent"
 var ingredients: Array = [] # equivalent to "children"
 

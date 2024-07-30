@@ -45,7 +45,7 @@ const TIMES = {
 var potions_on_table = []
 var cauldron_contents = []
 var required_potion = null
-var level = 0
+var level = 1
 var lost = false
 var pouring = false
 
@@ -58,23 +58,23 @@ The minimum nesting one can do is 1 - otherwise there wouldn't be any potion equ
 """
 var LEVEL_CONFIG = [
 	{
-		"ingredients_per_potion": MinMax.new(8, 8), 
+		"ingredients_per_potion": MinMax.new(2, 2), 
 		"times_nested": MinMax.new(1, 1), 
 		"nest_probability": 0.9,
 		"flicker_probability": 1,
-		"light_out_duration": 5,
-		"check_interval": 5,
-		"lights_out_cooldown": 5,
+		"light_out_duration": 3,
+		"check_interval": 8,
+		"lights_out_cooldown": 10,
 		"light_on_or_off": true,
 	},
 	{
-		"ingredients_per_potion": MinMax.new(2, 3), 
-		"times_nested": MinMax.new(3, 3), 
-		"nest_probability": 0.5,
-		"flicker_probability": 0.3,
-		"light_out_duration": 8,
-		"check_interval": 3,
-		"lights_out_cooldown": 6,
+		"ingredients_per_potion": MinMax.new(2, 2),
+		"times_nested": MinMax.new(2, 3), 
+		"nest_probability": 1,
+		"flicker_probability": 1,
+		"light_out_duration": 3,
+		"check_interval": 25,
+		"lights_out_cooldown": 20,
 		"light_on_or_off": true,
 	},
 ]

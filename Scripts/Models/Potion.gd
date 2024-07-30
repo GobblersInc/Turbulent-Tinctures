@@ -10,7 +10,6 @@ var cauldron_position: Vector3
 
 # This is only false if it's a resulting potion being spawned or it's pouring into a cauldron
 var can_be_selected = true 
-
 var potion_data = null
 
 const JUG_POTION_Y_OFFSET: float = 3.7
@@ -25,6 +24,8 @@ const FLASK_POTION_POURING_SCALE: Vector3 = Vector3(0, 0, 0)
 const VIAL_POTION_POURING_SCALE: Vector3 = Vector3(0, 0 , 0)
 
 var pour_time: float = 1
+var has_hover_outline = false
+var selected = false
 
 func _ready():
 	original_position = global_transform.origin
@@ -49,6 +50,7 @@ func pour_potion(cauldron: Node3D):
 	move_to_original_position()
 	pouring = false
 	cauldron.being_poured_into = false
+	cauldron.DonePouring.emit()
 
 	queue_free()
 
@@ -118,3 +120,6 @@ func move_to_original_position():
 	set_cork_visibility(true)
 	self.global_transform.origin = original_position
 	self.global_rotation_degrees = original_rotation
+	
+func is_disabled():
+	return not can_be_selected

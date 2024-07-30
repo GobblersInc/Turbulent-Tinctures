@@ -126,7 +126,7 @@ shadow_mesh = SubResource("ArrayMesh_kn2cq")
 radius = 0.219586
 height = 0.783425
 
-[node name="FlaskPotion" type="Node3D" groups=["flask_potion"]]
+[node name="FlaskPotion" type="Node3D" groups=["flask_potion", "potion"]]
 script = ExtResource("1_mj1lw")
 
 [node name="conical flask" type="Node3D" parent="."]

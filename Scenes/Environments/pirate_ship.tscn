@@ -176,7 +176,7 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 1.62355, 1.7327, -5.929
 script = ExtResource("3_hmrva")
 light_on_or_off = true
 
-[node name="Paper" parent="." instance=ExtResource("8_gka6f")]
+[node name="Paper" parent="." groups=["clickable", "paper"] instance=ExtResource("8_gka6f")]
 transform = Transform3D(-0.0012217, 0, -0.0999925, 0, 0.1, 0, 0.0999926, 0, -0.0012217, -1.57148, 1.36181, -4.7533)
 script = ExtResource("9_5qjy5")
 

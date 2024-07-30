@@ -125,7 +125,7 @@ shadow_mesh = SubResource("ArrayMesh_tttm2")
 [sub_resource type="SphereShape3D" id="SphereShape3D_6sj5g"]
 radius = 0.294246
 
-[node name="JugPotion" type="Node3D" groups=["jug_potion"]]
+[node name="JugPotion" type="Node3D" groups=["jug_potion", "potion"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.221684, 0)
 script = ExtResource("1_ha7tg")
 
