@@ -1,6 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://bnq1leshxijrk"]
+[gd_scene load_steps=22 format=3 uid="uid://bnq1leshxijrk"]
 
-[ext_resource type="Texture2D" uid="uid://clunudkcwy50v" path="res://Assets/Models/Lantern/Lantern V4_candle flame2.png" id="1_fjka0"]
+[ext_resource type="Script" path="res://Scripts/Models/LanternMovement.gd" id="1_upalu"]
+[ext_resource type="PackedScene" uid="uid://buixtsarcvcwq" path="res://Scenes/Models/lantern_holder.tscn" id="2_qn5a8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3mbsj"]
+size = Vector3(1, 2.40515, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w4ish"]
 resource_name = "Wood"
@@ -236,119 +240,64 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_pce4i")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8o5mx"]
-resource_name = "candle flame2"
-transparency = 4
-cull_mode = 2
-albedo_texture = ExtResource("1_fjka0")
-roughness = 0.5
-emission_enabled = true
-emission_energy_multiplier = 200.0
-emission_texture = ExtResource("1_fjka0")
-texture_repeat = false
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_j4y88"]
-_surfaces = [{
-"aabb": AABB(-0.345084, 0, -0.5, 0.690169, 1e-05, 1.00001),
-"format": 34896613377,
-"index_count": 6,
-"index_data": PackedByteArray(0, 0, 3, 0, 1, 0, 0, 0, 2, 0, 3, 0),
-"name": "candle flame2",
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 4,
-"vertex_data": PackedByteArray(0, 0, 0, 0, 254, 255, 0, 0, 255, 255, 0, 0, 254, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0)
-}]
-blend_shape_mode = 0
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_1am82"]
-resource_name = "Lantern V4_candle flame2"
-_surfaces = [{
-"aabb": AABB(-0.345084, 0, -0.5, 0.690169, 1e-05, 1.00001),
-"attribute_data": PackedByteArray(0, 0, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 255, 255, 0, 0),
-"format": 34896613399,
-"index_count": 6,
-"index_data": PackedByteArray(0, 0, 3, 0, 1, 0, 0, 0, 2, 0, 3, 0),
-"material": SubResource("StandardMaterial3D_8o5mx"),
-"name": "candle flame2",
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 4,
-"vertex_data": PackedByteArray(0, 0, 0, 0, 254, 255, 255, 191, 255, 255, 0, 0, 254, 255, 255, 191, 0, 0, 0, 0, 0, 0, 255, 191, 255, 255, 0, 0, 0, 0, 255, 191, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127)
-}]
-blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_j4y88")
-
 [node name="Lantern" type="Node3D"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 
-[node name="Lantern" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.228855, -0.0868812, -0.200633)
+[node name="Lantern" type="RigidBody3D" parent="."]
+transform = Transform3D(0.998628, 0, 0, 0, 0.998628, 0, 0, 0, 0.998628, 0, 0, 0)
+script = ExtResource("1_upalu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Lantern"]
+transform = Transform3D(0.293178, 0, 0, 0, 0.293178, 0, 0, 0, 0.293178, 0, 0.551767, 0)
+shape = SubResource("BoxShape3D_3mbsj")
 
 [node name="Lantern Base" type="MeshInstance3D" parent="Lantern"]
+transform = Transform3D(0.293178, 0, 0, 0, 0.293178, 0, 0, 0, 0.293178, 0, 0.201345, 0)
 mesh = SubResource("ArrayMesh_yeoxw")
 skeleton = NodePath("")
 
 [node name="Lantern Top" type="MeshInstance3D" parent="Lantern"]
+transform = Transform3D(0.293178, 0, 0, 0, 0.293178, 0, 0, 0, 0.293178, 0, 0.201345, 0)
 mesh = SubResource("ArrayMesh_0kkp6")
 skeleton = NodePath("")
 
 [node name="Lantern Metal Panel" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(0.93106, 0, 0, 0, 0.93106, 0, 0, 0, 0.93106, 0, 0.0196963, 0)
+transform = Transform3D(0.272966, 0, 0, 0, 0.272966, 0, 0, 0, 0.272966, 0, 0.20712, 0)
 mesh = SubResource("ArrayMesh_qxvjr")
 skeleton = NodePath("")
 
 [node name="Lantern Glass" type="MeshInstance3D" parent="Lantern"]
+transform = Transform3D(0.293178, 0, 0, 0, 0.293178, 0, 0, 0, 0.293178, 0, 0.201345, 0)
 mesh = SubResource("ArrayMesh_ulrsk")
 skeleton = NodePath("")
 
 [node name="Wick" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(0.00859116, 0, 0, 0, 0.00859116, 0, 0, 0, 0.00859116, 0, 0.492792, 0)
+transform = Transform3D(0.00251874, 0, 0, 0, 0.00251874, 0, 0, 0, 0.00251874, 0, 0.345821, 0)
 mesh = SubResource("ArrayMesh_d6aus")
 skeleton = NodePath("")
 
 [node name="Candle Base" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(0.25, 0, 0, 0, 0.378009, 0, 0, 0, 0.25, 0, 0.286279, 0)
+transform = Transform3D(0.0732945, 0, 0, 0, 0.110824, 0, 0, 0, 0.0732945, 0, 0.285276, 0)
 mesh = SubResource("ArrayMesh_6p16i")
-skeleton = NodePath("")
-
-[node name="Flame" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(0.148565, 0, 0, 0, 0, -0.148565, 0, 0.148565, 0, 0, 0.6, 0)
-mesh = SubResource("ArrayMesh_1am82")
-skeleton = NodePath("")
-
-[node name="Flame_001" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(0.128661, 0.0742826, 4.42759e-09, -4.42759e-09, 1.77104e-08, -0.148565, -0.0742826, 0.128661, 1.77104e-08, 0, 0.6, 0)
-mesh = SubResource("ArrayMesh_1am82")
-skeleton = NodePath("")
-
-[node name="Flame_002" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(0.0742826, 0.128661, -1.32828e-08, 0, -3.54207e-08, -0.148565, -0.128661, 0.0742826, -1.77104e-08, 0, 0.6, 0)
-mesh = SubResource("ArrayMesh_1am82")
-skeleton = NodePath("")
-
-[node name="Flame_003" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(0, 0.148565, 0, 0, 0, -0.148565, -0.148565, 0, 0, 0, 0.6, 0)
-mesh = SubResource("ArrayMesh_1am82")
-skeleton = NodePath("")
-
-[node name="Flame_004" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(-0.0742826, 0.128661, -1.32828e-08, -4.42759e-09, -1.77104e-08, -0.148565, -0.128661, -0.0742826, 0, 0, 0.6, 0)
-mesh = SubResource("ArrayMesh_1am82")
-skeleton = NodePath("")
-
-[node name="Flame_005" type="MeshInstance3D" parent="Lantern"]
-transform = Transform3D(-0.128661, 0.0742826, 0, 0, 8.85518e-09, -0.148565, -0.0742826, -0.128661, -1.77104e-08, 0, 0.6, 0)
-mesh = SubResource("ArrayMesh_1am82")
 skeleton = NodePath("")
 
 [node name="Timer" type="Timer" parent="Lantern"]
 
 [node name="LanternLight" type="OmniLight3D" parent="Lantern"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00533555, 0.633107, 0.0012932)
+transform = Transform3D(1.66709, 0, 0, 0, 1.66709, 0, 0, 0, 1.66709, -0.00533555, 0.633107, 0.0012932)
 light_color = Color(0.82115, 0.570845, 0.0837236, 1)
 light_energy = 7.0
 light_indirect_energy = 0.0
+light_volumetric_fog_energy = 0.0
 shadow_enabled = true
 shadow_opacity = 0.35
 shadow_blur = 4.232
 omni_range = 40.0
+
+[node name="PinJoint3D" type="PinJoint3D" parent="Lantern"]
+transform = Transform3D(1.66709, 0, 0, 0, 1.66709, 0, 0, 0, 1.66709, -0.000151296, 0.94951, 0.0012932)
+node_a = NodePath("..")
+node_b = NodePath("../../LanternHolder")
+
+[node name="LanternHolder" parent="." instance=ExtResource("2_qn5a8")]
+transform = Transform3D(-3.49691e-08, 0, 0.8, 0, 0.8, 0, -0.8, 0, -3.49691e-08, 0.0488833, -0.0537683, -0.159164)

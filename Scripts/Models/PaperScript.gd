@@ -77,7 +77,7 @@ func _handle_light_off():
 	disabled = true
 	if is_in_front:
 		put_down()
-		
+
 func _handle_light_on():
 	disabled = false
 

@@ -3,6 +3,7 @@ extends Node3D
 @onready var light: OmniLight3D = $Lantern/LanternLight
 @onready var rng = RandomNumberGenerator.new()
 @onready var timer: Timer = $Lantern/Timer
+@onready var game_manager = $"../Managers/GameManager"
 
 @export var flicker_probability: float
 @export var light_out_duration: float
@@ -17,12 +18,21 @@ signal LightOn()
 
 func _ready():
 	timer.connect("timeout", _on_check_timer_timeout)
+	game_manager.LanternUpdated.connect(_lantern_settings_updated)
 	is_light_on = light_on_or_off
 	if is_light_on:
 		timer.start(check_interval)
 	else:
 		flicker_and_fade_light()
-		
+	
+func _lantern_settings_updated():
+	is_light_on = light_on_or_off
+	if is_light_on:
+		turn_light_on()
+		timer.start(check_interval)
+	else:
+		flicker_and_fade_light()
+
 func _on_check_timer_timeout():
 	if is_light_on:
 		if should_flicker_and_fade():
@@ -31,6 +41,7 @@ func _on_check_timer_timeout():
 			timer.start(check_interval)
 	else:
 		turn_light_on()
+		start_light_cooldown_timer()
 
 func turn_light_on():
 	var tween = get_tree().create_tween()
@@ -38,8 +49,10 @@ func turn_light_on():
 	tween.tween_property(light, "light_energy", 6, 1)
 	is_light_on = true
 	LightOn.emit()
+	
+func start_light_cooldown_timer():
 	timer.start(lights_out_cooldown)
-
+	
 func should_flicker_and_fade() -> bool:
 	return rng.randf() < flicker_probability
 

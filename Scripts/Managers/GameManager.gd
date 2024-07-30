@@ -52,14 +52,16 @@ var pouring = false
 signal Recipe(potion_recipe: Array)
 signal GameLoss()
 signal GamePause(is_paused: bool)
+signal MixAttempt()
+signal LanternUpdated()
 
 """
 The minimum nesting one can do is 1 - otherwise there wouldn't be any potion equations!
 """
 var LEVEL_CONFIG = [
 	{
-		"ingredients_per_potion": MinMax.new(2, 2), 
-		"times_nested": MinMax.new(1, 1), 
+		"ingredients_per_potion": MinMax.new(2, 3), 
+		"times_nested": MinMax.new(2, 2), 
 		"nest_probability": 0.9,
 		"flicker_probability": 1,
 		"light_out_duration": 3,
@@ -68,23 +70,25 @@ var LEVEL_CONFIG = [
 		"light_on_or_off": true,
 	},
 	{
-		"ingredients_per_potion": MinMax.new(2, 2),
-		"times_nested": MinMax.new(2, 3), 
-		"nest_probability": 1,
-		"flicker_probability": 1,
-		"light_out_duration": 3,
-		"check_interval": 25,
-		"lights_out_cooldown": 20,
+		"ingredients_per_potion": MinMax.new(3, 3), 
+		"times_nested": MinMax.new(3, 3), 
+		"nest_probability": 0.5,
+		"flicker_probability": 0.3,
+		"light_out_duration": 8,
+		"check_interval": 3,
+		"lights_out_cooldown": 6,
 		"light_on_or_off": true,
 	},
 ]
 
 func set_lantern_values(level_config):
+
 	lantern.flicker_probability = level_config.flicker_probability
 	lantern.light_out_duration = level_config.light_out_duration
 	lantern.check_interval = level_config.check_interval
 	lantern.lights_out_cooldown = level_config.lights_out_cooldown
 	lantern.light_on_or_off = level_config.light_on_or_off
+	LanternUpdated.emit()
 
 func _ready():
 	initialize()
@@ -173,6 +177,7 @@ func _on_MixIngredients():
 			successful_mix_ingredients()
 		else:
 			failed_mix_ingredients()
+		MixAttempt.emit()
 
 func failed_mix_ingredients():
 	while len(cauldron_contents) > 0:
@@ -220,7 +225,6 @@ func start_level():
 	
 	var starting_potions = required_potion.get_all_leaves()
 	var potion_recipe = required_potion.get_all_non_leaves()
-	Recipe.emit(potion_recipe)
 
 	for potion in starting_potions:
 		spawn_new_potion(potion, starting_potions)
@@ -228,6 +232,7 @@ func start_level():
 	game_timer.start()
 	game_timer.paused = false
 	GamePause.emit(false)
+	Recipe.emit(potion_recipe)
 	
 func _on_LevelTimer_timeout():
 	GameLoss.emit()

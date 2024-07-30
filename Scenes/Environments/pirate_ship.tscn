@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=42 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="3_hmrva"]
@@ -23,10 +23,13 @@
 [ext_resource type="PackedScene" path="res://Scenes/Models/Chest.tscn" id="18_ue5c0"]
 [ext_resource type="Script" path="res://Scripts/Models/Chest.gd" id="19_5dhtr"]
 [ext_resource type="Script" path="res://Scripts/Utilities/TimerDisplay.gd" id="19_knol4"]
-[ext_resource type="PackedScene" path="res://Scenes/Models/lantern_holder.tscn" id="20_72ql5"]
 [ext_resource type="PackedScene" path="res://Scenes/Models/Rug.tscn" id="22_84ulk"]
 [ext_resource type="PackedScene" path="res://Scenes/Models/Couch.tscn" id="23_l8oa3"]
 [ext_resource type="PackedScene" path="res://Scenes/Models/PestelAndMortar.tscn" id="24_2rltw"]
+[ext_resource type="PackedScene" path="res://Scenes/Models/Spoon.tscn" id="28_353lb"]
+[ext_resource type="Script" path="res://Scripts/Models/Spoon.gd" id="28_qs1kq"]
+[ext_resource type="PackedScene" path="res://Scenes/Misc/Bubbles.tscn" id="29_ljf2x"]
+[ext_resource type="Script" path="res://Scripts/Utilities/Bubbles.gd" id="30_4cq8a"]
 
 [sub_resource type="Environment" id="Environment_qqkxg"]
 background_mode = 2
@@ -34,6 +37,7 @@ ambient_light_source = 2
 ambient_light_color = Color(0.819608, 0.572549, 0.0823529, 1)
 ambient_light_energy = 0.0
 adjustment_enabled = true
+adjustment_brightness = 0.01
 
 [sub_resource type="Animation" id="Animation_stxj8"]
 resource_name = "FadeBackIn"
@@ -162,24 +166,6 @@ _data = {
 [node name="PirateShip" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504239, 1.0115, 2.09406)
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.900918, 0.43399, 0, -0.43399, 0.900918, 0, 2.77486, -3.04204)
-current = true
-fov = 72.4423
-
-[node name="Cauldron" parent="." instance=ExtResource("2_j4sdg")]
-transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 1.34751, -5.37754)
-script = ExtResource("3_st3s3")
-
-[node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 1.62355, 1.7327, -5.92914)
-script = ExtResource("3_hmrva")
-light_on_or_off = true
-
-[node name="Paper" parent="." groups=["clickable", "paper"] instance=ExtResource("8_gka6f")]
-transform = Transform3D(-0.0012217, 0, -0.0999925, 0, 0.1, 0, 0.0999926, 0, -0.0012217, -1.57148, 1.36181, -4.7533)
-script = ExtResource("9_5qjy5")
-
 [node name="Managers" type="Node" parent="."]
 
 [node name="RecipeManager" type="Node3D" parent="Managers"]
@@ -199,8 +185,30 @@ script = ExtResource("9_euo7d")
 [node name="InputManager" type="Node3D" parent="Managers"]
 script = ExtResource("7_g6hdh")
 
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.900918, 0.43399, 0, -0.43399, 0.900918, 0, 2.77486, -3.04204)
+current = true
+fov = 72.4423
+
+[node name="Cauldron" parent="." instance=ExtResource("2_j4sdg")]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 1.34751, -5.37754)
+script = ExtResource("3_st3s3")
+
+[node name="Paper" parent="." groups=["clickable", "paper"] instance=ExtResource("8_gka6f")]
+transform = Transform3D(-0.0012217, 0, -0.0999925, 0, 0.1, 0, 0.0999926, 0, -0.0012217, -1.57148, 1.36181, -4.7533)
+script = ExtResource("9_5qjy5")
+
 [node name="WoodenTable" parent="." instance=ExtResource("12_se738")]
 transform = Transform3D(-1.53505e-08, 0, -0.450706, 0, 1, 0, 0.351178, 0, -1.9701e-08, 0, -2.261, -5.225)
+
+[node name="Lantern" parent="." instance=ExtResource("10_50gvt")]
+transform = Transform3D(0.963905, 0, -0.266246, 0, 1, 0, 0.266246, 0, 0.963905, 1.62355, 1.35134, -5.62367)
+script = ExtResource("3_hmrva")
+flicker_probability = 1.0
+light_out_duration = 5.0
+check_interval = 5.0
+lights_out_cooldown = 5.0
+light_on_or_off = true
 
 [node name="Rain" parent="." instance=ExtResource("13_hr1be")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.512862, 5.4723, -15.7077)
@@ -292,14 +300,19 @@ transform = Transform3D(-0.288998, 0, 0.95733, 0, 1, 0, -0.95733, 0, -0.288998, 
 script = ExtResource("19_5dhtr")
 open_chance = 1.0
 
-[node name="LanternHolder" parent="." instance=ExtResource("20_72ql5")]
-transform = Transform3D(-0.0142763, 0, 0.999898, 0, 1, 0, -0.999898, 0, -0.0142763, 1.74936, 1.22322, -6.19333)
-
 [node name="Rug" parent="." instance=ExtResource("22_84ulk")]
-transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -0.420926, -0.284417, -8.93986)
+transform = Transform3D(0.626755, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.424681, -0.255017, -9.65388)
 
 [node name="Couch" parent="." instance=ExtResource("23_l8oa3")]
 transform = Transform3D(0.952868, 0, -0.303385, 0, 1, 0, 0.303385, 0, 0.952868, -6.62078, -0.799963, -8.09406)
 
 [node name="PestelAndMortar" parent="." instance=ExtResource("24_2rltw")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.0491038, 2.4849, -14.0761)
+
+[node name="Spoon" parent="." instance=ExtResource("28_353lb")]
+transform = Transform3D(-0.648279, 0.581608, -0.491392, 5.78948e-09, 0.645378, 0.763864, 0.761403, 0.495197, -0.418385, -0.102677, 1.6268, -5.47842)
+script = ExtResource("28_qs1kq")
+
+[node name="Bubbles" parent="." instance=ExtResource("29_ljf2x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.021939, 1.87771, -5.35456)
+script = ExtResource("30_4cq8a")

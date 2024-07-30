@@ -3,6 +3,7 @@ extends Node3D
 @onready var paper: Node3D = $"../../Paper"
 @onready var game_manager = $"../GameManager"
 @onready var lantern = $"../../Lantern"
+@onready var light: OmniLight3D = null
 
 const BOTTLE_TYPE_TO_FILE_PATH = {
 	bottle_type.VIAL: "res://Assets/Sprites/FormulaSprites/Tube.PNG",
@@ -23,15 +24,30 @@ var CURRENT_POINTER_POSITION: Vector3
 
 func _ready():
 	game_manager.Recipe.connect(_do_display_recipe)
+	game_manager.GamePause.connect(_clear_recipe)
+	game_manager.LanternUpdated.connect(_lantern_settings_updated)
 	CURRENT_POINTER_POSITION = paper.position + Vector3(-6.4, -1.3, 7.85)
 	lantern.LightOff.connect(_handle_light_off)
 	lantern.LightOn.connect(_handle_light_on)
+	light = lantern.find_child("LanternLight", true, false)
 	
+func _clear_recipe(isPaused: bool):
+	for child in paper.get_children():
+		if child is Sprite3D:
+			paper.remove_child(child)
+	CURRENT_POINTER_POSITION = paper.position + Vector3(-6.4, -1.3, 7.85)
+
 func _handle_light_off():
 	set_sprites_transparency(0.0)  # Set transparency to fully transparent
 
 func _handle_light_on():
 	set_sprites_transparency(1.0)  # Set transparency to fully opaque
+	
+func _lantern_settings_updated():
+	if lantern.light_on_or_off:
+		_handle_light_on()
+	else:
+		_handle_light_off()
 
 func set_sprites_transparency(alpha: float) -> void:
 	for child in paper.get_children():
@@ -66,6 +82,7 @@ func _do_display_recipe(potions: Array):
 
 		CURRENT_POINTER_POSITION.x += 1  # Move to the next column for the next potion
 
+
 func output_potion_sprite(potion: Object):
 	var sprite: Sprite3D = Sprite3D.new()
 	var texture: Texture2D = load(get_potion_sprite_image(potion))  # Load the texture resource
@@ -84,7 +101,6 @@ func output_symbol_sprite(symbol: String):
 	sprite.scale = Vector3(0.4, 0.4, 0.4)  # Set scale directly
 	sprite.position = CURRENT_POINTER_POSITION  # Position the sprite
 	sprite.rotation_degrees = Vector3(-90, 90, 0)  # Set rotation in one line
-
 	paper.add_child(sprite)  # Add the sprite to the paper node
 
 func get_symbol_sprite_image(symbol: String) -> String:
