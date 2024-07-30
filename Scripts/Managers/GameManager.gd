@@ -53,6 +53,7 @@ signal Recipe(potion_recipe: Array)
 signal GameLoss()
 signal GamePause(is_paused: bool)
 signal MixAttempt()
+signal LanternUpdated()
 
 """
 The minimum nesting one can do is 1 - otherwise there wouldn't be any potion equations!
@@ -81,11 +82,13 @@ var LEVEL_CONFIG = [
 ]
 
 func set_lantern_values(level_config):
+
 	lantern.flicker_probability = level_config.flicker_probability
 	lantern.light_out_duration = level_config.light_out_duration
 	lantern.check_interval = level_config.check_interval
 	lantern.lights_out_cooldown = level_config.lights_out_cooldown
 	lantern.light_on_or_off = level_config.light_on_or_off
+	LanternUpdated.emit()
 
 func _ready():
 	initialize()

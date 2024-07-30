@@ -36,10 +36,9 @@ script = ExtResource("1_hustl")
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-offset_left = 13.0
-offset_top = 4.0
-offset_right = 1933.0
-offset_bottom = 1092.0
+offset_left = 1.0
+offset_right = 1921.0
+offset_bottom = 1088.0
 scale = Vector2(0.6, 0.6)
 stream = ExtResource("1_auusa")
 autoplay = true
