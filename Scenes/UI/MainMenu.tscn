@@ -14,7 +14,7 @@ region_rect = Rect2(581.862, 589.273, 1655.71, 1002.54)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y3cuw"]
 texture = ExtResource("4_b51b6")
-region_rect = Rect2(308.345, 506.578, 2198.75, 1351.91)
+region_rect = Rect2(380.005, 591.046, 2057.1, 1178.34)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_162u1"]
 texture = ExtResource("4_3od7k")
@@ -61,6 +61,8 @@ offset_right = 915.0
 offset_bottom = 319.0
 theme_override_styles/normal = SubResource("StyleBoxTexture_phrc0")
 theme_override_styles/hover = SubResource("StyleBoxTexture_y3cuw")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_phrc0")
+theme_override_styles/focus = SubResource("StyleBoxTexture_phrc0")
 
 [node name="Exit" type="Button" parent="."]
 layout_mode = 0
@@ -71,6 +73,8 @@ offset_bottom = 1499.0
 scale = Vector2(0.1, 0.1)
 theme_override_styles/normal = SubResource("StyleBoxTexture_162u1")
 theme_override_styles/hover = SubResource("StyleBoxTexture_6u3n7")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_162u1")
+theme_override_styles/focus = SubResource("StyleBoxTexture_162u1")
 
 [connection signal="pressed" from="Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
