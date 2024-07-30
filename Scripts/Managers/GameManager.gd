@@ -60,8 +60,8 @@ The minimum nesting one can do is 1 - otherwise there wouldn't be any potion equ
 """
 var LEVEL_CONFIG = [
 	{
-		"ingredients_per_potion": MinMax.new(8, 8), 
-		"times_nested": MinMax.new(1, 1), 
+		"ingredients_per_potion": MinMax.new(2, 3), 
+		"times_nested": MinMax.new(2, 2), 
 		"nest_probability": 0.9,
 		"flicker_probability": 1,
 		"light_out_duration": 5,
@@ -70,7 +70,7 @@ var LEVEL_CONFIG = [
 		"light_on_or_off": true,
 	},
 	{
-		"ingredients_per_potion": MinMax.new(2, 3), 
+		"ingredients_per_potion": MinMax.new(3, 3), 
 		"times_nested": MinMax.new(3, 3), 
 		"nest_probability": 0.5,
 		"flicker_probability": 0.3,
