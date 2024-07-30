@@ -45,7 +45,7 @@ const TIMES = {
 var potions_on_table = []
 var cauldron_contents = []
 var required_potion = null
-var level = 1
+var level = 0
 var lost = false
 var pouring = false
 

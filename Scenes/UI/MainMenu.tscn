@@ -75,5 +75,6 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_6u3n7")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_162u1")
 theme_override_styles/focus = SubResource("StyleBoxTexture_162u1")
 
+[connection signal="mouse_entered" from="Start" to="." method="_on_start_mouse_entered"]
 [connection signal="pressed" from="Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]

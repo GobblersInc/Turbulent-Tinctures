@@ -219,17 +219,17 @@ cap_bottom = false
 
 [node name="cauldron" instance=ExtResource("1_yem6s")]
 
-[node name="Circle_002" type="MeshInstance3D" parent="." index="4"]
+[node name="Circle_006" type="MeshInstance3D" parent="." index="4"]
 transform = Transform3D(-1.37023e-08, -0.313473, 0, -5.97902e-05, 2.61351e-12, -0.313473, 0.313473, -1.37023e-08, -5.97902e-05, 0.0114671, 0.221162, 1.08113)
 mesh = ExtResource("2_hbfs6")
 skeleton = NodePath("")
 
-[node name="Circle_003" type="MeshInstance3D" parent="." index="5"]
+[node name="Circle_007" type="MeshInstance3D" parent="." index="5"]
 transform = Transform3D(-0.313473, 2.74047e-08, 0, 5.22702e-12, 5.97902e-05, -0.313473, -2.74047e-08, -0.313473, -5.97902e-05, -1.0733, 0.221162, 0.0215748)
 mesh = ExtResource("2_hbfs6")
 skeleton = NodePath("")
 
-[node name="Circle_004" type="MeshInstance3D" parent="." index="6"]
+[node name="Circle_008" type="MeshInstance3D" parent="." index="6"]
 transform = Transform3D(4.1107e-08, 0.313473, 0, 5.97902e-05, -7.84054e-12, -0.313473, -0.313473, 4.1107e-08, -5.97902e-05, 0.0114671, 0.236254, -1.07019)
 mesh = ExtResource("2_hbfs6")
 skeleton = NodePath("")

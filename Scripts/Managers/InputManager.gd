@@ -12,7 +12,7 @@ signal HoverStatus(object_hovered, hovering)
 func _ready():
 	game_manager.GameLoss.connect(_on_GameLoss)
 	game_manager.GamePause.connect(_on_GamePause)
-
+	
 func reset_cursor():
 	var cursor_shape = Input.CURSOR_ARROW
 	Input.set_default_cursor_shape(cursor_shape)
