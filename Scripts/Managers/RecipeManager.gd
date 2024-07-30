@@ -25,6 +25,7 @@ var CURRENT_POINTER_POSITION: Vector3
 func _ready():
 	game_manager.Recipe.connect(_do_display_recipe)
 	game_manager.GamePause.connect(_clear_recipe)
+	game_manager.LanternUpdated.connect(_lantern_settings_updated)
 	CURRENT_POINTER_POSITION = paper.position + Vector3(-6.4, -1.3, 7.85)
 	lantern.LightOff.connect(_handle_light_off)
 	lantern.LightOn.connect(_handle_light_on)
@@ -41,6 +42,12 @@ func _handle_light_off():
 
 func _handle_light_on():
 	set_sprites_transparency(1.0)  # Set transparency to fully opaque
+	
+func _lantern_settings_updated():
+	if lantern.light_on_or_off:
+		_handle_light_on()
+	else:
+		_handle_light_off()
 
 func set_sprites_transparency(alpha: float) -> void:
 	for child in paper.get_children():
@@ -74,8 +81,6 @@ func _do_display_recipe(potions: Array):
 		output_potion_sprite(potion)  # Assuming potion.result holds the resulting potion
 
 		CURRENT_POINTER_POSITION.x += 1  # Move to the next column for the next potion
-	if light.light_energy == 0:
-		_handle_light_off()
 
 func output_potion_sprite(potion: Object):
 	var sprite: Sprite3D = Sprite3D.new()
