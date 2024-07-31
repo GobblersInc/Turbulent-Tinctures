@@ -31,20 +31,26 @@ script = ExtResource("1_ck0f8")
 [node name="str8pot_red" type="Node3D" parent="."]
 transform = Transform3D(0.08, 0, 0, 0, 0.08, 0, 0, 0, 0.08, 0, 0, 0)
 
+[node name="PotionOutline" type="MeshInstance3D" parent="str8pot_red"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visible = false
+
+[node name="outline_glass" type="MeshInstance3D" parent="str8pot_red/PotionOutline"]
+transform = Transform3D(0.699524, 0, 0, 0, 0.699524, 0, 0, 0, 0.699524, 0, 0, 0)
+mesh = SubResource("ArrayMesh_wc8yt")
+skeleton = NodePath("../../Flask")
+
 [node name="Flask" type="MeshInstance3D" parent="str8pot_red"]
 transform = Transform3D(0.699524, 0, 0, 0, 0.699524, 0, 0, 0, 0.699524, 0, 0, 0)
 mesh = ExtResource("2_u5t28")
 skeleton = NodePath("")
-
-[node name="PotionOutline" type="MeshInstance3D" parent="str8pot_red/Flask"]
-mesh = SubResource("ArrayMesh_wc8yt")
 
 [node name="Cork" type="MeshInstance3D" parent="str8pot_red"]
 transform = Transform3D(0.622138, 0, 0, 0, 0.622138, 0, 0, 0, 0.622138, 0, 4.81589, 0)
 mesh = ExtResource("3_hdqva")
 skeleton = NodePath("")
 
-[node name="Fluid" type="MeshInstance3D" parent="str8pot_red"]
+[node name="fluid" type="MeshInstance3D" parent="str8pot_red"]
 mesh = ExtResource("4_bwpvr")
 skeleton = NodePath("")
 

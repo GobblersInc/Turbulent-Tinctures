@@ -214,7 +214,7 @@ func end_game():
 	await delay("time_before_level_transition")
 	await fade_in("You beat the game, wow!")
 	await fade_pause()
-	
+
 func level_two_potion():
 	var root_potion = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.FLASK)
 	var potion_1 = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.JUG)
@@ -229,7 +229,7 @@ func level_two_potion():
 	root_potion.add_ingredient(potion_5)
 	
 	return root_potion
-	
+
 func level_one_potion():
 	var root_potion = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.FLASK)
 	var potion_1 = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.JUG)
@@ -240,13 +240,13 @@ func level_one_potion():
 	potion_2.add_ingredient(potion_3)
 	var potion_4 = PotionData.new(PotionData.FluidType.BLUE, PotionData.BottleType.VIAL)
 	potion_2.add_ingredient(potion_4)
-	var potion_5 = PotionData.new(PotionData.FluidType.BLUE, PotionData.BottleType.JUG)
+	var potion_5 = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.FLASK)
 	root_potion.add_ingredient(potion_5)
 	
 	return root_potion
 
 
-	
+
 func start_level():
 	set_lantern_values(LEVEL_CONFIG[level])
 	potions_on_table = []
@@ -345,8 +345,8 @@ func change_cauldron_liquid_color(color: Color):
 
 func change_potion_color(potion: PotionData) -> void:
 	var potion_node = potion.node
-	var fluid_mesh_instance = potion_node.get_child(0).get_child(2) as MeshInstance3D
-	var color = potion.get_color()	
+	var fluid_mesh_instance = potion_node.find_child("fluid") as MeshInstance3D
+	var color = potion.get_color()
 	
 	# Duplicate the mesh to create a unique instance
 	set_mesh_material_emission(fluid_mesh_instance, color)
