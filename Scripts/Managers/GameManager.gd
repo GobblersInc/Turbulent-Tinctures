@@ -345,8 +345,8 @@ func change_cauldron_liquid_color(color: Color):
 
 func change_potion_color(potion: PotionData) -> void:
 	var potion_node = potion.node
-	var fluid_mesh_instance = potion_node.get_child(0).get_child(2) as MeshInstance3D
-	var color = potion.get_color()	
+	var fluid_mesh_instance = potion_node.find_child("fluid") as MeshInstance3D
+	var color = potion.get_color()
 	
 	# Duplicate the mesh to create a unique instance
 	set_mesh_material_emission(fluid_mesh_instance, color)

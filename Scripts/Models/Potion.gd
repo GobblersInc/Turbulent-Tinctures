@@ -10,7 +10,6 @@ var cauldron_position: Vector3
 
 # This is only false if it's a resulting potion being spawned or it's pouring into a cauldron
 var can_be_selected = true 
-
 var potion_data = null
 
 const JUG_POTION_Y_OFFSET: float = 0

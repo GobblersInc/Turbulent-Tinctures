@@ -1,15 +1,30 @@
-[gd_scene load_steps=2 format=3 uid="uid://bfiw3870wvohl"]
+[gd_scene load_steps=4 format=3 uid="uid://bfiw3870wvohl"]
 
 [ext_resource type="PackedScene" uid="uid://bn1kxb5porfvu" path="res://Assets/Models/Isohedron Potion/better iso flask.glb" id="1_5dnh1"]
+[ext_resource type="ArrayMesh" uid="uid://w1x4pi4f2u02" path="res://Assets/Models/Isohedron Potion/cap.res" id="3_1pagm"]
+[ext_resource type="ArrayMesh" uid="uid://d4lxrrmxltfg2" path="res://Assets/Models/Isohedron Potion/glass.res" id="3_bvpsv"]
 
 [node name="better iso flask" instance=ExtResource("1_5dnh1")]
 transform = Transform3D(0.13, 0, 0, 0, 0.13, 0, 0, 0, 0.13, 0, 0, 0)
 
-[node name="fluid" parent="." index="0"]
+[node name="PotionOutline" type="MeshInstance3D" parent="." index="0"]
+visible = false
+
+[node name="outline_glass" type="MeshInstance3D" parent="PotionOutline" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9951, 0)
+mesh = ExtResource("3_bvpsv")
+skeleton = NodePath("")
+
+[node name="outline_cap" type="MeshInstance3D" parent="PotionOutline" index="1"]
+transform = Transform3D(0.530743, 0, 0, 0, 0.530743, 0, 0, 0, 0.530743, 0, 2.10862, 0)
+mesh = ExtResource("3_1pagm")
+skeleton = NodePath("")
+
+[node name="fluid" parent="." index="1"]
 transform = Transform3D(0.846015, 0, 0, 0, 0.846015, 0, 0, 0, 0.846015, 0, 0.954852, 0)
 
-[node name="cap" parent="." index="1"]
+[node name="cap" parent="." index="2"]
 transform = Transform3D(0.530743, 0, 0, 0, 0.530743, 0, 0, 0, 0.530743, 0, 2.10862, 0)
 
-[node name="glass" parent="." index="2"]
+[node name="glass" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9951, 0)
