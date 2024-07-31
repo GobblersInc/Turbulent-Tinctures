@@ -137,6 +137,7 @@ mesh = SubResource("ArrayMesh_387m0")
 skeleton = NodePath("")
 
 [node name="PotionOutline" type="MeshInstance3D" parent="conical flask/Flask"]
+visible = false
 mesh = SubResource("ArrayMesh_5kgmk")
 
 [node name="Cork" type="MeshInstance3D" parent="conical flask"]
@@ -144,7 +145,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.41141, 0)
 mesh = SubResource("ArrayMesh_3hx4r")
 skeleton = NodePath("")
 
-[node name="Fluid" type="MeshInstance3D" parent="conical flask" groups=["flask_potion"]]
+[node name="fluid" type="MeshInstance3D" parent="conical flask" groups=["flask_potion"]]
 mesh = SubResource("ArrayMesh_dr0w4")
 skeleton = NodePath("")
 

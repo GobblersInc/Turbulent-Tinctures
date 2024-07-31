@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfiw3870wvohl"]
+
+[ext_resource type="PackedScene" uid="uid://bn1kxb5porfvu" path="res://Assets/Models/Isohedron Potion/better iso flask.glb" id="1_5dnh1"]
+
+[node name="better iso flask" instance=ExtResource("1_5dnh1")]
+transform = Transform3D(0.13, 0, 0, 0, 0.13, 0, 0, 0, 0.13, 0, 0, 0)
+
+[node name="fluid" parent="." index="0"]
+transform = Transform3D(0.846015, 0, 0, 0, 0.846015, 0, 0, 0, 0.846015, 0, 0.954852, 0)
+
+[node name="cap" parent="." index="1"]
+transform = Transform3D(0.530743, 0, 0, 0, 0.530743, 0, 0, 0, 0.530743, 0, 2.10862, 0)
+
+[node name="glass" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9951, 0)

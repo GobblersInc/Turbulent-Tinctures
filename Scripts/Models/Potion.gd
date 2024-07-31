@@ -13,14 +13,14 @@ var can_be_selected = true
 
 var potion_data = null
 
-const JUG_POTION_Y_OFFSET: float = 3.7
+const JUG_POTION_Y_OFFSET: float = 0
 const FLASK_POTION_Y_OFFSET: float = .5
 const VIAL_POTION_Y_OFFSET: float = 0
 
-const JUG_POTION_POURING_POSITION: Vector3 = Vector3(0, 3.7, 0)
-const FLASK_POTION_POURING_POSITION: Vector3 = Vector3(0, .5, 0)
-const VIAL_POTION_POURING_POSITION: Vector3 = Vector3(0, 0, 0)
-const JUG_POTION_POURING_SCALE: Vector3 = Vector3(.423, .17, .429)
+const JUG_POTION_POURING_POSITION: Vector3 = Vector3(0, 2, 0)
+const FLASK_POTION_POURING_POSITION: Vector3 = Vector3(0, 6, 0)
+const VIAL_POTION_POURING_POSITION: Vector3 = Vector3(0, 5, 0)
+const JUG_POTION_POURING_SCALE: Vector3 = Vector3(0, 0, 0)
 const FLASK_POTION_POURING_SCALE: Vector3 = Vector3(0, 0, 0)
 const VIAL_POTION_POURING_SCALE: Vector3 = Vector3(0, 0 , 0)
 
@@ -71,7 +71,7 @@ func move_to_cauldron():
 						
 func pour_liquid():
 	var tween = get_tree().create_tween().set_parallel(true)
-	var fluid: MeshInstance3D = self.find_child("Fluid")
+	var fluid: MeshInstance3D = self.find_child("fluid")
 	var final_scale: Vector3
 	var final_position: Vector3
 	if self.is_in_group("vial_potion"):

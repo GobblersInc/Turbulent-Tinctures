@@ -214,7 +214,7 @@ func end_game():
 	await delay("time_before_level_transition")
 	await fade_in("You beat the game, wow!")
 	await fade_pause()
-	
+
 func level_two_potion():
 	var root_potion = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.FLASK)
 	var potion_1 = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.JUG)
@@ -229,7 +229,7 @@ func level_two_potion():
 	root_potion.add_ingredient(potion_5)
 	
 	return root_potion
-	
+
 func level_one_potion():
 	var root_potion = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.FLASK)
 	var potion_1 = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.JUG)
@@ -240,13 +240,13 @@ func level_one_potion():
 	potion_2.add_ingredient(potion_3)
 	var potion_4 = PotionData.new(PotionData.FluidType.BLUE, PotionData.BottleType.VIAL)
 	potion_2.add_ingredient(potion_4)
-	var potion_5 = PotionData.new(PotionData.FluidType.BLUE, PotionData.BottleType.JUG)
+	var potion_5 = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.FLASK)
 	root_potion.add_ingredient(potion_5)
 	
 	return root_potion
 
 
-	
+
 func start_level():
 	set_lantern_values(LEVEL_CONFIG[level])
 	potions_on_table = []
