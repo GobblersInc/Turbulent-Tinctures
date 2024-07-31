@@ -10,6 +10,7 @@ extends Node3D
 @onready var lantern = $"../Lantern"
 
 var disabled = false
+var tween: Tween
 
 var original_position: Vector3
 var original_rotation: Vector3
@@ -50,7 +51,9 @@ func _handle_paper_clicked() -> void:
 func put_down():
 	is_in_front = !is_in_front
 	SoundManager.play_random_paper_sound()
-	var tween = get_tree().create_tween().set_parallel(true)
+	if tween:
+		tween.kill() # Abort the previous animation.
+	tween = create_tween().set_parallel(true)
 	
 	# Return to original position and rotation
 	tween.tween_property(self, 
@@ -68,7 +71,9 @@ func put_in_front():
 	is_in_front = !is_in_front
 	set_paper_emmission(true)
 	SoundManager.play_random_paper_sound()
-	var tween = get_tree().create_tween().set_parallel(true)
+	if tween:
+		tween.kill() # Abort the previous animation.
+	tween = create_tween().set_parallel(true)
 	tween.tween_property(self, "position", camera_offset, animation_time)
 	tween.tween_property(self, "rotation_degrees", Vector3(0, -90, -70), animation_time)
 	await tween.finished

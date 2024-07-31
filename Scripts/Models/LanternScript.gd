@@ -11,6 +11,7 @@ extends Node3D
 @export var lights_out_cooldown: float
 @export var light_on_or_off: bool
 
+var tween: Tween
 var is_light_on: bool
 
 signal LightOff()
@@ -44,7 +45,9 @@ func _on_check_timer_timeout():
 		start_light_cooldown_timer()
 
 func turn_light_on():
-	var tween = get_tree().create_tween()
+	if tween:
+		tween.kill() # Abort the previous animation.
+	tween = create_tween()
 	SoundManager.play_lantern_relight_sound()
 	tween.tween_property(light, "light_energy", 6, 1)
 	is_light_on = true
@@ -57,7 +60,9 @@ func should_flicker_and_fade() -> bool:
 	return rng.randf() < flicker_probability
 
 func flicker_and_fade_light():
-	var tween = get_tree().create_tween()
+	if tween:
+		tween.kill() # Abort the previous animation.
+	tween = create_tween()
 	var flicker_durations = [0.05, 0.1, 0.1, 0.25, 0.05]
 	var flicker_intensities = [7.0, 3, 5, 1, 2]
 	

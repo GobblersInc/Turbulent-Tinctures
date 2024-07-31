@@ -46,6 +46,7 @@ var required_potion = null
 var level = 0
 var lost = false
 var pouring = false
+var tween: Tween
 
 signal Recipe(potion_recipe: Array)
 signal GameLoss()
@@ -300,7 +301,7 @@ func spawn_potion(potion: PotionData) -> void:
 	add_child(potion_node)
 
 	potion_node.global_position = potion.position
-	potion_node.scale = Vector3(1, 1, 1)
+	potion_node.scale = Vector3(.8, .8, .8)
 	potion_node.potion_data = potion
 
 	potion.node = potion_node
@@ -341,7 +342,9 @@ func change_cauldron_liquid_color(color: Color):
 	var liquid_CSGCylinder = cauldron.get_child(1)
 	var material = liquid_CSGCylinder.material
 	
-	var tween = get_tree().create_tween().set_parallel(true)
+	if tween:
+		tween.kill() # Abort the previous animation.
+	tween = create_tween()
 	tween.tween_property(material, 
 					"emission", 
 					color,

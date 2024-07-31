@@ -25,6 +25,8 @@ func _on_MixIngredient():
 	start_stirring()
 
 func move_spoon():
+	if tween:
+		tween.kill() # Abort the previous animation.
 	tween = create_tween()
 	tween.tween_property(self, "position", stirring_position, 0.2).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 	await tween.finished
@@ -33,6 +35,8 @@ func start_stirring():
 	# Create a coroutine to handle the stirring motion
 	var angle = 0.0
 	while angle < max_angle:
+		if tween:
+			tween.kill() # Abort the previous animation.
 		tween = create_tween()
 		# Calculate new position
 		var x = stirring_position.x + radius_x * cos(angle)
