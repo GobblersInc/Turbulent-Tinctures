@@ -89,7 +89,7 @@ func set_paper_emmission(enabled: bool):
 			if enabled:
 				material.emission_enabled = true
 				material.emission = Color(0.821, 0.571, 0.084)
-				material.emission_energy = 1
+				material.emission_energy = .25
 			else:
 				material.emission_enabled = false
 	
