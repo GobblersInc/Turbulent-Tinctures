@@ -105,14 +105,14 @@ func _ready():
 		"BLACK:FLASK": {
 			"RED:JUG": null,
 			"GREEN:VIAL": {
-				"PINK:FLASK": null,
+				"PINK:JUG": null,
 				"PURPLE:VIAL": null,
 			},
 			"RED:FLASK": {
-				"PINK:JUG": null,
+				"PINK:VIAL": null,
 				"GREEN:FLASK": {
-					"PINK:FLASK": null,
 					"BLUE:JUG": null,
+					"PINK:FLASK": null,
 					"RED:VIAL": null,
 				},
 			},
