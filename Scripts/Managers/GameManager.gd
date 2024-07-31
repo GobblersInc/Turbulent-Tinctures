@@ -23,7 +23,7 @@ const POTION_SCENES = {
 	BottleType.JUG: "res://Scenes/Models/jug_potion.tscn",
 }
 
-const POTION_MIN_DISTANCE_APART = .4
+const POTION_MIN_DISTANCE_APART = .3
 const TABLE_HEIGHT = 2.4
 const BOUNDS = {
 	"top": -2.4,
@@ -445,7 +445,7 @@ func spawn_potion(potion: PotionData) -> void:
 	add_child(potion_node)
 
 	potion_node.global_position = potion.position
-	potion_node.scale = Vector3(.8, .8, .8)
+	potion_node.scale = Vector3(.6, .6, .6)
 	potion_node.potion_data = potion
 
 	potion.node = potion_node
