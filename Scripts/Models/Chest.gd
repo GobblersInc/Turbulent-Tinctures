@@ -17,6 +17,8 @@ var left_iris: MeshInstance3D
 var left_eyeball: MeshInstance3D
 var right_eyeball_material: StandardMaterial3D
 var left_eyeball_material: StandardMaterial3D
+var tween: Tween
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -40,7 +42,9 @@ func _ready():
 
 func _handle_light_off():
 	if should_open_chest():
-		var tween = get_tree().create_tween().set_parallel(true)
+		if tween:
+			tween.kill() # Abort the previous animation.
+		tween = create_tween().set_parallel(true)
 		
 		# Return to original position and rotation
 		tween.tween_property(self.find_child("chest lid"), 
@@ -79,7 +83,10 @@ func _handle_light_off():
 		close_chest()
 
 func close_chest():
-	var tween = get_tree().create_tween().set_parallel(true)
+	if tween:
+		tween.kill()
+		
+	tween = create_tween().set_parallel(true)
 		
 		# Return to original position and rotation
 	tween.tween_property(self.find_child("chest lid"), 
