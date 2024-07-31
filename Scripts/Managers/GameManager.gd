@@ -64,6 +64,7 @@ var LEVEL_CONFIG = [
 		"check_interval": 8,
 		"lights_out_cooldown": 10,
 		"light_on_or_off": true,
+		"game_timer": 30
 	},
 	{
 		"potion": level_two_potion,		
@@ -72,6 +73,7 @@ var LEVEL_CONFIG = [
 		"check_interval": 3,
 		"lights_out_cooldown": 6,
 		"light_on_or_off": true,
+		"game_timer": 90
 	},
 ]
 
@@ -249,10 +251,12 @@ func level_one_potion():
 
 	return root_potion
 
-
+func set_game_timer(level_config):
+	game_timer.wait_time = level_config.game_timer
 
 func start_level():
 	set_lantern_values(LEVEL_CONFIG[level])
+	set_game_timer(LEVEL_CONFIG[level])
 	potions_on_table = []
 	
 	var potion_data = {
