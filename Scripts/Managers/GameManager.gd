@@ -58,51 +58,51 @@ signal LanternUpdated()
 The minimum nesting one can do is 1 - otherwise there wouldn't be any potion equations!
 """
 var LEVEL_CONFIG = [
-	{
-		"potion": level_one_potion,
-		"flicker_probability": 1,
-		"light_out_duration": 3,
-		"check_interval": 8,
-		"lights_out_cooldown": 10,
-		"light_on_or_off": true,
-		"game_timer": 30
-	},
-	{
-		"potion": level_two_potion,		
-		"flicker_probability": 0.3,
-		"light_out_duration": 8,
-		"check_interval": 3,
-		"lights_out_cooldown": 8,
-		"light_on_or_off": true,
-		"game_timer": 30
-	},
-	{
-		"potion": level_three_potion,		
-		"flicker_probability": 0.3,
-		"light_out_duration": 8,
-		"check_interval": 3,
-		"lights_out_cooldown": 6,
-		"light_on_or_off": true,
-		"game_timer": 60
-	},
-	{
-		"potion": level_four_potion,		
-		"flicker_probability": 0.3,
-		"light_out_duration": 8,
-		"check_interval": 3,
-		"lights_out_cooldown": 6,
-		"light_on_or_off": true,
-		"game_timer": 60
-	},
-	{
-		"potion": level_five_potion,		
-		"flicker_probability": 0.3,
-		"light_out_duration": 8,
-		"check_interval": 3,
-		"lights_out_cooldown": 6,
-		"light_on_or_off": true,
-		"game_timer": 70
-	},
+	#{
+		#"potion": level_one_potion,
+		#"flicker_probability": 1,
+		#"light_out_duration": 3,
+		#"check_interval": 8,
+		#"lights_out_cooldown": 10,
+		#"light_on_or_off": true,
+		#"game_timer": 30
+	#},
+	#{
+		#"potion": level_two_potion,		
+		#"flicker_probability": 0.3,
+		#"light_out_duration": 8,
+		#"check_interval": 3,
+		#"lights_out_cooldown": 8,
+		#"light_on_or_off": true,
+		#"game_timer": 30
+	#},
+	#{
+		#"potion": level_three_potion,		
+		#"flicker_probability": 0.3,
+		#"light_out_duration": 8,
+		#"check_interval": 3,
+		#"lights_out_cooldown": 6,
+		#"light_on_or_off": true,
+		#"game_timer": 60
+	#},
+	#{
+		#"potion": level_four_potion,		
+		#"flicker_probability": 0.3,
+		#"light_out_duration": 8,
+		#"check_interval": 3,
+		#"lights_out_cooldown": 6,
+		#"light_on_or_off": true,
+		#"game_timer": 60
+	#},
+	#{
+		#"potion": level_five_potion,		
+		#"flicker_probability": 0.3,
+		#"light_out_duration": 8,
+		#"check_interval": 3,
+		#"lights_out_cooldown": 6,
+		#"light_on_or_off": true,
+		#"game_timer": 70
+	#},
 	{
 		"potion": level_six_potion,		
 		"flicker_probability": 0.3,
@@ -336,7 +336,7 @@ func level_five_potion():
 	root_potion.add_ingredient(potion_5)
 	var potion_6 = PotionData.new(FluidType.PINK, BottleType.JUG)
 	potion_5.add_ingredient(potion_6)
-	var potion_7 = PotionData.new(FluidType.GREEN, BottleType.VIAL)
+	var potion_7 = PotionData.new(FluidType.GREEN, BottleType.FLASK)
 	potion_5.add_ingredient(potion_7)
 	var potion_8 = PotionData.new(FluidType.PINK, BottleType.FLASK)
 	potion_7.add_ingredient(potion_8)
@@ -353,6 +353,8 @@ func level_five_potion():
 	var potion_14 = PotionData.new(FluidType.DARK_GREEN, BottleType.FLASK)
 	root_potion.add_ingredient(potion_14)
 
+
+
 	return root_potion
 
 func level_six_potion():
@@ -363,7 +365,7 @@ func level_six_potion():
 	root_potion.add_ingredient(potion_2)
 	var potion_3 = PotionData.new(FluidType.PINK, BottleType.FLASK)
 	potion_2.add_ingredient(potion_3)
-	var potion_4 = PotionData.new(FluidType.PINK, BottleType.FLASK)
+	var potion_4 = PotionData.new(FluidType.PINK, BottleType.VIAL)
 	potion_3.add_ingredient(potion_4)
 	var potion_5 = PotionData.new(FluidType.YELLOW, BottleType.VIAL)
 	potion_3.add_ingredient(potion_5)
