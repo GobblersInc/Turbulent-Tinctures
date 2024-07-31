@@ -79,10 +79,7 @@ const BOILING_WATER_SOUND = [
 ]
 
 const BACKGROUND_MUSIC_SOUND = [
-	preload("res://Assets/Audio/Music/Sea Shanty 2 (GameJam Version).ogg"),
-	preload("res://Assets/Audio/Music/Lament for the Hallowed.ogg"),
-	preload("res://Assets/Audio/Music/Autumn Voyage.ogg"),
-	preload("res://Assets/Audio/Music/Monkey Badness.ogg")
+	preload("res://Assets/Audio/Music/Lament for the Hallowed.ogg")
 ]
 
 var audio_players = {
@@ -159,8 +156,10 @@ func instantiate_audio_players() -> void:
 		add_child(audio_player)
 		audio_players[key] = audio_player
 		
-		if key == "ambient" or key == "ship":
+		if key == "ambient":
 			audio_player.volume_db = -15
+		if key == "ship":
+			audio_player.volume_db = -9
 		if key == "background_music":
 			audio_player.volume_db = -15
 			audio_player.connect("finished", play_background_music)
