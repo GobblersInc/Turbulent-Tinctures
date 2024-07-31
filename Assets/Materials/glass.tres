@@ -4,5 +4,5 @@
 resource_name = "glass mat"
 transparency = 4
 cull_mode = 2
-albedo_color = Color(0.552941, 0.905882, 0.878431, 0.117647)
+albedo_color = Color(0.552941, 0.905882, 0.878431, 0.235294)
 roughness = 0.5

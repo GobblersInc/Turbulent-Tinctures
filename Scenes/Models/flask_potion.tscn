@@ -1,10 +1,10 @@
 [gd_scene load_steps=15 format=3 uid="uid://b8thi56xgchcw"]
 
 [ext_resource type="Script" path="res://Scripts/Models/Potion.gd" id="1_mj1lw"]
-[ext_resource type="Material" uid="uid://cqypir3ldgu6m" path="res://Assets/Materials/glass.tres" id="3_fuiuu"]
+[ext_resource type="Material" uid="uid://3x88sqy2gdad" path="res://Assets/Materials/glass.tres" id="3_fuiuu"]
 [ext_resource type="Material" uid="uid://bus4lcmd86qk1" path="res://Assets/Materials/potion_outline.tres" id="3_k0l6n"]
-[ext_resource type="Material" uid="uid://cthyrkcfbac1n" path="res://Assets/Materials/cap.tres" id="4_667si"]
-[ext_resource type="Material" uid="uid://ccx8m33ljq0v2" path="res://Assets/Materials/fluid.tres" id="5_gp1wt"]
+[ext_resource type="Material" path="res://Assets/Materials/cap.tres" id="4_667si"]
+[ext_resource type="Material" path="res://Assets/Materials/fluid.tres" id="5_gp1wt"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_5kgmk"]
 _surfaces = [{
