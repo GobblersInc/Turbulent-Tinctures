@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dykei1v6suqow"]
 
 [ext_resource type="Script" path="res://Scripts/Models/Potion.gd" id="1_ha7tg"]
-[ext_resource type="PackedScene" path="res://Assets/Models/Isohedron Potion/better_iso_flask.tscn" id="2_ygrtf"]
+[ext_resource type="PackedScene" uid="uid://bfiw3870wvohl" path="res://Assets/Models/Isohedron Potion/better_iso_flask.tscn" id="2_ygrtf"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_6sj5g"]
 radius = 0.294246
