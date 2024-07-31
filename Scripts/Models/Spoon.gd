@@ -7,17 +7,17 @@ var stirring_position: Vector3
 @onready var radius_x = .1  # Radius for x axis
 @onready var radius_z = .1  # Radius for z axis (adjust for elliptical path)
 @onready var speed = 7.5  # Speed of the stirring motion
-var max_angle = 4 * PI  # 720 degrees in radians (2 full circles)
+var max_angle = 6 * PI  # 720 degrees in radians (2 full circles)
 var tween: Tween
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	movement_manager.AddIngredient.connect(_on_AddIngredient)
+	movement_manager.MixIngredients.connect(_on_MixIngredient)
 	original_position = self.position
 	original_rotation = self.rotation
 	stirring_position =  Vector3(self.position.x + .2, self.position.y, self.position.z + .2)
 
-func _on_AddIngredient(potion):
+func _on_MixIngredient():
 	if self.position == original_position:
 		await move_spoon()
 	elif self.position != stirring_position:

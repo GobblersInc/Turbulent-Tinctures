@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://porw384hwxqe"]
+
+[ext_resource type="VideoStream" path="res://Resources/Misc/Ocean BG Anim Render.ogv" id="1_0f26r"]
+[ext_resource type="Script" path="res://Scripts/UI/LoadingScreen.gd" id="1_xvcsd"]
+[ext_resource type="Texture2D" uid="uid://cdrtputehaypf" path="res://Resources/Misc/TTLogoTransparentWhiteOutline.png" id="2_k0irw"]
+[ext_resource type="Texture2D" uid="uid://ixcgsd2mebfd" path="res://Resources/Misc/LoadingBWScreen.png" id="3_2nfqu"]
+
+[node name="LoadingScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xvcsd")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_right = 1943.0
+offset_bottom = 1088.0
+scale = Vector2(0.6, 0.6)
+stream = ExtResource("1_0f26r")
+autoplay = true
+loop = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 362.0
+offset_top = 1.0
+offset_right = 812.0
+offset_bottom = 400.0
+texture = ExtResource("2_k0irw")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 358.0
+offset_top = 324.0
+offset_right = 841.0
+offset_bottom = 665.0
+texture = ExtResource("3_2nfqu")
+expand_mode = 1
