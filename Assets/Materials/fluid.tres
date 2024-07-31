@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://ccx8m33ljq0v2"]
+
+[resource]
+resource_name = "fluid mats"
+cull_mode = 2
+albedo_color = Color(0.906406, 0.12333, 0.143002, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 0.57

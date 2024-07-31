@@ -10,8 +10,6 @@ extends Node3D
 @onready var game_timer = $Timer
 @onready var timer_fade = $"../../CanvasLayer/TimeLeftFade"
 
-var PotionGeneration = preload("res://Scripts/Utilities/PotionGeneration.gd").new()
-
 const FluidType = preload("res://Scripts/Utilities/PotionData.gd").FluidType
 const BottleType = preload("res://Scripts/Utilities/PotionData.gd").BottleType
 const LANTERN_SCRIPT_PATH = "res://Scripts/Models/LanternScript.gd"
@@ -60,9 +58,7 @@ The minimum nesting one can do is 1 - otherwise there wouldn't be any potion equ
 """
 var LEVEL_CONFIG = [
 	{
-		"ingredients_per_potion": MinMax.new(2, 3), 
-		"times_nested": MinMax.new(2, 2), 
-		"nest_probability": 0.9,
+		"potion": level_one_potion,
 		"flicker_probability": 1,
 		"light_out_duration": 3,
 		"check_interval": 8,
@@ -70,9 +66,7 @@ var LEVEL_CONFIG = [
 		"light_on_or_off": true,
 	},
 	{
-		"ingredients_per_potion": MinMax.new(3, 3), 
-		"times_nested": MinMax.new(3, 3), 
-		"nest_probability": 0.5,
+		"potion": level_two_potion,		
 		"flicker_probability": 0.3,
 		"light_out_duration": 8,
 		"check_interval": 3,
@@ -91,6 +85,9 @@ func set_lantern_values(level_config):
 	LanternUpdated.emit()
 
 func _ready():
+	var target_script = preload("res://Scripts/Utilities/LevelHelper.gd").new()
+	target_script._ready()
+	
 	initialize()
 	
 	movement_manager.AddIngredient.connect(_on_AddIngredient)
@@ -102,6 +99,8 @@ func _ready():
 func _on_LossClick():
 	restart_game()
 	
+
+
 func initialize():
 	start_level()
 	fade_to_black.fade_from_black(1)
@@ -215,12 +214,55 @@ func end_game():
 	await delay("time_before_level_transition")
 	await fade_in("You beat the game, wow!")
 	await fade_pause()
+
+func level_two_potion():
+	var root_potion = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.FLASK)
+	var potion_1 = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.JUG)
+	root_potion.add_ingredient(potion_1)
+	var potion_2 = PotionData.new(PotionData.FluidType.GREEN, PotionData.BottleType.VIAL)
+	root_potion.add_ingredient(potion_2)
+	var potion_3 = PotionData.new(PotionData.FluidType.PINK, PotionData.BottleType.FLASK)
+	potion_2.add_ingredient(potion_3)
+	var potion_4 = PotionData.new(PotionData.FluidType.BLUE, PotionData.BottleType.VIAL)
+	potion_2.add_ingredient(potion_4)
+	var potion_5 = PotionData.new(PotionData.FluidType.BLUE, PotionData.BottleType.JUG)
+	root_potion.add_ingredient(potion_5)
 	
+	return root_potion
+
+func level_one_potion():
+	var root_potion = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.FLASK)
+	var potion_1 = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.JUG)
+	root_potion.add_ingredient(potion_1)
+	var potion_2 = PotionData.new(PotionData.FluidType.GREEN, PotionData.BottleType.VIAL)
+	root_potion.add_ingredient(potion_2)
+	var potion_3 = PotionData.new(PotionData.FluidType.PINK, PotionData.BottleType.FLASK)
+	potion_2.add_ingredient(potion_3)
+	var potion_4 = PotionData.new(PotionData.FluidType.BLUE, PotionData.BottleType.VIAL)
+	potion_2.add_ingredient(potion_4)
+	var potion_5 = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.FLASK)
+	root_potion.add_ingredient(potion_5)
+	
+	return root_potion
+
+
+
 func start_level():
 	set_lantern_values(LEVEL_CONFIG[level])
 	potions_on_table = []
-	required_potion = PotionGeneration.generate_potion_equation(LEVEL_CONFIG[level])
 	
+	var potion_data = {
+		"RED:FLASK": {
+			"RED:JUG": null,
+			"GREEN:VIAL": {
+				"PINK:FLASK": null,
+				"BLUE:VIAL": null,
+			},
+			"BLUE:JUG": null,
+		}
+	}
+	
+	required_potion = LEVEL_CONFIG[level]["potion"].call()
 	required_potion.print_game_info(false)
 	
 	var starting_potions = required_potion.get_all_leaves()
@@ -303,8 +345,8 @@ func change_cauldron_liquid_color(color: Color):
 
 func change_potion_color(potion: PotionData) -> void:
 	var potion_node = potion.node
-	var fluid_mesh_instance = potion_node.get_child(0).get_child(2) as MeshInstance3D
-	var color = potion.get_color()	
+	var fluid_mesh_instance = potion_node.find_child("fluid") as MeshInstance3D
+	var color = potion.get_color()
 	
 	# Duplicate the mesh to create a unique instance
 	set_mesh_material_emission(fluid_mesh_instance, color)

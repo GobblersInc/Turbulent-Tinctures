@@ -121,9 +121,6 @@ static func sort_potion_data_array(array: Array) -> Array:
 """
 Below is code for printing out entire trees easily for testing purposes
 """
-"""
-Below is code for printing out entire trees easily for testing purposes
-"""
 func get_indent(level: int) -> String:
 	var indent = ""
 	for i in range(level):

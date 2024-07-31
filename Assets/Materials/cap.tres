@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cthyrkcfbac1n"]
+
+[resource]
+resource_name = "cap mat"
+cull_mode = 2
+albedo_color = Color(0.450007, 0.19977, 0, 1)
+roughness = 0.5

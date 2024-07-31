@@ -109,11 +109,11 @@ func close_chest():
 	tween.tween_property(right_eyeball_material, 
 						"emission_energy_multiplier", 
 						0, 
-						3)
+						10.5)
 	tween.tween_property(left_eyeball_material, 
 						"emission_energy_multiplier", 
 						0, 
-						3)
+						.5)
 
 func should_open_chest() -> bool:
 	return randf() < open_chance
