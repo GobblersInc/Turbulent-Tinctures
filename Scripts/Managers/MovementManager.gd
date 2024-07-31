@@ -116,40 +116,15 @@ func clicking_potion(potion: Node3D):
 		add_cauldron_outline()
 
 func add_potion_outline(potion: Node3D) -> void:
-	if potion.has_meta("hover_outline_material"):
-		return
-		
-	var mesh_instance: MeshInstance3D = potion.get_child(0).get_child(0).get_child(0)
-	var duplicated_mesh: ArrayMesh = mesh_instance.mesh.duplicate()
-	var original_material: Material = duplicated_mesh.surface_get_material(0)
-	var potion_outline_material: Material = original_material.duplicate()
-	
-	potion_outline_material.emission_enabled = true
-	potion_outline_material.emission = Color(1, 1, 1)
-	potion_outline_material.emission_energy = .7
-	
-	duplicated_mesh.surface_set_material(0, potion_outline_material)
-	mesh_instance.mesh = duplicated_mesh
-	
-	potion.set_meta("hover_outline_material", potion_outline_material)
-	potion.set_meta("hover_original_material", original_material)
-	potion.set_meta("hover_original_mesh", duplicated_mesh)
+	var mesh_instance: MeshInstance3D = potion.find_child("PotionOutline")
+	mesh_instance.visible = true
 	
 func remove_potion_outline(potion: Node3D) -> void:
 	if potion.selected:
 		return
 
-	var mesh_instance: MeshInstance3D = potion.get_child(0).get_child(0).get_child(0)
-	var original_material: Material = potion.get_meta("hover_original_material")
-	var original_mesh: ArrayMesh = potion.get_meta("hover_original_mesh")
-	
-	if potion.has_meta("hover_outline_material"):
-		mesh_instance.mesh.surface_set_material(0, original_material)
-		mesh_instance.mesh = original_mesh
-
-		potion.set_meta("hover_outline_material", null)
-		potion.set_meta("hover_original_material", null)
-		potion.set_meta("hover_original_mesh", null)
+	var mesh_instance: MeshInstance3D = potion.find_child("PotionOutline")
+	mesh_instance.visible = false
 		
 func add_cauldron_outline() -> void:
 	if cauldron.being_poured_into:
