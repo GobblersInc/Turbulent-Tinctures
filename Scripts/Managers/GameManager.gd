@@ -240,9 +240,13 @@ func level_one_potion():
 	potion_2.add_ingredient(potion_3)
 	var potion_4 = PotionData.new(PotionData.FluidType.BLUE, PotionData.BottleType.VIAL)
 	potion_2.add_ingredient(potion_4)
-	var potion_5 = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.FLASK)
+	var potion_5 = PotionData.new(PotionData.FluidType.BLACK, PotionData.BottleType.FLASK)
 	root_potion.add_ingredient(potion_5)
-	
+	var potion_6 = PotionData.new(PotionData.FluidType.DARK_GREEN, PotionData.BottleType.FLASK)
+	root_potion.add_ingredient(potion_6)
+	var potion_7 = PotionData.new(PotionData.FluidType.GREEN, PotionData.BottleType.FLASK)
+	root_potion.add_ingredient(potion_7)
+
 	return root_potion
 
 

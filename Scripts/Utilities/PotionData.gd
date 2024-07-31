@@ -10,6 +10,9 @@ enum FluidType {
 	PURPLE,
 	PINK,
 	WHITE,
+	LIGHT_BLUE,
+	DARK_GREEN,
+	BLACK
 }
 
 const FLUID_TYPE_TO_COLOR = {
@@ -20,6 +23,9 @@ const FLUID_TYPE_TO_COLOR = {
 	FluidType.PURPLE: Color(0.5, 0, 0.5, 1),
 	FluidType.PINK: Color(1, 0.08, 0.58, 1),
 	FluidType.WHITE: Color(1, 1, 1, 1),
+	FluidType.LIGHT_BLUE: Color(0.4, 0.7, 0.7),
+	FluidType.DARK_GREEN: Color(0.0, 0.39, 0.0),
+	FluidType.BLACK: Color(0, 0, 0)
 }
 
 enum BottleType {
