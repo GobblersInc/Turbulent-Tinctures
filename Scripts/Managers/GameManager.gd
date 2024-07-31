@@ -72,9 +72,45 @@ var LEVEL_CONFIG = [
 		"flicker_probability": 0.3,
 		"light_out_duration": 8,
 		"check_interval": 3,
+		"lights_out_cooldown": 8,
+		"light_on_or_off": true,
+		"game_timer": 30
+	},
+	{
+		"potion": level_three_potion,		
+		"flicker_probability": 0.3,
+		"light_out_duration": 8,
+		"check_interval": 3,
 		"lights_out_cooldown": 6,
 		"light_on_or_off": true,
-		"game_timer": 90
+		"game_timer": 60
+	},
+	{
+		"potion": level_four_potion,		
+		"flicker_probability": 0.3,
+		"light_out_duration": 8,
+		"check_interval": 3,
+		"lights_out_cooldown": 6,
+		"light_on_or_off": true,
+		"game_timer": 60
+	},
+	{
+		"potion": level_five_potion,		
+		"flicker_probability": 0.3,
+		"light_out_duration": 8,
+		"check_interval": 3,
+		"lights_out_cooldown": 6,
+		"light_on_or_off": true,
+		"game_timer": 70
+	},
+	{
+		"potion": level_six_potion,		
+		"flicker_probability": 0.3,
+		"light_out_duration": 8,
+		"check_interval": 3,
+		"lights_out_cooldown": 6,
+		"light_on_or_off": true,
+		"game_timer": 75
 	},
 ]
 
@@ -218,37 +254,141 @@ func end_game():
 	await fade_in("You beat the game, wow!")
 	await fade_pause()
 
-func level_two_potion():
-	var root_potion = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.FLASK)
-	var potion_1 = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.JUG)
+func level_one_potion():
+	var root_potion = PotionData.new(FluidType.RED, BottleType.FLASK)
+	var potion_1 = PotionData.new(FluidType.PINK, BottleType.JUG)
 	root_potion.add_ingredient(potion_1)
-	var potion_2 = PotionData.new(PotionData.FluidType.GREEN, PotionData.BottleType.VIAL)
+	var potion_2 = PotionData.new(FluidType.WHITE, BottleType.VIAL)
 	root_potion.add_ingredient(potion_2)
-	var potion_3 = PotionData.new(PotionData.FluidType.PINK, PotionData.BottleType.FLASK)
-	potion_2.add_ingredient(potion_3)
-	var potion_4 = PotionData.new(PotionData.FluidType.BLUE, PotionData.BottleType.VIAL)
-	potion_2.add_ingredient(potion_4)
-	var potion_5 = PotionData.new(PotionData.FluidType.BLUE, PotionData.BottleType.JUG)
-	root_potion.add_ingredient(potion_5)
-	
+	var potion_3 = PotionData.new(FluidType.LIGHT_BLUE, BottleType.JUG)
+	root_potion.add_ingredient(potion_3)
+
 	return root_potion
 
-func level_one_potion():
-	var root_potion = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.FLASK)
-	var potion_1 = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.JUG)
+func level_two_potion():
+	var root_potion = PotionData.new(FluidType.PINK, BottleType.JUG)
+	var potion_1 = PotionData.new(FluidType.RED, BottleType.FLASK)
 	root_potion.add_ingredient(potion_1)
-	var potion_2 = PotionData.new(PotionData.FluidType.GREEN, PotionData.BottleType.VIAL)
+	var potion_2 = PotionData.new(FluidType.GREEN, BottleType.VIAL)
 	root_potion.add_ingredient(potion_2)
-	var potion_3 = PotionData.new(PotionData.FluidType.PINK, PotionData.BottleType.FLASK)
+	var potion_3 = PotionData.new(FluidType.PURPLE, BottleType.FLASK)
 	potion_2.add_ingredient(potion_3)
-	var potion_4 = PotionData.new(PotionData.FluidType.BLUE, PotionData.BottleType.VIAL)
+	var potion_4 = PotionData.new(FluidType.BLUE, BottleType.VIAL)
 	potion_2.add_ingredient(potion_4)
-	var potion_5 = PotionData.new(PotionData.FluidType.BLACK, PotionData.BottleType.FLASK)
+
+	return root_potion
+
+func level_three_potion():
+	var root_potion = PotionData.new(FluidType.YELLOW, BottleType.JUG)
+	var potion_1 = PotionData.new(FluidType.RED, BottleType.FLASK)
+	root_potion.add_ingredient(potion_1)
+	var potion_2 = PotionData.new(FluidType.GREEN, BottleType.VIAL)
+	root_potion.add_ingredient(potion_2)
+	var potion_3 = PotionData.new(FluidType.PURPLE, BottleType.FLASK)
+	potion_2.add_ingredient(potion_3)
+	var potion_4 = PotionData.new(FluidType.BLUE, BottleType.VIAL)
+	potion_2.add_ingredient(potion_4)
+	var potion_5 = PotionData.new(FluidType.YELLOW, BottleType.JUG)
 	root_potion.add_ingredient(potion_5)
-	var potion_6 = PotionData.new(PotionData.FluidType.DARK_GREEN, PotionData.BottleType.FLASK)
+	var potion_6 = PotionData.new(FluidType.PINK, BottleType.JUG)
 	root_potion.add_ingredient(potion_6)
-	var potion_7 = PotionData.new(PotionData.FluidType.GREEN, PotionData.BottleType.FLASK)
-	root_potion.add_ingredient(potion_7)
+
+	return root_potion
+
+func level_four_potion():
+	var root_potion = PotionData.new(FluidType.DARK_GREEN, BottleType.FLASK)
+	var potion_1 = PotionData.new(FluidType.PINK, BottleType.VIAL)
+	root_potion.add_ingredient(potion_1)
+	var potion_2 = PotionData.new(FluidType.YELLOW, BottleType.FLASK)
+	potion_1.add_ingredient(potion_2)
+	var potion_3 = PotionData.new(FluidType.RED, BottleType.VIAL)
+	potion_1.add_ingredient(potion_3)
+	var potion_4 = PotionData.new(FluidType.RED, BottleType.JUG)
+	potion_1.add_ingredient(potion_4)
+	var potion_5 = PotionData.new(FluidType.PURPLE, BottleType.FLASK)
+	root_potion.add_ingredient(potion_5)
+	var potion_6 = PotionData.new(FluidType.LIGHT_BLUE, BottleType.VIAL)
+	potion_5.add_ingredient(potion_6)
+	var potion_7 = PotionData.new(FluidType.BLUE, BottleType.VIAL)
+	potion_5.add_ingredient(potion_7)
+	var potion_8 = PotionData.new(FluidType.GREEN, BottleType.VIAL)
+	root_potion.add_ingredient(potion_8)
+	var potion_9 = PotionData.new(FluidType.PINK, BottleType.FLASK)
+	potion_8.add_ingredient(potion_9)
+	var potion_10 = PotionData.new(FluidType.BLUE, BottleType.JUG)
+	potion_8.add_ingredient(potion_10)
+	var potion_11 = PotionData.new(FluidType.YELLOW, BottleType.JUG)
+	root_potion.add_ingredient(potion_11)
+
+	return root_potion
+
+func level_five_potion():
+	var root_potion = PotionData.new(FluidType.BLACK, BottleType.FLASK)
+	var potion_1 = PotionData.new(FluidType.RED, BottleType.JUG)
+	root_potion.add_ingredient(potion_1)
+	var potion_2 = PotionData.new(FluidType.GREEN, BottleType.VIAL)
+	root_potion.add_ingredient(potion_2)
+	var potion_3 = PotionData.new(FluidType.PINK, BottleType.FLASK)
+	potion_2.add_ingredient(potion_3)
+	var potion_4 = PotionData.new(FluidType.PURPLE, BottleType.VIAL)
+	potion_2.add_ingredient(potion_4)
+	var potion_5 = PotionData.new(FluidType.RED, BottleType.FLASK)
+	root_potion.add_ingredient(potion_5)
+	var potion_6 = PotionData.new(FluidType.PINK, BottleType.JUG)
+	potion_5.add_ingredient(potion_6)
+	var potion_7 = PotionData.new(FluidType.GREEN, BottleType.VIAL)
+	potion_5.add_ingredient(potion_7)
+	var potion_8 = PotionData.new(FluidType.PINK, BottleType.FLASK)
+	potion_7.add_ingredient(potion_8)
+	var potion_9 = PotionData.new(FluidType.BLUE, BottleType.JUG)
+	potion_7.add_ingredient(potion_9)
+	var potion_10 = PotionData.new(FluidType.RED, BottleType.VIAL)
+	potion_7.add_ingredient(potion_10)
+	var potion_11 = PotionData.new(FluidType.YELLOW, BottleType.FLASK)
+	root_potion.add_ingredient(potion_11)
+	var potion_12 = PotionData.new(FluidType.LIGHT_BLUE, BottleType.VIAL)
+	potion_11.add_ingredient(potion_12)
+	var potion_13 = PotionData.new(FluidType.BLUE, BottleType.FLASK)
+	potion_11.add_ingredient(potion_13)
+	var potion_14 = PotionData.new(FluidType.DARK_GREEN, BottleType.FLASK)
+	root_potion.add_ingredient(potion_14)
+
+	return root_potion
+
+func level_six_potion():
+	var root_potion = PotionData.new(FluidType.WHITE, BottleType.JUG)
+	var potion_1 = PotionData.new(FluidType.BLACK, BottleType.FLASK)
+	root_potion.add_ingredient(potion_1)
+	var potion_2 = PotionData.new(FluidType.DARK_GREEN, BottleType.VIAL)
+	root_potion.add_ingredient(potion_2)
+	var potion_3 = PotionData.new(FluidType.PINK, BottleType.FLASK)
+	potion_2.add_ingredient(potion_3)
+	var potion_4 = PotionData.new(FluidType.PINK, BottleType.FLASK)
+	potion_3.add_ingredient(potion_4)
+	var potion_5 = PotionData.new(FluidType.YELLOW, BottleType.VIAL)
+	potion_3.add_ingredient(potion_5)
+	var potion_6 = PotionData.new(FluidType.RED, BottleType.FLASK)
+	potion_5.add_ingredient(potion_6)
+	var potion_7 = PotionData.new(FluidType.BLUE, BottleType.JUG)
+	potion_5.add_ingredient(potion_7)
+	var potion_8 = PotionData.new(FluidType.PURPLE, BottleType.JUG)
+	potion_2.add_ingredient(potion_8)
+	var potion_9 = PotionData.new(FluidType.YELLOW, BottleType.FLASK)
+	potion_8.add_ingredient(potion_9)
+	var potion_10 = PotionData.new(FluidType.GREEN, BottleType.VIAL)
+	potion_8.add_ingredient(potion_10)
+	var potion_11 = PotionData.new(FluidType.PURPLE, BottleType.VIAL)
+	root_potion.add_ingredient(potion_11)
+	var potion_12 = PotionData.new(FluidType.PINK, BottleType.JUG)
+	potion_11.add_ingredient(potion_12)
+	var potion_13 = PotionData.new(FluidType.BLUE, BottleType.VIAL)
+	potion_11.add_ingredient(potion_13)
+	var potion_14 = PotionData.new(FluidType.BLUE, BottleType.FLASK)
+	root_potion.add_ingredient(potion_14)
+	var potion_15 = PotionData.new(FluidType.LIGHT_BLUE, BottleType.VIAL)
+	potion_14.add_ingredient(potion_15)
+	var potion_16 = PotionData.new(FluidType.GREEN, BottleType.JUG)
+	root_potion.add_ingredient(potion_16)
 
 	return root_potion
 
