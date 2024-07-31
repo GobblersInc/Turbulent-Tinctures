@@ -10,6 +10,8 @@ extends Node3D
 @onready var game_timer = $Timer
 @onready var timer_fade = $"../../CanvasLayer/TimeLeftFade"
 
+var all_potions = {}
+
 const FluidType = preload("res://Scripts/Utilities/PotionData.gd").FluidType
 const BottleType = preload("res://Scripts/Utilities/PotionData.gd").BottleType
 const LANTERN_SCRIPT_PATH = "res://Scripts/Models/LanternScript.gd"
@@ -76,7 +78,6 @@ var LEVEL_CONFIG = [
 ]
 
 func set_lantern_values(level_config):
-
 	lantern.flicker_probability = level_config.flicker_probability
 	lantern.light_out_duration = level_config.light_out_duration
 	lantern.check_interval = level_config.check_interval
@@ -95,13 +96,30 @@ func _ready():
 	
 	game_timer.TimeOut.connect(_on_LevelTimer_timeout)
 	input_manager.ClickAfterGameLoss.connect(_on_LossClick)
-		
+
 func _on_LossClick():
 	restart_game()
-	
 
+# Function to generate all possible potion combinations in a nested dictionary
+static func generate_all_combinations() -> Dictionary:
+	var combinations = {}
+	for bottle in BottleType.values():
+		combinations[bottle] = {}
+		for fluid in FluidType.values():
+			combinations[bottle][fluid] = PotionData.new(fluid, bottle)
+	return combinations
+
+func load_all_potions(all_potions: Dictionary):
+	for bottle in BottleType.values():
+		for fluid in FluidType.values():
+			spawn_potion(all_potions[bottle][fluid])
 
 func initialize():
+	all_potions = generate_all_combinations()
+	load_all_potions(all_potions)
+	print("test")
+	print(all_potions[BottleType.VIAL][FluidType.BLUE])
+	print(all_potions[BottleType.VIAL][FluidType.BLUE].node)
 	start_level()
 	fade_to_black.fade_from_black(1)
 
@@ -143,7 +161,6 @@ func _on_AddIngredient(potion: PotionData):
 		var combined_color = get_combined_potion_color(cauldron_contents)
 		change_cauldron_liquid_color(combined_color)
 
-
 func fade_in(input_text: String):
 	fade_to_black.fade_to_black(1)
 	
@@ -181,12 +198,16 @@ func _on_MixIngredients():
 func failed_mix_ingredients():
 	while len(cauldron_contents) > 0:
 		var potion_from_cauldron = cauldron_contents.pop_front()
-		spawn_potion(potion_from_cauldron)
+		
+		potion_from_cauldron.node.position = potion_from_cauldron.position
+		potion_from_cauldron.node.can_be_selected = true
 		
 	change_cauldron_liquid_color(water_color)
 
 func successful_mix_ingredients():
 	var resulting_potion = get_mix_result(cauldron_contents)
+	for potion in cauldron_contents:
+		potion.node.can_be_selected = true
 	cauldron_contents.clear()
 
 	change_cauldron_liquid_color(resulting_potion.get_color())
@@ -195,7 +216,7 @@ func successful_mix_ingredients():
 		game_timer.paused = true
 		GamePause.emit(true)
 		
-		spawn_required_potion(resulting_potion)
+		move_required_potion(resulting_potion)
 		level += 1
 		if level >= len(LEVEL_CONFIG):
 			end_game()
@@ -203,12 +224,13 @@ func successful_mix_ingredients():
 			await delay("time_before_level_transition")
 			await fade_in("Starting Level " + str(level+1))
 			await fade_pause()
-			resulting_potion.node.queue_free()
+			resulting_potion.node.can_be_selected = true
+			resulting_potion.node.global_position = Vector3(1, 1, 1)
 			change_cauldron_liquid_color(water_color)
 			start_level()
 			await fade_out()
 	else:
-		spawn_new_potion(resulting_potion, potions_on_table)
+		move_new_potion(resulting_potion, potions_on_table)
 
 func end_game():
 	await delay("time_before_level_transition")
@@ -216,40 +238,34 @@ func end_game():
 	await fade_pause()
 
 func level_two_potion():
-	var root_potion = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.FLASK)
-	var potion_1 = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.JUG)
-	root_potion.add_ingredient(potion_1)
-	var potion_2 = PotionData.new(PotionData.FluidType.GREEN, PotionData.BottleType.VIAL)
-	root_potion.add_ingredient(potion_2)
-	var potion_3 = PotionData.new(PotionData.FluidType.PINK, PotionData.BottleType.FLASK)
+	var potion_0 = all_potions[BottleType.FLASK][FluidType.RED]
+	var potion_1 = all_potions[BottleType.JUG][FluidType.RED]
+	potion_0.add_ingredient(potion_1)
+	var potion_2 = all_potions[BottleType.VIAL][FluidType.GREEN]
+	potion_0.add_ingredient(potion_2)
+	var potion_3 = all_potions[BottleType.FLASK][FluidType.PINK]
 	potion_2.add_ingredient(potion_3)
-	var potion_4 = PotionData.new(PotionData.FluidType.BLUE, PotionData.BottleType.VIAL)
+	var potion_4 = all_potions[BottleType.VIAL][FluidType.BLUE]
 	potion_2.add_ingredient(potion_4)
-	var potion_5 = PotionData.new(PotionData.FluidType.BLUE, PotionData.BottleType.JUG)
-	root_potion.add_ingredient(potion_5)
 	
-	return root_potion
+	return potion_2
 
 func level_one_potion():
-	var root_potion = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.FLASK)
-	var potion_1 = PotionData.new(PotionData.FluidType.RED, PotionData.BottleType.JUG)
-	root_potion.add_ingredient(potion_1)
-	var potion_2 = PotionData.new(PotionData.FluidType.GREEN, PotionData.BottleType.VIAL)
-	root_potion.add_ingredient(potion_2)
-	var potion_3 = PotionData.new(PotionData.FluidType.PINK, PotionData.BottleType.FLASK)
+	var potion_0 = all_potions[BottleType.FLASK][FluidType.RED]
+	var potion_1 = all_potions[BottleType.JUG][FluidType.RED]
+	potion_0.add_ingredient(potion_1)
+	var potion_2 = all_potions[BottleType.VIAL][FluidType.GREEN]
+	potion_0.add_ingredient(potion_2)
+	var potion_3 = all_potions[BottleType.FLASK][FluidType.PINK]
 	potion_2.add_ingredient(potion_3)
-	var potion_4 = PotionData.new(PotionData.FluidType.BLUE, PotionData.BottleType.VIAL)
+	var potion_4 = all_potions[BottleType.VIAL][FluidType.BLUE]
 	potion_2.add_ingredient(potion_4)
-	var potion_5 = PotionData.new(PotionData.FluidType.BLACK, PotionData.BottleType.FLASK)
-	root_potion.add_ingredient(potion_5)
-	var potion_6 = PotionData.new(PotionData.FluidType.DARK_GREEN, PotionData.BottleType.FLASK)
-	root_potion.add_ingredient(potion_6)
-	var potion_7 = PotionData.new(PotionData.FluidType.GREEN, PotionData.BottleType.FLASK)
-	root_potion.add_ingredient(potion_7)
+	var potion_5 = all_potions[BottleType.JUG][FluidType.BLUE]
+	potion_0.add_ingredient(potion_5)
 
-	return root_potion
-
-
+	print("potion_5.node")
+	print(potion_5.node)
+	return potion_0
 
 func start_level():
 	set_lantern_values(LEVEL_CONFIG[level])
@@ -267,13 +283,17 @@ func start_level():
 	}
 	
 	required_potion = LEVEL_CONFIG[level]["potion"].call()
+	print("test2")
+	print(required_potion.node.can_be_selected)
+	print(required_potion)
 	required_potion.print_game_info(false)
 	
 	var starting_potions = required_potion.get_all_leaves()
 	var potion_recipe = required_potion.get_all_non_leaves()
+	print(required_potion.node)
 
 	for potion in starting_potions:
-		spawn_new_potion(potion, starting_potions)
+		move_new_potion(potion, starting_potions)
 		
 	game_timer.start()
 	game_timer.paused = false
@@ -299,7 +319,7 @@ func spawn_potion(potion: PotionData) -> void:
 	var potion_node = load(POTION_SCENES[bottle_type]).instantiate()
 	add_child(potion_node)
 
-	potion_node.global_position = potion.position
+	potion_node.global_position = Vector3(1, 1, 1)
 	potion_node.scale = Vector3(1, 1, 1)
 	potion_node.potion_data = potion
 
@@ -307,16 +327,19 @@ func spawn_potion(potion: PotionData) -> void:
 
 	change_potion_color(potion)
 
-func spawn_required_potion(potion: PotionData):
+func move_required_potion(potion: PotionData):
 	potion.position = Vector3(BOUNDS["left"] + .96, TABLE_HEIGHT+1.25, BOUNDS["top"] - .7)
-	spawn_potion(potion)
+	print(potion.node)
+	potion.node.global_position = potion.position
 	potion.node.can_be_selected = false
 	potions_on_table.append(potion)
 
-func spawn_new_potion(potion: PotionData, potion_list: Array) -> void:
+func move_new_potion(potion: PotionData, potion_list: Array) -> void:
 	var position = get_valid_position(potion_list)
 	potion.position = position
-	spawn_potion(potion)
+	print(potion.node)
+	potion.node.global_position = position
+	
 	potions_on_table.append(potion)
 
 func set_mesh_material_emission(mesh_instance: MeshInstance3D, color):
@@ -403,4 +426,5 @@ func array_contents_equal(array_1: Array, array_2: Array) -> bool:
 	return sorted_array_1.hash() == sorted_array_2.hash()
 
 func delay(timer_name: String):
-	await get_tree().create_timer(TIMES[timer_name]).timeout
+	await get_tree().create_timer(TIMES[timer_name])
+
