@@ -85,7 +85,7 @@ func _do_display_recipe(potions: Array):
 		output_symbol_sprite("ARROW")
 		CURRENT_POINTER_POSITION.z -= 0.75  # Adjust for the resulting potion
 		output_potion_sprite(potions[j])  # Assuming potion.result holds the resulting potion
-		if j == potions.size() - 1:
+		if potions[j].result == null:
 			output_circle_sprite(potions[j])
 			
 
