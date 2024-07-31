@@ -110,7 +110,7 @@ func _ready():
 			},
 			"RED:FLASK": {
 				"PINK:JUG": null,
-				"GREEN:VIAL": {
+				"GREEN:FLASK": {
 					"PINK:FLASK": null,
 					"BLUE:JUG": null,
 					"RED:VIAL": null,
@@ -128,7 +128,7 @@ func _ready():
 			"BLACK:FLASK": null,
 			"DARK_GREEN:VIAL": {
 				"PINK:FLASK": {
-					"PINK:FLASK": null,
+					"PINK:VIAL": null,
 					"YELLOW:VIAL": {
 						"RED:FLASK": null,
 						"BLUE:JUG": null,
