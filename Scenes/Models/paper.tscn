@@ -1,17 +1,18 @@
 [gd_scene load_steps=3 format=3 uid="uid://bdwko5252gepe"]
 
-[ext_resource type="PackedScene" uid="uid://c5e2albhgoqdp" path="res://Assets/Models/RecipePaper/paper small tex.glb" id="1_gt5a5"]
+[ext_resource type="PackedScene" uid="uid://dbwxk1pe8608s" path="res://Assets/Models/RecipePaper/paper_small_tex.tscn" id="1_206j3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bwcdq"]
 size = Vector3(16.6791, 0.21587, 7.53992)
 
 [node name="Paper" type="Node3D"]
 
-[node name="paperob1" parent="." instance=ExtResource("1_gt5a5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.501977, 0, -0.181187)
+[node name="Paper" parent="." instance=ExtResource("1_206j3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.187, 0, -0.05)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="paperob1" groups=["clickable", "paper"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="Paper" groups=["clickable", "paper"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.315199, -0.117352, -0.130863)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="paperob1/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Paper/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00210571, 0.00941658, 0.0668335)
 shape = SubResource("BoxShape3D_bwcdq")

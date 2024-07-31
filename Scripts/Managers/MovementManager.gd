@@ -1,6 +1,9 @@
 extends Node3D 
 
 @onready var input_manager = $"../InputManager"
+@onready var cauldron = $"../../Cauldron"
+@onready var paper = $"../../Paper"
+@onready var lantern = $"../../Lantern"
 
 signal AddIngredient(potion)
 signal MixIngredients()
@@ -9,9 +12,59 @@ var selection_mesh: MeshInstance3D = null
 const OUTLINE_MATERIAL_PATH = "res://Resources/Materials/Outline.tres"
 
 var selected_potion = null
+var hovered_item = null
 
 func _ready():
 	input_manager.ObjectClicked.connect(_on_ObjectClicked)
+	input_manager.HoverStatus.connect(_on_ObjectHovered)
+	cauldron.DonePouring.connect(_on_DonePouring)
+	lantern.LightOff.connect(_on_LightOff)
+
+func _on_DonePouring():
+	if selected_potion:
+		add_cauldron_outline()
+		
+func _on_LightOff():
+	remove_paper_outline()
+
+
+func _on_ObjectHovered(hovered_object_info, hovering):
+	if not hovering:
+		if not hovered_item:
+			return
+
+		var groups = hovered_item.get_groups()
+		remove_outline(hovered_item, groups)
+		hovered_item = null
+		return
+	
+	var hovered_object = hovered_object_info.get_parent().get_parent()
+	var groups = hovered_object.get_groups()
+	
+	if hovered_item:
+		var old_groups = hovered_item.get_groups()
+		remove_outline(hovered_item, old_groups)
+	hovered_item = hovered_object
+	
+	add_outline(hovered_item, groups)
+
+func add_outline(hovered_object, groups):
+	if "potion" in groups:
+		add_potion_outline(hovered_object)
+	elif "cauldron" in groups:
+		add_cauldron_outline()
+	elif "paper" in groups:
+		if lantern.is_light_on:
+			add_paper_outline()
+
+func remove_outline(hovered_object, groups):
+	if "potion" in groups:
+		remove_potion_outline(hovered_object)
+	elif "cauldron" in groups:
+		if not selected_potion:
+			remove_cauldron_outline()
+	elif "paper" in groups:
+		remove_paper_outline()
 
 func _on_ObjectClicked(_event_position, object_info):
 	var player_clicked_cauldron = object_info.is_in_group("cauldron")
@@ -28,82 +81,70 @@ func clicking_cauldron(cauldron: Node3D):
 		var containers_are_available = not (selected_potion.pouring or cauldron.being_poured_into)
 		if containers_are_available:
 			selected_potion.pour_potion(cauldron)
-			remove_selection_outline(selected_potion)
+			selected_potion.selected = false
 			AddIngredient.emit(selected_potion.potion_data)
-			
 			selected_potion = null
+			add_cauldron_outline()
 	else:
 		MixIngredients.emit()
-		
-
 
 func clicking_potion(potion: Node3D):
 	if not potion.can_be_selected:
 		return
+
+	var player_clicked_same_potion = potion == selected_potion
 	
-	if selected_potion:
-		remove_selection_outline(selected_potion)
+	if player_clicked_same_potion:
+		# Deselect the potion.
+		potion.selected = false
 		selected_potion = null
-	# There isn't a potion selected
+		remove_cauldron_outline()
+	# The player selected a different potion, or is clicking a potion for the first time..
 	else:
-		SoundManager.play_random_potion_interact_sound()
-		selected_potion = potion
+		# The player has a potion already selected
+		if selected_potion:
+			# Remove its outline.
+			selected_potion.selected = false
+			remove_potion_outline(selected_potion)
+			remove_cauldron_outline()
 		
-		if selection_mesh == null:
-			add_selection_outline(selected_potion)
-		else:
-			remove_selection_outline(selected_potion)
+		# Update the selected potion
+		selected_potion = potion
+		potion.selected = true
+		
+		SoundManager.play_random_potion_interact_sound()
+		add_cauldron_outline()
 
+func add_potion_outline(potion: Node3D) -> void:
+	var mesh_instance: MeshInstance3D = potion.find_child("PotionOutline")
+	mesh_instance.visible = true
+	
+func remove_potion_outline(potion: Node3D) -> void:
+	if potion.selected:
+		return
 
-func add_selection_outline(potion: Node3D) -> void:
-	pass
-	## Get the MeshInstance3D from the potion node
-	#var mesh_instance: MeshInstance3D = potion.get_child(0).get_child(0).get_child(0)
-	#
-	## Duplicate the current mesh to ensure we are not modifying a shared mesh
-	#var duplicated_mesh: ArrayMesh = mesh_instance.mesh.duplicate()
-	#
-	## Get the original material from the duplicated mesh
-	#var original_material: Material = duplicated_mesh.surface_get_material(0)
-	#
-	## Duplicate the original material to create a unique copy
-	#var potion_outline_material: Material = original_material.duplicate()
-	#
-	## Modify the duplicated material for the outline effect
-	#potion_outline_material.emission_enabled = true
-	#potion_outline_material.emission = Color(1, 1, 1)
-	#potion_outline_material.emission_energy = .7
-	#
-	## Assign the duplicated material to the duplicated mesh
-	#duplicated_mesh.surface_set_material(0, potion_outline_material)
-	#
-	## Assign the duplicated mesh to the mesh_instance
-	#mesh_instance.mesh = duplicated_mesh
-	#
-	## Store the duplicated material in the potion node for later reference (e.g., removing the outline)
-	#potion.set_meta("outline_material", potion_outline_material)
-	#potion.set_meta("original_material", original_material)
-	#potion.set_meta("original_mesh", mesh_instance.mesh)
-
-
-func remove_selection_outline(potion: Node3D) -> void:
-	pass
-	## Get the MeshInstance3D from the potion node
-	#var mesh_instance: MeshInstance3D = potion.get_child(0).get_child(0).get_child(0)
-	#
-	## Retrieve the original material and mesh from the potion node's metadata
-	#var original_material: Material = potion.get_meta("original_material")
-	#var outline_material: Material = potion.get_meta("outline_material")
-	#var original_mesh: ArrayMesh = potion.get_meta("original_mesh")
-	#
-	#if outline_material:
-		#outline_material.emission_enabled = false
-		#
-		## Restore the original material and mesh to the mesh_instance
-		#mesh_instance.mesh.surface_set_material(0, original_material)
-		#mesh_instance.mesh = original_mesh
-		#
-		## Clear the metadata
-		#potion.set_meta("outline_material", null)
-		#potion.set_meta("original_material", null)
-		#potion.set_meta("original_mesh", null)
+	var mesh_instance: MeshInstance3D = potion.find_child("PotionOutline")
+	mesh_instance.visible = false
+		
+func add_cauldron_outline() -> void:
+	if cauldron.being_poured_into:
+		return
+	var mesh_instance = cauldron.get_child(0).get_child(8)
+	
+	mesh_instance.visible = true
+	
+func remove_cauldron_outline() -> void:
+	var mesh_instance = cauldron.get_child(0).get_child(8)
+	
+	mesh_instance.visible = false
+	
+func add_paper_outline() -> void:
+	var mesh_instance = paper.get_child(0).get_child(1)
+	
+	mesh_instance.visible = true
+	
+func remove_paper_outline() -> void:
+	var mesh_instance = paper.get_child(0).get_child(1)
+	
+	mesh_instance.visible = false
+	

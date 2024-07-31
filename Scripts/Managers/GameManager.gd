@@ -60,9 +60,9 @@ var LEVEL_CONFIG = [
 	{
 		"potion": level_one_potion,
 		"flicker_probability": 1,
-		"light_out_duration": 5,
-		"check_interval": 5,
-		"lights_out_cooldown": 5,
+		"light_out_duration": 3,
+		"check_interval": 8,
+		"lights_out_cooldown": 10,
 		"light_on_or_off": true,
 	},
 	{

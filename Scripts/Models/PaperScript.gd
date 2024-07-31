@@ -9,9 +9,14 @@ extends Node3D
 @onready var input_manager = $"../Managers/InputManager"
 @onready var lantern = $"../Lantern"
 
+var disabled = false
+
 var original_position: Vector3
 var original_rotation: Vector3
 var camera_offset: Vector3
+
+func is_disabled():
+	return disabled
 
 func _ready():
 	# Initialize the original position and rotation
@@ -27,6 +32,7 @@ func _ready():
 							camera_position.z - 3.1)
 	input_manager.ObjectClicked.connect(_on_ObjectClicked)
 	lantern.LightOff.connect(_handle_light_off)
+	lantern.LightOn.connect(_handle_light_on)
 
 func _on_ObjectClicked(_event_position, clicked_object):
 	if clicked_object.is_in_group("paper"):
@@ -68,8 +74,12 @@ func put_in_front():
 	await tween.finished
 
 func _handle_light_off():
+	disabled = true
 	if is_in_front:
 		put_down()
+
+func _handle_light_on():
+	disabled = false
 
 func set_paper_emmission(enabled: bool):
 	var paper_mesh: ArrayMesh = self.get_child(0).get_child(0).mesh

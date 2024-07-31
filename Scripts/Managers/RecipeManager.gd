@@ -91,6 +91,7 @@ func _do_display_recipe(potions: Array):
 
 		CURRENT_POINTER_POSITION.x += 1  # Move to the next column for the next potion
 
+
 func output_potion_sprite(potion: Object):
 	var sprite: Sprite3D = Sprite3D.new()
 	var texture: Texture2D = load(get_potion_sprite_image(potion))  # Load the texture resource
@@ -110,7 +111,6 @@ func output_symbol_sprite(symbol: String):
 	sprite.scale = Vector3(0.4, 0.4, 0.4)  # Set scale directly
 	sprite.position = CURRENT_POINTER_POSITION  # Position the sprite
 	sprite.rotation_degrees = Vector3(-90, 90, 0)  # Set rotation in one line
-
 	paper.add_child(sprite)  # Add the sprite to the paper node
 
 func output_circle_sprite(potion: Object):
