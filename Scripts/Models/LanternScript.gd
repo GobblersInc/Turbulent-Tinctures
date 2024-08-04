@@ -18,7 +18,7 @@ signal LightOn()
 
 func _ready():
 	timer.connect("timeout", _on_check_timer_timeout)
-	GameManager.LanternUpdated.connect(_lantern_settings_updated)
+	LevelManager.LanternUpdated.connect(_lantern_settings_updated)
 	is_light_on = light_on_or_off
 	if is_light_on:
 		timer.start(check_interval)

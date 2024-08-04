@@ -2,12 +2,7 @@ extends Node
 
 const FluidType = preload("res://Scripts/Utilities/PotionData.gd").FluidType
 const BottleType = preload("res://Scripts/Utilities/PotionData.gd").BottleType
-
-const POTION_SCENES = {
-	BottleType.VIAL: "res://Scenes/Models/vial_potion.tscn",
-	BottleType.FLASK: "res://Scenes/Models/flask_potion.tscn",
-	BottleType.JUG: "res://Scenes/Models/jug_potion.tscn",
-}
+@onready var cauldron = get_node("/root/PirateShip/Cauldron")
 
 const BOUNDS = {
 	"top": -2.4,
@@ -21,53 +16,27 @@ const POTION_MIN_DISTANCE_APART = .3
 var potions_on_table = []
 
 func _ready():
-	print(GameManager.InitializeGame)
-	GameManager.InitializeGame.connect(_on_initialize_game)
-	GameManager.FinishedLevel.connect(_on_finished_level)
-	GameManager.StartedLevel.connect(_on_started_level)
-	GameManager.CompletedPotion.connect(_on_completed_potion)
+	LevelManager.StartedLevel.connect(_on_started_level)
+	cauldron.CompletedPotion.connect(_on_completed_potion)
 	
 	InteractionManager.AddIngredient.connect(_on_AddIngredient)
 	
-func _on_initialize_game(all_possible_potions):
-	print("init")
-	load_all_potions(all_possible_potions)
-	
-func _on_finished_level(resulting_potion):
-	spawn_required_potion(resulting_potion)
-
-func _on_started_level(starting_potions):
+func _on_started_level(starting_potions, required_potion):
 	potions_on_table = []
 	
 	for potion in starting_potions:
 		spawn_new_potion(potion, starting_potions)
 	
-func _on_completed_potion(resulting_potion: PotionData):
-	spawn_new_potion(resulting_potion, potions_on_table)
+func _on_completed_potion(resulting_potion: PotionData, is_final_potion):
+	if is_final_potion:
+		spawn_required_potion(resulting_potion)
+		resulting_potion.reset_values()
+		#all_potions[resulting_potion.bottle][resulting_potion.fluid].reset_values()
+	else:
+		spawn_new_potion(resulting_potion, potions_on_table)
 	
 func _on_AddIngredient(potion_data: PotionData):
 	potions_on_table.erase(potion_data)
-
-func load_all_potions(all_potions: Dictionary):
-	for bottle in BottleType.values():
-		for fluid in FluidType.values():
-			spawn_potion(all_potions[bottle][fluid])
-			
-func spawn_potion(potion: PotionData) -> void:
-	"""
-	Spawn in a single potion, setting its position, bottle type, and color as defined by the object's fields
-	"""
-	var bottle_type = potion.bottle
-	var potion_node = load(POTION_SCENES[bottle_type]).instantiate()
-	add_child(potion_node)
-
-	potion_node.global_position = potion.position
-	potion_node.scale = Vector3(.6, .6, .6)
-	potion_node.potion_data = potion
-
-	potion.node = potion_node
-
-	change_potion_color(potion)
 	
 func spawn_required_potion(potion: PotionData):
 	potion.position = Vector3(BOUNDS["left"] + .96, TABLE_HEIGHT+1.25, BOUNDS["top"] - .7)
@@ -77,6 +46,8 @@ func spawn_required_potion(potion: PotionData):
 	potions_on_table.append(potion)
 	
 func spawn_new_potion(potion: PotionData, potion_list: Array) -> void:
+	change_potion_color(potion)	
+	
 	var position = get_valid_position(potion_list)
 	potion.position = position
 	potion.node.global_position = position
@@ -115,7 +86,7 @@ func set_mesh_material_emission(mesh_instance: MeshInstance3D, color):
 
 	# Change the color of the duplicated material
 	new_material.set_emission(color)
-	
+
 func get_valid_position(potions: Array) -> Vector3:
 	var valid = false
 	var new_position

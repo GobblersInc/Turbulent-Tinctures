@@ -22,9 +22,9 @@ const fluid_to_color = preload("res://Scripts/Utilities/PotionData.gd").FLUID_TY
 var CURRENT_POINTER_POSITION: Vector3
 
 func _ready():
-	GameManager.Recipe.connect(_do_display_recipe)
-	GameManager.GamePause.connect(_clear_recipe)
-	GameManager.LanternUpdated.connect(_lantern_settings_updated)
+	LevelManager.Recipe.connect(_do_display_recipe)
+	LevelManager.GamePause.connect(_clear_recipe)
+	LevelManager.LanternUpdated.connect(_lantern_settings_updated)
 	lantern.LightOff.connect(_handle_light_off)
 	lantern.LightOn.connect(_handle_light_on)
 	light = lantern.find_child("LanternLight", true, false)

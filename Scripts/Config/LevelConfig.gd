@@ -3,6 +3,46 @@ extends Node
 const FluidType = preload("res://Scripts/Utilities/PotionData.gd").FluidType
 const BottleType = preload("res://Scripts/Utilities/PotionData.gd").BottleType
 
+const POTION_SCENES = {
+	BottleType.VIAL: "res://Scenes/Models/vial_potion.tscn",
+	BottleType.FLASK: "res://Scenes/Models/flask_potion.tscn",
+	BottleType.JUG: "res://Scenes/Models/jug_potion.tscn",
+}
+
+var all_potions = {}
+
+func _ready():
+	all_potions = generate_all_combinations()
+	load_all_potions(all_potions)
+	
+func load_all_potions(all_potions: Dictionary):
+	for bottle in BottleType.values():
+		for fluid in FluidType.values():
+			load_potion(all_potions[bottle][fluid])
+			
+func load_potion(potion: PotionData) -> void:
+	"""
+	Spawn in a single potion, setting its position and bottle type
+	"""
+	var bottle_type = potion.bottle
+	var potion_node = load(POTION_SCENES[bottle_type]).instantiate()
+	add_child(potion_node)
+
+	potion_node.global_position = potion.position
+	potion_node.scale = Vector3(.6, .6, .6)
+	potion_node.potion_data = potion
+
+	potion.node = potion_node
+
+# Function to generate all possible potion combinations in a nested dictionary
+static func generate_all_combinations() -> Dictionary:
+	var combinations = {}
+	for bottle in BottleType.values():
+		combinations[bottle] = {}
+		for fluid in FluidType.values():
+			combinations[bottle][fluid] = PotionData.new(fluid, bottle)
+	return combinations
+
 var LEVEL_CONFIG = [
 	{
 		"potion": level_one_potion,

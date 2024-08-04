@@ -9,8 +9,8 @@ signal ClickAfterGameLoss()
 signal HoverStatus(object_hovered, hovering)
 
 func _ready():
-	GameManager.GameLoss.connect(_on_GameLoss)
-	GameManager.GamePause.connect(_on_GamePause)
+	LevelManager.GameLoss.connect(_on_GameLoss)
+	LevelManager.GamePause.connect(_on_GamePause)
 	
 func reset_cursor():
 	var cursor_shape = Input.CURSOR_ARROW

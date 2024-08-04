@@ -81,6 +81,7 @@ func clicking_cauldron(cauldron: Node3D):
 		if containers_are_available:
 			selected_potion.pour_potion(cauldron)
 			selected_potion.selected = false
+			selected_potion.can_be_selected = false
 			AddIngredient.emit(selected_potion.potion_data)
 			selected_potion = null
 			add_cauldron_outline()
