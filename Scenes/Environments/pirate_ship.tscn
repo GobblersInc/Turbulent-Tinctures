@@ -1,15 +1,12 @@
-[gd_scene load_steps=42 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=39 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="3_hmrva"]
 [ext_resource type="Script" path="res://Scripts/Models/Cauldron.gd" id="3_st3s3"]
-[ext_resource type="Script" path="res://Scripts/Managers/InputManager.gd" id="7_g6hdh"]
 [ext_resource type="PackedScene" uid="uid://bdwko5252gepe" path="res://Scenes/Models/paper.tscn" id="8_gka6f"]
 [ext_resource type="Script" path="res://Scripts/Models/PaperScript.gd" id="9_5qjy5"]
 [ext_resource type="Script" path="res://Scripts/Managers/GameTimer.gd" id="9_euo7d"]
 [ext_resource type="PackedScene" uid="uid://bnq1leshxijrk" path="res://Scenes/Models/lantern.tscn" id="10_50gvt"]
-[ext_resource type="Script" path="res://Scripts/Managers/MovementManager.gd" id="10_c1017"]
-[ext_resource type="Script" path="res://Scripts/Managers/RecipeManager.gd" id="10_go4sw"]
 [ext_resource type="Script" path="res://Scripts/Managers/GameManager.gd" id="11_3v0ec"]
 [ext_resource type="PackedScene" uid="uid://dtakfpgycs2gb" path="res://Scenes/Models/wooden_table.tscn" id="12_se738"]
 [ext_resource type="PackedScene" uid="uid://beqvwlrc4ft47" path="res://Scenes/Models/Ship.tscn" id="13_5gnq8"]
@@ -167,12 +164,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504239, 1.0115, 2.09406)
 
 [node name="Managers" type="Node" parent="."]
 
-[node name="RecipeManager" type="Node3D" parent="Managers"]
-script = ExtResource("10_go4sw")
-
-[node name="MovementManager" type="Node3D" parent="Managers"]
-script = ExtResource("10_c1017")
-
 [node name="GameManager" type="Node3D" parent="Managers"]
 script = ExtResource("11_3v0ec")
 
@@ -180,9 +171,6 @@ script = ExtResource("11_3v0ec")
 wait_time = 60.0
 one_shot = true
 script = ExtResource("9_euo7d")
-
-[node name="InputManager" type="Node3D" parent="Managers"]
-script = ExtResource("7_g6hdh")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.900918, 0.43399, 0, -0.43399, 0.900918, 0, 2.77486, -3.04204)

@@ -1,7 +1,5 @@
 extends Node3D
 
-@onready var movement_manager = $"../MovementManager"
-@onready var input_manager = $"../InputManager"
 @onready var ship = $"../.."
 @onready var fade_to_black = $"../../WorldEnvironment/FadeToBlack"
 @onready var popup_text = $"../../CanvasLayer/PopupTextFade"
@@ -72,11 +70,11 @@ func set_lantern_values(level_config):
 func _ready():
 	initialize()
 	
-	movement_manager.AddIngredient.connect(_on_AddIngredient)
-	movement_manager.MixIngredients.connect(_on_MixIngredients)
+	InteractionManager.AddIngredient.connect(_on_AddIngredient)
+	InteractionManager.MixIngredients.connect(_on_MixIngredients)
 	
 	game_timer.TimeOut.connect(_on_LevelTimer_timeout)
-	input_manager.ClickAfterGameLoss.connect(_on_LossClick)
+	InputManager.ClickAfterGameLoss.connect(_on_LossClick)
 
 func _on_LossClick():
 	restart_game()

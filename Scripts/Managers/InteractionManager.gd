@@ -1,9 +1,8 @@
 extends Node3D 
 
-@onready var input_manager = $"../InputManager"
-@onready var cauldron = $"../../Cauldron"
-@onready var paper = $"../../Paper"
-@onready var lantern = $"../../Lantern"
+@onready var cauldron = get_node("/root/PirateShip/Cauldron")
+@onready var paper = get_node("/root/PirateShip/Paper")
+@onready var lantern = get_node("/root/PirateShip/Lantern")
 
 signal AddIngredient(potion)
 signal MixIngredients()
@@ -15,8 +14,8 @@ var selected_potion = null
 var hovered_item = null
 
 func _ready():
-	input_manager.ObjectClicked.connect(_on_ObjectClicked)
-	input_manager.HoverStatus.connect(_on_ObjectHovered)
+	InputManager.ObjectClicked.connect(_on_ObjectClicked)
+	InputManager.HoverStatus.connect(_on_ObjectHovered)
 	cauldron.DonePouring.connect(_on_DonePouring)
 	lantern.LightOff.connect(_on_LightOff)
 

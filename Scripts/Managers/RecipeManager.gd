@@ -1,8 +1,8 @@
 extends Node3D
 
-@onready var paper: Node3D = $"../../Paper"
-@onready var game_manager = $"../GameManager"
-@onready var lantern = $"../../Lantern"
+@onready var paper = get_node("/root/PirateShip/Paper")
+@onready var game_manager = get_node("/root/PirateShip/Managers/GameManager")
+@onready var lantern = get_node("/root/PirateShip/Lantern")
 @onready var light: OmniLight3D = null
 
 const BOTTLE_TYPE_TO_FILE_PATH = {
@@ -26,11 +26,11 @@ func _ready():
 	game_manager.Recipe.connect(_do_display_recipe)
 	game_manager.GamePause.connect(_clear_recipe)
 	game_manager.LanternUpdated.connect(_lantern_settings_updated)
-	CURRENT_POINTER_POSITION = paper.position + Vector3(-6.4, -1.3, 7.85)
 	lantern.LightOff.connect(_handle_light_off)
 	lantern.LightOn.connect(_handle_light_on)
 	light = lantern.find_child("LanternLight", true, false)
-	
+	CURRENT_POINTER_POSITION = paper.position + Vector3(-6.4, -1.3, 7.85)	
+
 func _clear_recipe(isPaused: bool):
 	for child in paper.get_children():
 		if child is Sprite3D:

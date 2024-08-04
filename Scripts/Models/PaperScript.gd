@@ -6,7 +6,6 @@ extends Node3D
 
 @export var animation_time = .5
 
-@onready var input_manager = $"../Managers/InputManager"
 @onready var lantern = $"../Lantern"
 
 var disabled = false
@@ -31,7 +30,7 @@ func _ready():
 	camera_offset = Vector3(camera_position.x,
 							camera_position.y - 1.625, 
 							camera_position.z - 3.1)
-	input_manager.ObjectClicked.connect(_on_ObjectClicked)
+	InputManager.ObjectClicked.connect(_on_ObjectClicked)
 	lantern.LightOff.connect(_handle_light_off)
 	lantern.LightOn.connect(_handle_light_on)
 

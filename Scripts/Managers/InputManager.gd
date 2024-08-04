@@ -1,7 +1,7 @@
 extends Node3D 
 
-@onready var camera = $"../../Camera3D"
-@onready var game_manager = $"../GameManager"
+@onready var camera = get_node("/root/PirateShip/Camera3D")
+@onready var game_manager = get_node("/root/PirateShip/Managers/GameManager")
 var game_lost = false
 var game_paused = false
 
