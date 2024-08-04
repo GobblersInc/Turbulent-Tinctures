@@ -22,6 +22,7 @@ LevelConfig="*res://Scripts/Config/LevelConfig.gd"
 RecipeManager="*res://Scripts/Managers/RecipeManager.gd"
 InteractionManager="*res://Scripts/Managers/InteractionManager.gd"
 InputManager="*res://Scripts/Managers/InputManager.gd"
+SpawnManager="*res://Scripts/Managers/SpawnManager.gd"
 GameManager="*res://Scripts/Managers/GameManager.gd"
 
 [display]

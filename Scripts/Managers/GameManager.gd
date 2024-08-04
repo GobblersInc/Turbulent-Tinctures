@@ -16,21 +16,6 @@ const LANTERN_SCENE = "res://Scenes/Models/lantern.tscn"
 
 const water_color = Color(0.064, 0.142, 0.482)
 
-const POTION_SCENES = {
-	BottleType.VIAL: "res://Scenes/Models/vial_potion.tscn",
-	BottleType.FLASK: "res://Scenes/Models/flask_potion.tscn",
-	BottleType.JUG: "res://Scenes/Models/jug_potion.tscn",
-}
-
-const POTION_MIN_DISTANCE_APART = .3
-const TABLE_HEIGHT = 2.4
-const BOUNDS = {
-	"top": -2.4,
-	"bottom": -1.85,
-	"left": -1,
-	"right": 1.45,
-}
-
 const TIMES = {
 	"time_before_level_transition": 0.5,
 	"fading_in": 1,
@@ -39,7 +24,6 @@ const TIMES = {
 	"waiting_for_reload": 0.1
 }
 
-var potions_on_table = []
 var cauldron_contents = []
 var required_potion = null
 var level = 0
@@ -52,6 +36,10 @@ signal GameLoss()
 signal GamePause(is_paused: bool)
 signal MixAttempt()
 signal LanternUpdated()
+signal FinishedLevel(resulting_potion: PotionData)
+signal CompletedPotion(resulting_potion: PotionData)
+signal StartedLevel(starting_potions: Array)
+signal InitializeGame(all_possible_potions)
 
 """
 The minimum nesting one can do is 1 - otherwise there wouldn't be any potion equations!
@@ -71,9 +59,8 @@ func _ready():
 	
 	InteractionManager.AddIngredient.connect(_on_AddIngredient)
 	InteractionManager.MixIngredients.connect(_on_MixIngredients)
-	
-	game_timer.TimeOut.connect(_on_LevelTimer_timeout)
 	InputManager.ClickAfterGameLoss.connect(_on_LossClick)
+	game_timer.TimeOut.connect(_on_LevelTimer_timeout)	
 
 func _on_LossClick():
 	restart_game()
@@ -87,14 +74,10 @@ static func generate_all_combinations() -> Dictionary:
 			combinations[bottle][fluid] = PotionData.new(fluid, bottle)
 	return combinations
 
-func load_all_potions(all_potions: Dictionary):
-	for bottle in BottleType.values():
-		for fluid in FluidType.values():
-			spawn_potion(all_potions[bottle][fluid])
-
 func initialize():
+	print("init")
 	all_potions = generate_all_combinations()
-	load_all_potions(all_potions)
+	InitializeGame.emit(all_potions)
 	start_level()
 	fade_to_black.fade_from_black(1)
 
@@ -121,7 +104,6 @@ func get_combined_potion_color(potions: Array) -> Color:
 
 func _on_AddIngredient(potion: PotionData):
 	cauldron_contents.append(potion)
-	potions_on_table.erase(potion)
 	
 	potion.node.can_be_selected = false
 
@@ -187,7 +169,7 @@ func successful_mix_ingredients():
 
 	all_potions[resulting_potion.bottle][resulting_potion.fluid].ingredients = []
 	resulting_potion.node.can_be_selected = true
-	
+
 	cauldron_contents.clear()
 
 	change_cauldron_liquid_color(resulting_potion.get_color())
@@ -197,7 +179,7 @@ func successful_mix_ingredients():
 		game_timer.paused = true
 		GamePause.emit(true)
 		
-		move_required_potion(resulting_potion)
+		FinishedLevel.emit(resulting_potion)
 		level += 1
 		if level >= len(LEVEL_CONFIG):
 			end_game()
@@ -212,7 +194,7 @@ func successful_mix_ingredients():
 			start_level()
 			await fade_out()
 	else:
-		move_new_potion(resulting_potion, potions_on_table)
+		CompletedPotion.emit(resulting_potion)
 
 
 
@@ -227,7 +209,6 @@ func set_game_timer(level_config):
 func start_level():
 	set_lantern_values(LEVEL_CONFIG[level])
 	set_game_timer(LEVEL_CONFIG[level])
-	potions_on_table = []
 	
 	var potion_data = {
 		"RED:FLASK": {
@@ -246,8 +227,7 @@ func start_level():
 	var starting_potions = required_potion.get_all_leaves()
 	var potion_recipe = required_potion.get_all_non_leaves()
 
-	for potion in starting_potions:
-		move_new_potion(potion, starting_potions)
+	StartedLevel.emit(starting_potions)
 		
 	game_timer.start()
 	game_timer.paused = false
@@ -264,54 +244,6 @@ func restart_game():
 	get_tree().reload_current_scene()
 	await fade_out()
 
-func spawn_potion(potion: PotionData) -> void:
-	"""
-	Spawn in a single potion, setting its position, bottle type, and color as defined by the object's fields
-	"""
-	var bottle_type = potion.bottle
-	var potion_node = load(POTION_SCENES[bottle_type]).instantiate()
-	add_child(potion_node)
-
-	potion_node.global_position = potion.position
-	potion_node.scale = Vector3(.6, .6, .6)
-	potion_node.potion_data = potion
-
-	potion.node = potion_node
-
-	change_potion_color(potion)
-
-func move_required_potion(potion: PotionData):
-	potion.position = Vector3(BOUNDS["left"] + .96, TABLE_HEIGHT+1.25, BOUNDS["top"] - .7)
-	potion.node.global_position = potion.position
-	potion.node.can_be_selected = false
-	potion.result = null
-	potions_on_table.append(potion)
-
-func move_new_potion(potion: PotionData, potion_list: Array) -> void:
-	var position = get_valid_position(potion_list)
-	potion.position = position
-	potion.node.global_position = position
-	
-	potions_on_table.append(potion)
-
-func set_mesh_material_emission(mesh_instance: MeshInstance3D, color):
-	# Duplicate the mesh to create a unique instance
-	var original_mesh = mesh_instance.mesh
-	var new_mesh = original_mesh.duplicate() as ArrayMesh
-
-	# Apply the new mesh to the mesh instance
-	mesh_instance.mesh = new_mesh
-
-	# Duplicate the material to create a unique instance
-	var original_material = new_mesh.surface_get_material(0)
-	var new_material = original_material.duplicate()
-
-	# Apply the duplicated material to the new mesh
-	new_mesh.surface_set_material(0, new_material)
-
-	# Change the color of the duplicated material
-	new_material.set_emission(color)
-
 func change_cauldron_liquid_color(color: Color):
 	var liquid_CSGCylinder = cauldron.get_child(1)
 	var material = liquid_CSGCylinder.material
@@ -323,39 +255,6 @@ func change_cauldron_liquid_color(color: Color):
 					"emission", 
 					color,
 					1)
-
-func change_potion_color(potion: PotionData) -> void:
-	var potion_node = potion.node
-	var fluid_mesh_instance = potion_node.find_child("fluid") as MeshInstance3D
-	var color = potion.get_color()
-	
-	# Duplicate the mesh to create a unique instance
-	set_mesh_material_emission(fluid_mesh_instance, color)
-
-func generate_position() -> Vector3:
-	var x = randf_range(BOUNDS["left"], BOUNDS["right"])
-	var z = randf_range(BOUNDS["bottom"], BOUNDS["top"])
-	var position = Vector3(x, TABLE_HEIGHT, z)
-
-	return position
-
-func get_valid_position(potions: Array) -> Vector3:
-	var valid = false
-	var new_position
-	while not valid:
-		new_position = generate_position()
-		valid = is_position_valid(new_position, potions)
-
-	return new_position
-
-func is_position_valid(position: Vector3, potions: Array) -> bool:
-	"""
-	This could almost certainly be done a better way - this way, the outer function runs at O(n^2)
-	"""
-	for potion in potions:
-		if position.distance_to(potion.position) < POTION_MIN_DISTANCE_APART:
-			return false
-	return true
 
 func can_mix_ingredients(ingredients: Array) -> bool:
 	"""

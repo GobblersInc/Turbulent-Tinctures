@@ -61,7 +61,6 @@ var LEVEL_CONFIG = [
 ]
 
 func level_one_potion(all_potions):
-	print("test")
 	var potion_0 = all_potions[BottleType.FLASK][FluidType.RED]
 	var potion_1 = all_potions[BottleType.JUG][FluidType.PINK]
 	potion_0.add_ingredient(potion_1)
