@@ -84,9 +84,7 @@ func get_all_leaves() -> Array:
 	return leaves
 
 func _collect_leaves(potion: PotionData, leaves: Array) -> void:
-	print(potion)
 	if potion.is_leaf():
-		print("yeah it's a leaf")
 		leaves.append(potion)
 	else:
 		for ingredient in potion.ingredients:

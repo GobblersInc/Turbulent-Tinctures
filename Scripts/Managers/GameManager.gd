@@ -45,7 +45,7 @@ const TIMES = {
 var potions_on_table = []
 var cauldron_contents = []
 var required_potion = null
-var level = 5
+var level = 0
 var lost = false
 var pouring = false
 var tween: Tween
@@ -151,14 +151,8 @@ func load_all_potions(all_potions: Dictionary):
 			spawn_potion(all_potions[bottle][fluid])
 
 func initialize():
-	var level_helper = preload("res://Scripts/Utilities/LevelHelper.gd").new()
-	level_helper._ready()
-	
 	all_potions = generate_all_combinations()
 	load_all_potions(all_potions)
-	print("test")
-	print(all_potions[BottleType.VIAL][FluidType.BLUE])
-	print(all_potions[BottleType.VIAL][FluidType.BLUE].node)
 	start_level()
 	fade_to_black.fade_from_black(1)
 
@@ -191,10 +185,7 @@ func _on_AddIngredient(potion: PotionData):
 
 	# If the ingredients can make a potion
 	if can_mix_ingredients(cauldron_contents):
-		print("get_mix_result(cauldron_contents)")
-		print(get_mix_result(cauldron_contents))
 		var color = get_mix_result(cauldron_contents).get_color()
-		print("color", color)
 		change_cauldron_liquid_color(color)
 	# If the cauldron was empty
 	elif len(cauldron_contents) == 1:
@@ -447,14 +438,9 @@ func start_level():
 	
 	required_potion = LEVEL_CONFIG[level]["potion"].call()
 	required_potion.result = null
-	print("test2")
-	print(required_potion.node.can_be_selected)
-	print(required_potion)
-	#required_potion.print_game_info(false)
 	
 	var starting_potions = required_potion.get_all_leaves()
 	var potion_recipe = required_potion.get_all_non_leaves()
-	print(required_potion.node)
 
 	for potion in starting_potions:
 		move_new_potion(potion, starting_potions)
@@ -493,7 +479,6 @@ func spawn_potion(potion: PotionData) -> void:
 
 func move_required_potion(potion: PotionData):
 	potion.position = Vector3(BOUNDS["left"] + .96, TABLE_HEIGHT+1.25, BOUNDS["top"] - .7)
-	print(potion.node)
 	potion.node.global_position = potion.position
 	potion.node.can_be_selected = false
 	potion.result = null
@@ -502,7 +487,6 @@ func move_required_potion(potion: PotionData):
 func move_new_potion(potion: PotionData, potion_list: Array) -> void:
 	var position = get_valid_position(potion_list)
 	potion.position = position
-	print(potion.node)
 	potion.node.global_position = position
 	
 	potions_on_table.append(potion)
@@ -578,11 +562,9 @@ func can_mix_ingredients(ingredients: Array) -> bool:
 		return false
 
 	var first_potion_siblings = ingredients[0].get_siblings()
-	print("first potion siblings", first_potion_siblings)
 	return array_contents_equal(first_potion_siblings, ingredients)
 
 func get_mix_result(ingredients: Array):
-	print("get mix result", ingredients[0].result)
 	return ingredients[0].result
 
 func array_contents_equal(array_1: Array, array_2: Array) -> bool:
