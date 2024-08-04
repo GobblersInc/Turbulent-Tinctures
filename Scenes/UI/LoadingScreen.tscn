@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://porw384hwxqe"]
+[gd_scene load_steps=5 format=3 uid="uid://cgpo8h8y8nn4u"]
 
 [ext_resource type="VideoStream" path="res://Resources/Misc/Ocean BG Anim Render.ogv" id="1_0f26r"]
 [ext_resource type="Script" path="res://Scripts/UI/LoadingScreen.gd" id="1_xvcsd"]

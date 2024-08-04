@@ -1,6 +1,5 @@
 extends Node3D
 
-@onready var movement_manager = $"../Managers/MovementManager"
 var original_position: Vector3
 var original_rotation: Vector3
 var stirring_position: Vector3
@@ -12,7 +11,7 @@ var tween: Tween
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	movement_manager.MixIngredients.connect(_on_MixIngredient)
+	InteractionManager.MixIngredients.connect(_on_MixIngredient)
 	original_position = self.position
 	original_rotation = self.rotation
 	stirring_position =  Vector3(self.position.x + .2, self.position.y, self.position.z + .2)

@@ -83,7 +83,7 @@ transform = Transform3D(0.699524, 0, 0, 0, 0.699524, 0, 0, 0, 0.699524, 0, 0, 0)
 mesh = ExtResource("2_u5t28")
 skeleton = NodePath("")
 
-[node name="Cork" type="MeshInstance3D" parent="str8pot_red"]
+[node name="cap" type="MeshInstance3D" parent="str8pot_red"]
 transform = Transform3D(0.622138, 0, 0, 0, 0.622138, 0, 0, 0, 0.622138, 0, 4.81589, 0)
 mesh = ExtResource("3_hdqva")
 skeleton = NodePath("")

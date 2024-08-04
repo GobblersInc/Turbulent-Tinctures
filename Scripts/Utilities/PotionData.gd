@@ -39,7 +39,6 @@ var ingredients: Array = [] # equivalent to "children"
 
 var fluid: FluidType
 var bottle: BottleType
-
 var node: Node3D = null
 var position: Vector3
 
@@ -108,6 +107,19 @@ func _collect_non_leaves(potion: PotionData, non_leaves: Array) -> void:
 		non_leaves.append(potion)
 		for ingredient in potion.ingredients:
 			_collect_non_leaves(ingredient, non_leaves)
+
+func reset_values() -> void:
+	node.can_be_selected = true
+	result = null # equivalent to "parent"
+	ingredients = [] # equivalent to "children"
+
+# Function to traverse the potion tree in post-order and clear values
+func clear_values():
+	# Traverse and clear each ingredient's values first (post-order traversal)
+	for ingredient in ingredients:
+		ingredient.clear_values()
+	# Clear this potion's values after its ingredients
+	reset_values()
 
 # Custom comparison function
 static func compare_potion_data(a: PotionData, b: PotionData) -> int:

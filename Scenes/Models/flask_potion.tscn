@@ -167,7 +167,7 @@ skeleton = NodePath("")
 mesh = SubResource("ArrayMesh_387m0")
 skeleton = NodePath("")
 
-[node name="Cork" type="MeshInstance3D" parent="conical flask"]
+[node name="cap" type="MeshInstance3D" parent="conical flask"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.41141, 0)
 mesh = SubResource("ArrayMesh_3hx4r")
 skeleton = NodePath("")

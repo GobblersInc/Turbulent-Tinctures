@@ -3,7 +3,6 @@ extends Node3D
 @onready var light: OmniLight3D = $Lantern/LanternLight
 @onready var rng = RandomNumberGenerator.new()
 @onready var timer: Timer = $Lantern/Timer
-@onready var game_manager = $"../Managers/GameManager"
 
 @export var flicker_probability: float
 @export var light_out_duration: float
@@ -19,7 +18,7 @@ signal LightOn()
 
 func _ready():
 	timer.connect("timeout", _on_check_timer_timeout)
-	game_manager.LanternUpdated.connect(_lantern_settings_updated)
+	LevelManager.LanternUpdated.connect(_lantern_settings_updated)
 	is_light_on = light_on_or_off
 	if is_light_on:
 		timer.start(check_interval)

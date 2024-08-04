@@ -1,5 +1,5 @@
 extends Timer
-@onready var time_left_label = $"../../../CanvasLayer/TimeLeft"
+@onready var time_left_label = get_node("/root/PirateShip/LevelTransition/TimeLeft")
 
 signal TimeOut()
 

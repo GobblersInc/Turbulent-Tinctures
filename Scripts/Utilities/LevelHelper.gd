@@ -16,8 +16,8 @@ func _get_bottle_type(bottle_str: String):
 			return bottle
 	return null
 
-# Function to process each node in the dictionary
-func process_node(data: Dictionary, parent_var: String, potion_count: int) -> Dictionary:
+# Function to process each node in the dictionary and generate GDScript statements
+func process_node(data: Dictionary, parent_var: String, potion_count: int, all_potions: Dictionary) -> Dictionary:
 	var statements = ""
 	var local_potion_count = potion_count  # Use a local variable to avoid modifying the potion_count directly
 	
@@ -32,30 +32,50 @@ func process_node(data: Dictionary, parent_var: String, potion_count: int) -> Di
 		var potion_var = "potion_%d" % local_potion_count
 		local_potion_count += 1
 		
-		statements += "var %s = PotionData.new(FluidType.%s, BottleType.%s)\n" % [potion_var, fluid_str, bottle_str]
+		statements += "var %s = all_potions[BottleType.%s][FluidType.%s]\n" % [potion_var, bottle_str, fluid_str]
 		if parent_var != "":
 			statements += "%s.add_ingredient(%s)\n" % [parent_var, potion_var]
 		
 		if typeof(data[key]) == TYPE_DICTIONARY:
-			var result = process_node(data[key], potion_var, local_potion_count)
+			var result = process_node(data[key], potion_var, local_potion_count, all_potions)
 			statements += result["statements"]
 			local_potion_count = result["potion_count"]
 	
 	return {"statements": statements, "potion_count": local_potion_count}
 
 # Function to convert the dictionary into PotionData initialization statements
-func convert_to_potion_data_statements(data: Dictionary) -> String:
-	var root_key = data.keys()[0]
-	var parts = root_key.split(":")
-	var fluid_str = parts[0]
-	var bottle_str = parts[1]
+func convert_to_potion_data_statements(data: Dictionary, all_potions: Dictionary) -> String:
+	var statements = ""
+	var potion_count = 0
 	
-	var root_statements = "var root_potion = PotionData.new(FluidType.%s, BottleType.%s)\n" % [fluid_str, bottle_str]
-	var result = process_node(data[root_key], "root_potion", 1)
+	for key in data.keys():
+		var parts = key.split(":")
+		var fluid_str = parts[0]
+		var bottle_str = parts[1]
+		
+		var fluid = _get_fluid_type(fluid_str)
+		var bottle = _get_bottle_type(bottle_str)
+		
+		var root_var = "potion_%d" % potion_count
+		potion_count += 1
+		
+		statements += "var %s = all_potions[BottleType.%s][FluidType.%s]\n" % [root_var, bottle_str, fluid_str]
+		
+		if typeof(data[key]) == TYPE_DICTIONARY:
+			var result = process_node(data[key], root_var, potion_count, all_potions)
+			statements += result["statements"]
+			potion_count = result["potion_count"]
 	
-	return root_statements + result["statements"]
+	return statements
 	
 func _ready():
+	# Create a sample all_potions dictionary for demonstration
+	var all_potions = {}
+	for bottle in BottleType.values():
+		all_potions[bottle] = {}
+		for fluid in FluidType.values():
+			all_potions[bottle][fluid] = PotionData.new(fluid, bottle)
+
 	var potion_data = {
 		"RED:FLASK": {
 			"PINK:JUG": null,
@@ -79,10 +99,11 @@ func _ready():
 				"PURPLE:FLASK": null,
 				"BLUE:VIAL": null,
 			},
-			"YELLOW:JUG": null,
+			"BLUE:JUG": null,
 			"PINK:JUG": null,
 		}
 	}
+
 	var potion_data3 = {
 		"DARK_GREEN:FLASK": {
 			"PINK:VIAL": {
@@ -116,7 +137,7 @@ func _ready():
 					"RED:VIAL": null,
 				},
 			},
-			"YELLOW:FLASK": {
+			"BLUE:VIAL": {
 				"LIGHT_BLUE:VIAL": null,
 				"BLUE:FLASK": null,
 			},
@@ -150,15 +171,15 @@ func _ready():
 		}
 	}
 	print("level")
-	print(convert_to_potion_data_statements(potion_data))
+	print(convert_to_potion_data_statements(potion_data, all_potions))
 	print("level")
-	print(convert_to_potion_data_statements(potion_data1))
+	print(convert_to_potion_data_statements(potion_data1, all_potions))
 	print("level")
-	print(convert_to_potion_data_statements(potion_data2))
+	print(convert_to_potion_data_statements(potion_data2, all_potions))
 	print("level")
-	print(convert_to_potion_data_statements(potion_data3))
+	print(convert_to_potion_data_statements(potion_data3, all_potions))
 	print("level")
-	print(convert_to_potion_data_statements(potion_data4))
+	print(convert_to_potion_data_statements(potion_data4, all_potions))
 	print("level")
-	print(convert_to_potion_data_statements(potion_data5))
+	print(convert_to_potion_data_statements(potion_data5, all_potions))
 	

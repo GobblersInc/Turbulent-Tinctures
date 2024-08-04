@@ -11,13 +11,19 @@ config_version=5
 [application]
 
 config/name="Pirate Jam 15"
-run/main_scene="res://Scenes/UI/MainMenu.tscn"
+run/main_scene="res://Scenes/Environments/pirate_ship.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
+RecipeManager="*res://Scripts/Managers/RecipeManager.gd"
 SoundManager="*res://Scripts/Managers/SoundManager.gd"
+InteractionManager="*res://Scripts/Managers/InteractionManager.gd"
+InputManager="*res://Scripts/Managers/InputManager.gd"
+LevelConfig="*res://Scripts/Config/LevelConfig.gd"
+SpawnManager="*res://Scripts/Managers/SpawnManager.gd"
+LevelManager="*res://Scripts/Managers/LevelManager.gd"
 
 [display]
 

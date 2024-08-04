@@ -1,9 +1,8 @@
 extends Node3D 
 
-@onready var input_manager = $"../InputManager"
-@onready var cauldron = $"../../Cauldron"
-@onready var paper = $"../../Paper"
-@onready var lantern = $"../../Lantern"
+@onready var cauldron = get_node("/root/PirateShip/Cauldron")
+@onready var paper = get_node("/root/PirateShip/Paper")
+@onready var lantern = get_node("/root/PirateShip/Lantern")
 
 signal AddIngredient(potion)
 signal MixIngredients()
@@ -15,8 +14,8 @@ var selected_potion = null
 var hovered_item = null
 
 func _ready():
-	input_manager.ObjectClicked.connect(_on_ObjectClicked)
-	input_manager.HoverStatus.connect(_on_ObjectHovered)
+	InputManager.ObjectClicked.connect(_on_ObjectClicked)
+	InputManager.HoverStatus.connect(_on_ObjectHovered)
 	cauldron.DonePouring.connect(_on_DonePouring)
 	lantern.LightOff.connect(_on_LightOff)
 
@@ -59,7 +58,7 @@ func add_outline(hovered_object, groups):
 
 func remove_outline(hovered_object, groups):
 	if "potion" in groups:
-		remove_potion_outline(hovered_object)
+		hovered_object.remove_potion_outline()
 	elif "cauldron" in groups:
 		if not selected_potion:
 			remove_cauldron_outline()
@@ -82,6 +81,7 @@ func clicking_cauldron(cauldron: Node3D):
 		if containers_are_available:
 			selected_potion.pour_potion(cauldron)
 			selected_potion.selected = false
+			selected_potion.can_be_selected = false
 			AddIngredient.emit(selected_potion.potion_data)
 			selected_potion = null
 			add_cauldron_outline()
@@ -105,7 +105,7 @@ func clicking_potion(potion: Node3D):
 		if selected_potion:
 			# Remove its outline.
 			selected_potion.selected = false
-			remove_potion_outline(selected_potion)
+			selected_potion.remove_potion_outline()
 			remove_cauldron_outline()
 		
 		# Update the selected potion
@@ -118,13 +118,6 @@ func clicking_potion(potion: Node3D):
 func add_potion_outline(potion: Node3D) -> void:
 	var mesh_instance: MeshInstance3D = potion.find_child("PotionOutline")
 	mesh_instance.visible = true
-	
-func remove_potion_outline(potion: Node3D) -> void:
-	if potion.selected:
-		return
-
-	var mesh_instance: MeshInstance3D = potion.find_child("PotionOutline")
-	mesh_instance.visible = false
 		
 func add_cauldron_outline() -> void:
 	if cauldron.being_poured_into:
