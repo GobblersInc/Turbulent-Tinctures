@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://dqgcpsjwic2mr"]
+[gd_scene load_steps=38 format=3 uid="uid://dqgcpsjwic2mr"]
 
 [ext_resource type="PackedScene" uid="uid://cpnvesw4e2gn0" path="res://Scenes/Models/cauldron.tscn" id="2_j4sdg"]
 [ext_resource type="Script" path="res://Scripts/Models/LanternScript.gd" id="3_hmrva"]
@@ -7,7 +7,6 @@
 [ext_resource type="Script" path="res://Scripts/Models/PaperScript.gd" id="9_5qjy5"]
 [ext_resource type="Script" path="res://Scripts/Managers/GameTimer.gd" id="9_euo7d"]
 [ext_resource type="PackedScene" uid="uid://bnq1leshxijrk" path="res://Scenes/Models/lantern.tscn" id="10_50gvt"]
-[ext_resource type="Script" path="res://Scripts/Managers/GameManager.gd" id="11_3v0ec"]
 [ext_resource type="PackedScene" uid="uid://dtakfpgycs2gb" path="res://Scenes/Models/wooden_table.tscn" id="12_se738"]
 [ext_resource type="PackedScene" uid="uid://beqvwlrc4ft47" path="res://Scenes/Models/Ship.tscn" id="13_5gnq8"]
 [ext_resource type="PackedScene" uid="uid://bghd1a77hyutu" path="res://Scenes/Misc/Rain.tscn" id="13_hr1be"]
@@ -162,12 +161,7 @@ _data = {
 [node name="PirateShip" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0504239, 1.0115, 2.09406)
 
-[node name="Managers" type="Node" parent="."]
-
-[node name="GameManager" type="Node3D" parent="Managers"]
-script = ExtResource("11_3v0ec")
-
-[node name="Timer" type="Timer" parent="Managers/GameManager"]
+[node name="LevelTimer" type="Timer" parent="."]
 wait_time = 60.0
 one_shot = true
 script = ExtResource("9_euo7d")

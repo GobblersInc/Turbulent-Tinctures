@@ -1,7 +1,6 @@
 extends Node3D 
 
 @onready var camera = get_node("/root/PirateShip/Camera3D")
-@onready var game_manager = get_node("/root/PirateShip/Managers/GameManager")
 var game_lost = false
 var game_paused = false
 
@@ -10,8 +9,8 @@ signal ClickAfterGameLoss()
 signal HoverStatus(object_hovered, hovering)
 
 func _ready():
-	game_manager.GameLoss.connect(_on_GameLoss)
-	game_manager.GamePause.connect(_on_GamePause)
+	GameManager.GameLoss.connect(_on_GameLoss)
+	GameManager.GamePause.connect(_on_GamePause)
 	
 func reset_cursor():
 	var cursor_shape = Input.CURSOR_ARROW

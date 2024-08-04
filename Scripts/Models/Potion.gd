@@ -1,7 +1,7 @@
 extends Node3D
 
 @onready var pouring = false
-@onready var cauldron = $"../../../Cauldron"
+@onready var cauldron = get_node("/root/PirateShip/Cauldron")
 @onready var animation_time: float = 0.25
 
 var original_position: Vector3

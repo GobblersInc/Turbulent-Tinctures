@@ -1,7 +1,6 @@
 extends Node3D
 
 @onready var paper = get_node("/root/PirateShip/Paper")
-@onready var game_manager = get_node("/root/PirateShip/Managers/GameManager")
 @onready var lantern = get_node("/root/PirateShip/Lantern")
 @onready var light: OmniLight3D = null
 
@@ -23,9 +22,9 @@ const fluid_to_color = preload("res://Scripts/Utilities/PotionData.gd").FLUID_TY
 var CURRENT_POINTER_POSITION: Vector3
 
 func _ready():
-	game_manager.Recipe.connect(_do_display_recipe)
-	game_manager.GamePause.connect(_clear_recipe)
-	game_manager.LanternUpdated.connect(_lantern_settings_updated)
+	GameManager.Recipe.connect(_do_display_recipe)
+	GameManager.GamePause.connect(_clear_recipe)
+	GameManager.LanternUpdated.connect(_lantern_settings_updated)
 	lantern.LightOff.connect(_handle_light_off)
 	lantern.LightOn.connect(_handle_light_on)
 	light = lantern.find_child("LanternLight", true, false)

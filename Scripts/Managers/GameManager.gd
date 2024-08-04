@@ -1,12 +1,11 @@
 extends Node3D
 
-@onready var ship = $"../.."
-@onready var fade_to_black = $"../../WorldEnvironment/FadeToBlack"
-@onready var popup_text = $"../../CanvasLayer/PopupTextFade"
-@onready var lantern = $"../../Lantern"
-@onready var cauldron = $"../../Cauldron"
-@onready var game_timer = $Timer
-@onready var timer_fade = $"../../CanvasLayer/TimeLeftFade"
+@onready var fade_to_black = get_node("/root/PirateShip/WorldEnvironment/FadeToBlack")
+@onready var popup_text = get_node("/root/PirateShip/CanvasLayer/PopupTextFade")
+@onready var timer_fade = get_node("/root/PirateShip/CanvasLayer/TimeLeftFade")
+@onready var lantern = get_node("/root/PirateShip/Lantern")
+@onready var cauldron = get_node("/root/PirateShip/Cauldron")
+@onready var game_timer = get_node("/root/PirateShip/LevelTimer")
 
 var all_potions = {}
 
