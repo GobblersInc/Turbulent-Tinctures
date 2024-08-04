@@ -45,9 +45,10 @@ const TIMES = {
 var potions_on_table = []
 var cauldron_contents = []
 var required_potion = null
-var level = 0
+var level = 5
 var lost = false
 var pouring = false
+var tween: Tween
 
 signal Recipe(potion_recipe: Array)
 signal GameLoss()
@@ -66,14 +67,52 @@ var LEVEL_CONFIG = [
 		"check_interval": 8,
 		"lights_out_cooldown": 10,
 		"light_on_or_off": true,
+		"game_timer": 30
 	},
 	{
-		"potion": level_two_potion,		
+		"potion": level_two_potion,
+		"flicker_probability": 0.3,
+		"light_out_duration": 8,
+		"check_interval": 3,
+		"lights_out_cooldown": 8,
+		"light_on_or_off": true,
+		"game_timer": 30
+	},
+	{
+		"potion": level_three_potion,
 		"flicker_probability": 0.3,
 		"light_out_duration": 8,
 		"check_interval": 3,
 		"lights_out_cooldown": 6,
 		"light_on_or_off": true,
+		"game_timer": 60
+	},
+	{
+		"potion": level_four_potion,
+		"flicker_probability": 0.3,
+		"light_out_duration": 8,
+		"check_interval": 3,
+		"lights_out_cooldown": 6,
+		"light_on_or_off": true,
+		"game_timer": 60
+	},
+	{
+		"potion": level_five_potion,
+		"flicker_probability": 0.3,
+		"light_out_duration": 8,
+		"check_interval": 3,
+		"lights_out_cooldown": 6,
+		"light_on_or_off": true,
+		"game_timer": 70
+	},
+	{
+		"potion": level_six_potion,
+		"flicker_probability": 0.3,
+		"light_out_duration": 8,
+		"check_interval": 3,
+		"lights_out_cooldown": 6,
+		"light_on_or_off": true,
+		"game_timer": 75
 	},
 ]
 
@@ -86,9 +125,6 @@ func set_lantern_values(level_config):
 	LanternUpdated.emit()
 
 func _ready():
-	var target_script = preload("res://Scripts/Utilities/LevelHelper.gd").new()
-	target_script._ready()
-	
 	initialize()
 	
 	movement_manager.AddIngredient.connect(_on_AddIngredient)
@@ -115,6 +151,9 @@ func load_all_potions(all_potions: Dictionary):
 			spawn_potion(all_potions[bottle][fluid])
 
 func initialize():
+	var level_helper = preload("res://Scripts/Utilities/LevelHelper.gd").new()
+	level_helper._ready()
+	
 	all_potions = generate_all_combinations()
 	load_all_potions(all_potions)
 	print("test")
@@ -152,7 +191,10 @@ func _on_AddIngredient(potion: PotionData):
 
 	# If the ingredients can make a potion
 	if can_mix_ingredients(cauldron_contents):
+		print("get_mix_result(cauldron_contents)")
+		print(get_mix_result(cauldron_contents))
 		var color = get_mix_result(cauldron_contents).get_color()
+		print("color", color)
 		change_cauldron_liquid_color(color)
 	# If the cauldron was empty
 	elif len(cauldron_contents) == 1:
@@ -208,11 +250,17 @@ func successful_mix_ingredients():
 	var resulting_potion = get_mix_result(cauldron_contents)
 	for potion in cauldron_contents:
 		potion.node.can_be_selected = true
+		all_potions[potion.bottle][potion.fluid].reset_values()
+
+	all_potions[resulting_potion.bottle][resulting_potion.fluid].ingredients = []
+	resulting_potion.node.can_be_selected = true
+	
 	cauldron_contents.clear()
 
 	change_cauldron_liquid_color(resulting_potion.get_color())
 
 	if resulting_potion == required_potion:
+		all_potions[resulting_potion.bottle][resulting_potion.fluid].reset_values()
 		game_timer.paused = true
 		GamePause.emit(true)
 		
@@ -227,48 +275,163 @@ func successful_mix_ingredients():
 			resulting_potion.node.can_be_selected = true
 			resulting_potion.node.global_position = Vector3(1, 1, 1)
 			change_cauldron_liquid_color(water_color)
+			resulting_potion.clear_values()
 			start_level()
 			await fade_out()
 	else:
 		move_new_potion(resulting_potion, potions_on_table)
+
+
 
 func end_game():
 	await delay("time_before_level_transition")
 	await fade_in("You beat the game, wow!")
 	await fade_pause()
 
-func level_two_potion():
+func level_one_potion():
 	var potion_0 = all_potions[BottleType.FLASK][FluidType.RED]
-	var potion_1 = all_potions[BottleType.JUG][FluidType.RED]
+	var potion_1 = all_potions[BottleType.JUG][FluidType.PINK]
+	potion_0.add_ingredient(potion_1)
+	var potion_2 = all_potions[BottleType.VIAL][FluidType.WHITE]
+	potion_0.add_ingredient(potion_2)
+	var potion_3 = all_potions[BottleType.JUG][FluidType.LIGHT_BLUE]
+	potion_0.add_ingredient(potion_3)
+
+	return potion_0
+
+func level_two_potion():
+	var potion_0 = all_potions[BottleType.JUG][FluidType.PINK]
+	var potion_1 = all_potions[BottleType.FLASK][FluidType.RED]
 	potion_0.add_ingredient(potion_1)
 	var potion_2 = all_potions[BottleType.VIAL][FluidType.GREEN]
 	potion_0.add_ingredient(potion_2)
-	var potion_3 = all_potions[BottleType.FLASK][FluidType.PINK]
+	var potion_3 = all_potions[BottleType.FLASK][FluidType.PURPLE]
 	potion_2.add_ingredient(potion_3)
 	var potion_4 = all_potions[BottleType.VIAL][FluidType.BLUE]
 	potion_2.add_ingredient(potion_4)
-	
-	return potion_2
 
-func level_one_potion():
-	var potion_0 = all_potions[BottleType.FLASK][FluidType.RED]
-	var potion_1 = all_potions[BottleType.JUG][FluidType.RED]
+	return potion_0
+
+func level_three_potion():
+	var potion_0 = all_potions[BottleType.JUG][FluidType.YELLOW]
+	var potion_1 = all_potions[BottleType.FLASK][FluidType.RED]
 	potion_0.add_ingredient(potion_1)
 	var potion_2 = all_potions[BottleType.VIAL][FluidType.GREEN]
 	potion_0.add_ingredient(potion_2)
-	var potion_3 = all_potions[BottleType.FLASK][FluidType.PINK]
+	var potion_3 = all_potions[BottleType.FLASK][FluidType.PURPLE]
 	potion_2.add_ingredient(potion_3)
 	var potion_4 = all_potions[BottleType.VIAL][FluidType.BLUE]
 	potion_2.add_ingredient(potion_4)
 	var potion_5 = all_potions[BottleType.JUG][FluidType.BLUE]
 	potion_0.add_ingredient(potion_5)
+	var potion_6 = all_potions[BottleType.JUG][FluidType.PINK]
+	potion_0.add_ingredient(potion_6)
 
-	print("potion_5.node")
-	print(potion_5.node)
 	return potion_0
+
+func level_four_potion():
+	var potion_0 = all_potions[BottleType.FLASK][FluidType.DARK_GREEN]
+	var potion_1 = all_potions[BottleType.VIAL][FluidType.PINK]
+	potion_0.add_ingredient(potion_1)
+	var potion_2 = all_potions[BottleType.FLASK][FluidType.YELLOW]
+	potion_1.add_ingredient(potion_2)
+	var potion_3 = all_potions[BottleType.VIAL][FluidType.RED]
+	potion_1.add_ingredient(potion_3)
+	var potion_4 = all_potions[BottleType.JUG][FluidType.RED]
+	potion_1.add_ingredient(potion_4)
+	var potion_5 = all_potions[BottleType.FLASK][FluidType.PURPLE]
+	potion_0.add_ingredient(potion_5)
+	var potion_6 = all_potions[BottleType.VIAL][FluidType.LIGHT_BLUE]
+	potion_5.add_ingredient(potion_6)
+	var potion_7 = all_potions[BottleType.VIAL][FluidType.BLUE]
+	potion_5.add_ingredient(potion_7)
+	var potion_8 = all_potions[BottleType.VIAL][FluidType.GREEN]
+	potion_0.add_ingredient(potion_8)
+	var potion_9 = all_potions[BottleType.FLASK][FluidType.PINK]
+	potion_8.add_ingredient(potion_9)
+	var potion_10 = all_potions[BottleType.JUG][FluidType.BLUE]
+	potion_8.add_ingredient(potion_10)
+	var potion_11 = all_potions[BottleType.JUG][FluidType.YELLOW]
+	potion_0.add_ingredient(potion_11)
+
+	return potion_0
+
+func level_five_potion():
+	var potion_0 = all_potions[BottleType.FLASK][FluidType.BLACK]
+	var potion_1 = all_potions[BottleType.JUG][FluidType.RED]
+	potion_0.add_ingredient(potion_1)
+	var potion_2 = all_potions[BottleType.VIAL][FluidType.WHITE]
+	potion_0.add_ingredient(potion_2)
+	var potion_3 = all_potions[BottleType.FLASK][FluidType.PINK]
+	potion_2.add_ingredient(potion_3)
+	var potion_4 = all_potions[BottleType.VIAL][FluidType.PURPLE]
+	potion_2.add_ingredient(potion_4)
+	var potion_5 = all_potions[BottleType.VIAL][FluidType.YELLOW]
+	potion_0.add_ingredient(potion_5)
+	var potion_6 = all_potions[BottleType.JUG][FluidType.PINK]
+	potion_5.add_ingredient(potion_6)
+	var potion_7 = all_potions[BottleType.VIAL][FluidType.GREEN]
+	potion_5.add_ingredient(potion_7)
+	var potion_8 = all_potions[BottleType.FLASK][FluidType.WHITE]
+	potion_7.add_ingredient(potion_8)
+	var potion_9 = all_potions[BottleType.JUG][FluidType.BLUE]
+	potion_7.add_ingredient(potion_9)
+	var potion_10 = all_potions[BottleType.VIAL][FluidType.RED]
+	potion_7.add_ingredient(potion_10)
+	var potion_11 = all_potions[BottleType.VIAL][FluidType.BLUE]
+	potion_0.add_ingredient(potion_11)
+	var potion_12 = all_potions[BottleType.VIAL][FluidType.LIGHT_BLUE]
+	potion_11.add_ingredient(potion_12)
+	var potion_13 = all_potions[BottleType.FLASK][FluidType.BLUE]
+	potion_11.add_ingredient(potion_13)
+	var potion_14 = all_potions[BottleType.FLASK][FluidType.DARK_GREEN]
+	potion_0.add_ingredient(potion_14)
+
+	return potion_0
+
+func level_six_potion():
+	var potion_0 = all_potions[BottleType.JUG][FluidType.WHITE]
+	var potion_1 = all_potions[BottleType.FLASK][FluidType.BLACK]
+	potion_0.add_ingredient(potion_1)
+	var potion_2 = all_potions[BottleType.VIAL][FluidType.DARK_GREEN]
+	potion_0.add_ingredient(potion_2)
+	var potion_3 = all_potions[BottleType.FLASK][FluidType.WHITE]
+	potion_2.add_ingredient(potion_3)
+	var potion_4 = all_potions[BottleType.FLASK][FluidType.PINK]
+	potion_3.add_ingredient(potion_4)
+	var potion_5 = all_potions[BottleType.VIAL][FluidType.YELLOW]
+	potion_3.add_ingredient(potion_5)
+	var potion_6 = all_potions[BottleType.FLASK][FluidType.RED]
+	potion_5.add_ingredient(potion_6)
+	var potion_7 = all_potions[BottleType.JUG][FluidType.BLUE]
+	potion_5.add_ingredient(potion_7)
+	var potion_8 = all_potions[BottleType.JUG][FluidType.PURPLE]
+	potion_2.add_ingredient(potion_8)
+	var potion_9 = all_potions[BottleType.FLASK][FluidType.YELLOW]
+	potion_8.add_ingredient(potion_9)
+	var potion_10 = all_potions[BottleType.VIAL][FluidType.GREEN]
+	potion_8.add_ingredient(potion_10)
+	var potion_11 = all_potions[BottleType.VIAL][FluidType.PURPLE]
+	potion_0.add_ingredient(potion_11)
+	var potion_12 = all_potions[BottleType.JUG][FluidType.PINK]
+	potion_11.add_ingredient(potion_12)
+	var potion_13 = all_potions[BottleType.VIAL][FluidType.BLUE]
+	potion_11.add_ingredient(potion_13)
+	var potion_14 = all_potions[BottleType.FLASK][FluidType.BLUE]
+	potion_0.add_ingredient(potion_14)
+	var potion_15 = all_potions[BottleType.VIAL][FluidType.LIGHT_BLUE]
+	potion_14.add_ingredient(potion_15)
+	var potion_16 = all_potions[BottleType.JUG][FluidType.GREEN]
+	potion_0.add_ingredient(potion_16)
+
+	return potion_0
+
+func set_game_timer(level_config):
+	game_timer.wait_time = level_config.game_timer
 
 func start_level():
 	set_lantern_values(LEVEL_CONFIG[level])
+	set_game_timer(LEVEL_CONFIG[level])
 	potions_on_table = []
 	
 	var potion_data = {
@@ -283,10 +446,11 @@ func start_level():
 	}
 	
 	required_potion = LEVEL_CONFIG[level]["potion"].call()
+	required_potion.result = null
 	print("test2")
 	print(required_potion.node.can_be_selected)
 	print(required_potion)
-	required_potion.print_game_info(false)
+	#required_potion.print_game_info(false)
 	
 	var starting_potions = required_potion.get_all_leaves()
 	var potion_recipe = required_potion.get_all_non_leaves()
@@ -332,6 +496,7 @@ func move_required_potion(potion: PotionData):
 	print(potion.node)
 	potion.node.global_position = potion.position
 	potion.node.can_be_selected = false
+	potion.result = null
 	potions_on_table.append(potion)
 
 func move_new_potion(potion: PotionData, potion_list: Array) -> void:
@@ -364,7 +529,9 @@ func change_cauldron_liquid_color(color: Color):
 	var liquid_CSGCylinder = cauldron.get_child(1)
 	var material = liquid_CSGCylinder.material
 	
-	var tween = get_tree().create_tween().set_parallel(true)
+	if tween:
+		tween.kill() # Abort the previous animation.
+	tween = create_tween()
 	tween.tween_property(material, 
 					"emission", 
 					color,
@@ -411,9 +578,11 @@ func can_mix_ingredients(ingredients: Array) -> bool:
 		return false
 
 	var first_potion_siblings = ingredients[0].get_siblings()
+	print("first potion siblings", first_potion_siblings)
 	return array_contents_equal(first_potion_siblings, ingredients)
 
 func get_mix_result(ingredients: Array):
+	print("get mix result", ingredients[0].result)
 	return ingredients[0].result
 
 func array_contents_equal(array_1: Array, array_2: Array) -> bool:

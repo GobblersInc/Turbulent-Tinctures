@@ -193,7 +193,7 @@ fov = 72.4423
 transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0.0232655, 1.34751, -5.37754)
 script = ExtResource("3_st3s3")
 
-[node name="Paper" parent="." groups=["clickable", "paper"] instance=ExtResource("8_gka6f")]
+[node name="Paper" parent="." instance=ExtResource("8_gka6f")]
 transform = Transform3D(-0.0012217, 0, -0.0999925, 0, 0.1, 0, 0.0999926, 0, -0.0012217, -1.57148, 1.36181, -4.7533)
 script = ExtResource("9_5qjy5")
 

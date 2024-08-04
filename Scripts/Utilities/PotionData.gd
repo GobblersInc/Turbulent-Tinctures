@@ -39,7 +39,6 @@ var ingredients: Array = [] # equivalent to "children"
 
 var fluid: FluidType
 var bottle: BottleType
-
 var node: Node3D = null
 var position: Vector3
 
@@ -68,6 +67,13 @@ func has_ingredients() -> bool:
 
 func is_root() -> bool:
 	return result == null
+	
+func reset_values(reset_position: bool = false) -> void:
+	result = null # equivalent to "parent"
+	ingredients = [] # equivalent to "children"
+	if reset_position:
+		position = Vector3(1, 1, 1)
+	
 
 func is_leaf() -> bool:
 	return ingredients.size() == 0
@@ -78,7 +84,9 @@ func get_all_leaves() -> Array:
 	return leaves
 
 func _collect_leaves(potion: PotionData, leaves: Array) -> void:
+	print(potion)
 	if potion.is_leaf():
+		print("yeah it's a leaf")
 		leaves.append(potion)
 	else:
 		for ingredient in potion.ingredients:
@@ -108,6 +116,14 @@ func _collect_non_leaves(potion: PotionData, non_leaves: Array) -> void:
 		non_leaves.append(potion)
 		for ingredient in potion.ingredients:
 			_collect_non_leaves(ingredient, non_leaves)
+
+# Function to traverse the potion tree in post-order and clear values
+func clear_values():
+	# Traverse and clear each ingredient's values first (post-order traversal)
+	for ingredient in ingredients:
+		ingredient.clear_values()
+	# Clear this potion's values after its ingredients
+	reset_values()
 
 # Custom comparison function
 static func compare_potion_data(a: PotionData, b: PotionData) -> int:

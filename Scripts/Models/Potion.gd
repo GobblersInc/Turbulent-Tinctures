@@ -28,6 +28,7 @@ const VIAL_POTION_POURING_SCALE: Vector3 = Vector3(0, 0 , 0)
 var pour_time: float = 1
 var has_hover_outline = false
 var selected = false
+var tween: Tween
 
 func _ready():
 	original_position = global_transform.origin
@@ -57,7 +58,7 @@ func delay(seconds: float):
 
 func move_to_cauldron():
 	SoundManager.play_random_mixing_sound()
-	var tween = get_tree().create_tween().set_parallel(true)
+	tween = create_tween().set_parallel(true)
 	set_cork_visibility(false)
 	tween.tween_property(self, 
 						"position", 
@@ -69,7 +70,7 @@ func move_to_cauldron():
 						animation_time)
 
 func pour_liquid():
-	var tween = get_tree().create_tween().set_parallel(true)
+	tween = create_tween().set_parallel(true)
 	var fluid: MeshInstance3D = self.find_child("fluid")
 	
 	if fluid:
@@ -111,7 +112,7 @@ func set_cork_visibility(isVisible: bool):
 		cork.visible = isVisible
 
 func throw_potion():
-	var tween = get_tree().create_tween().set_parallel(true)
+	tween = create_tween().set_parallel(true)
 	var x_positions = [-2, 2]
 	tween.tween_property(self, 
 						"position", 
