@@ -348,17 +348,17 @@ func level_four_potion():
 	return potion_0
 
 func level_five_potion():
-	var root_potion = PotionData.new(FluidType.BLACK, BottleType.FLASK)
+	var potion_0 = PotionData.new(FluidType.BLACK, BottleType.FLASK)
 	var potion_1 = PotionData.new(FluidType.RED, BottleType.JUG)
-	root_potion.add_ingredient(potion_1)
+	potion_0.add_ingredient(potion_1)
 	var potion_2 = PotionData.new(FluidType.GREEN, BottleType.VIAL)
-	root_potion.add_ingredient(potion_2)
+	potion_0.add_ingredient(potion_2)
 	var potion_3 = PotionData.new(FluidType.PINK, BottleType.JUG)
 	potion_2.add_ingredient(potion_3)
 	var potion_4 = all_potions[BottleType.VIAL][FluidType.PURPLE]
 	potion_2.add_ingredient(potion_4)
 	var potion_5 = PotionData.new(FluidType.RED, BottleType.FLASK)
-	root_potion.add_ingredient(potion_5)
+	potion_0.add_ingredient(potion_5)
 	var potion_6 = PotionData.new(FluidType.PINK, BottleType.VIAL)
 	potion_5.add_ingredient(potion_6)
 	var potion_7 = PotionData.new(FluidType.GREEN, BottleType.FLASK)
@@ -458,8 +458,7 @@ func _on_LevelTimer_timeout():
 
 func restart_game():
 	get_tree().reload_current_scene()
-	
-	#await fade_out()
+	await fade_out()
 
 func spawn_potion(potion: PotionData) -> void:
 	"""
@@ -577,5 +576,5 @@ func array_contents_equal(array_1: Array, array_2: Array) -> bool:
 	return sorted_array_1.hash() == sorted_array_2.hash()
 
 func delay(timer_name: String):
-	await get_tree().create_timer(TIMES[timer_name])
+	await get_tree().create_timer(TIMES[timer_name]).timeout
 
