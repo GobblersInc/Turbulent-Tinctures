@@ -10,37 +10,48 @@ const BOUNDS = {
 	"left": -1,
 	"right": 1.45,
 }
+const POTION_SCALE = Vector3(.8, .8, .8)
 const TABLE_HEIGHT = 2.4
 const POTION_MIN_DISTANCE_APART = .3
 
 var potions_on_table = []
 
 func _ready():
-	LevelManager.StartedLevel.connect(_on_started_level)
+	LevelManager.PreparedLevel.connect(_on_prepared_level)
 	cauldron.CompletedPotion.connect(_on_completed_potion)
+	cauldron.FailedMix.connect(_on_failed_mix)
 	
-	InteractionManager.AddIngredient.connect(_on_AddIngredient)
+	InteractionManager.AddIngredient.connect(_on_add_ingredient)
 	
-func _on_started_level(starting_potions, required_potion):
+func _on_prepared_level(starting_potions, required_potion):
 	potions_on_table = []
-	
+
 	for potion in starting_potions:
 		spawn_new_potion(potion, starting_potions)
 	
 func _on_completed_potion(resulting_potion: PotionData, is_final_potion):
 	if is_final_potion:
 		spawn_required_potion(resulting_potion)
-		resulting_potion.reset_values()
-		#all_potions[resulting_potion.bottle][resulting_potion.fluid].reset_values()
+		resulting_potion.clear_values()
 	else:
 		spawn_new_potion(resulting_potion, potions_on_table)
+
+func _on_failed_mix(cauldron_contents):
+	# Clear everything in the cauldron
+	for potion in cauldron_contents:
+		potion.node.position = potion.position
+		potion.node.remove_potion_outline()
+		potion.node.scale = POTION_SCALE
+		potion.node.can_be_selected = true
+		
+	cauldron_contents.clear()
 	
-func _on_AddIngredient(potion_data: PotionData):
+func _on_add_ingredient(potion_data: PotionData):
 	potions_on_table.erase(potion_data)
 	
 func spawn_required_potion(potion: PotionData):
-	potion.position = Vector3(BOUNDS["left"] + .96, TABLE_HEIGHT+1.25, BOUNDS["top"] - .7)
-	potion.node.global_position = potion.position
+	var pos = Vector3(BOUNDS["left"] + .96, TABLE_HEIGHT+1.15, BOUNDS["top"] - .7)
+	potion.node.position = pos
 	potion.node.can_be_selected = false
 	potion.result = null
 	potions_on_table.append(potion)
@@ -50,6 +61,8 @@ func spawn_new_potion(potion: PotionData, potion_list: Array) -> void:
 	
 	var position = get_valid_position(potion_list)
 	potion.position = position
+	potion.node.scale = POTION_SCALE
+	potion.node.remove_potion_outline()
 	potion.node.global_position = position
 	
 	potions_on_table.append(potion)

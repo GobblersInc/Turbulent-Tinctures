@@ -3,6 +3,7 @@ extends Node3D
 @onready var paper = get_node("/root/PirateShip/Paper")
 @onready var lantern = get_node("/root/PirateShip/Lantern")
 @onready var light: OmniLight3D = null
+@onready var level_transition = get_node("/root/PirateShip/LevelTransition")
 
 const BOTTLE_TYPE_TO_FILE_PATH = {
 	bottle_type.VIAL: "res://Assets/Sprites/FormulaSprites/Tube.PNG",
@@ -22,15 +23,15 @@ const fluid_to_color = preload("res://Scripts/Utilities/PotionData.gd").FLUID_TY
 var CURRENT_POINTER_POSITION: Vector3
 
 func _ready():
-	LevelManager.Recipe.connect(_do_display_recipe)
-	LevelManager.GamePause.connect(_clear_recipe)
+	LevelManager.PreparedLevel.connect(_do_display_recipe)
+	level_transition.TransitionUp.connect(_clear_recipe)
 	LevelManager.LanternUpdated.connect(_lantern_settings_updated)
 	lantern.LightOff.connect(_handle_light_off)
 	lantern.LightOn.connect(_handle_light_on)
 	light = lantern.find_child("LanternLight", true, false)
 	CURRENT_POINTER_POSITION = paper.position + Vector3(-6.4, -1.3, 7.85)	
 
-func _clear_recipe(isPaused: bool):
+func _clear_recipe():
 	for child in paper.get_children():
 		if child is Sprite3D:
 			paper.remove_child(child)
@@ -56,7 +57,9 @@ func set_sprites_transparency(alpha: float) -> void:
 			color.a = alpha  # Set the alpha component
 			sprite.modulate = color
 
-func _do_display_recipe(potions: Array):
+func _do_display_recipe(starting_potions: Array, required_potion: PotionData):
+	var potions = required_potion.get_all_non_leaves()
+	
 	for potion in potions:
 		var ingredient_count = potion.ingredients.size()
 		CURRENT_POINTER_POSITION.z = paper.position.z + 7.85  # Reset Z position for each potion

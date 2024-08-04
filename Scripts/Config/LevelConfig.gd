@@ -26,13 +26,14 @@ func load_potion(potion: PotionData) -> void:
 	"""
 	var bottle_type = potion.bottle
 	var potion_node = load(POTION_SCENES[bottle_type]).instantiate()
-	add_child(potion_node)
-
-	potion_node.global_position = potion.position
-	potion_node.scale = Vector3(.6, .6, .6)
-	potion_node.potion_data = potion
 
 	potion.node = potion_node
+	potion.node.global_position = potion.position
+	potion.node.potion_data = potion
+
+	all_potions[potion.bottle][potion.fluid] = potion
+
+	add_child(potion.node)
 
 # Function to generate all possible potion combinations in a nested dictionary
 static func generate_all_combinations() -> Dictionary:
@@ -51,7 +52,7 @@ var LEVEL_CONFIG = [
 		"check_interval": 8,
 		"lights_out_cooldown": 10,
 		"light_on_or_off": true,
-		"game_timer": 30
+		"time": 30
 	},
 	{
 		"potion": level_two_potion,
@@ -60,7 +61,7 @@ var LEVEL_CONFIG = [
 		"check_interval": 3,
 		"lights_out_cooldown": 8,
 		"light_on_or_off": true,
-		"game_timer": 30
+		"time": 30
 	},
 	{
 		"potion": level_three_potion,
@@ -69,7 +70,7 @@ var LEVEL_CONFIG = [
 		"check_interval": 3,
 		"lights_out_cooldown": 6,
 		"light_on_or_off": true,
-		"game_timer": 60
+		"time": 60
 	},
 	{
 		"potion": level_four_potion,
@@ -78,7 +79,7 @@ var LEVEL_CONFIG = [
 		"check_interval": 3,
 		"lights_out_cooldown": 6,
 		"light_on_or_off": true,
-		"game_timer": 60
+		"time": 60
 	},
 	{
 		"potion": level_five_potion,
@@ -87,7 +88,7 @@ var LEVEL_CONFIG = [
 		"check_interval": 3,
 		"lights_out_cooldown": 6,
 		"light_on_or_off": true,
-		"game_timer": 70
+		"time": 70
 	},
 	{
 		"potion": level_six_potion,
@@ -96,7 +97,7 @@ var LEVEL_CONFIG = [
 		"check_interval": 3,
 		"lights_out_cooldown": 6,
 		"light_on_or_off": true,
-		"game_timer": 75
+		"time": 75
 	},
 ]
 

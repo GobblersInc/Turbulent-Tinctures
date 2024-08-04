@@ -58,7 +58,7 @@ func add_outline(hovered_object, groups):
 
 func remove_outline(hovered_object, groups):
 	if "potion" in groups:
-		remove_potion_outline(hovered_object)
+		hovered_object.remove_potion_outline()
 	elif "cauldron" in groups:
 		if not selected_potion:
 			remove_cauldron_outline()
@@ -105,7 +105,7 @@ func clicking_potion(potion: Node3D):
 		if selected_potion:
 			# Remove its outline.
 			selected_potion.selected = false
-			remove_potion_outline(selected_potion)
+			selected_potion.remove_potion_outline()
 			remove_cauldron_outline()
 		
 		# Update the selected potion
@@ -118,13 +118,6 @@ func clicking_potion(potion: Node3D):
 func add_potion_outline(potion: Node3D) -> void:
 	var mesh_instance: MeshInstance3D = potion.find_child("PotionOutline")
 	mesh_instance.visible = true
-	
-func remove_potion_outline(potion: Node3D) -> void:
-	if potion.selected:
-		return
-
-	var mesh_instance: MeshInstance3D = potion.find_child("PotionOutline")
-	mesh_instance.visible = false
 		
 func add_cauldron_outline() -> void:
 	if cauldron.being_poured_into:

@@ -11,6 +11,7 @@ const water_color = Color(0.064, 0.142, 0.482)
 
 signal DonePouring
 signal CompletedPotion(resulting_potion: PotionData, is_final_potion: bool)
+signal FailedMix(cauldron_contents: Array)
 signal LanternUpdated()
 
 var cauldron_contents = []
@@ -25,18 +26,19 @@ func _ready():
 	lantern.LightOn.connect(_lantern_light_on)
 	SoundManager.play_boiling_water_sound()
 
-	InteractionManager.AddIngredient.connect(_on_AddIngredient)
-	InteractionManager.MixIngredients.connect(_on_MixIngredients)
+	InteractionManager.AddIngredient.connect(_on_add_ingredient)
+	InteractionManager.MixIngredients.connect(_on_mix_ingredients)
+	LevelManager.PreparedLevel.connect(_on_prepared_level)
 	
 		
-func _on_MixIngredients():
+func _on_mix_ingredients():
 	if not being_poured_into:
 		if can_mix_ingredients(cauldron_contents):
 			successful_mix_ingredients()
 		else:
 			failed_mix_ingredients()
 
-func _on_AddIngredient(potion):
+func _on_add_ingredient(potion):
 	cauldron_contents.append(potion)
 
 	# If the ingredients can make a potion
@@ -50,26 +52,17 @@ func _on_AddIngredient(potion):
 		var combined_color = get_combined_potion_color(cauldron_contents)
 		change_cauldron_liquid_color(combined_color)
 		
+func _on_prepared_level(starting_potions: Array, required_potion: PotionData):
+	change_cauldron_liquid_color(water_color, 0)
+		
 func failed_mix_ingredients():
-	# Clear everything in the cauldron
-	while len(cauldron_contents) > 0:
-		var potion_from_cauldron = cauldron_contents.pop_front()
-		
-		potion_from_cauldron.node.position = potion_from_cauldron.position
-		potion_from_cauldron.node.can_be_selected = true
-		
-	change_cauldron_liquid_color(water_color)
+	FailedMix.emit(cauldron_contents)
 	
+	change_cauldron_liquid_color(water_color)
+
+
 func successful_mix_ingredients():
 	var resulting_potion = get_mix_result(cauldron_contents)
-	for potion in cauldron_contents:
-		potion.node.can_be_selected = true
-		potion.reset_values
-		#LevelConfig.all_potions[potion.bottle][potion.fluid].reset_values()
-
-	#all_potions[resulting_potion.bottle][resulting_potion.fluid].ingredients = []
-	resulting_potion.ingredients = []
-	resulting_potion.node.can_be_selected = true
 
 	cauldron_contents.clear()
 	change_cauldron_liquid_color(resulting_potion.get_color())
@@ -78,6 +71,7 @@ func successful_mix_ingredients():
 		CompletedPotion.emit(resulting_potion, true)
 	else:
 		CompletedPotion.emit(resulting_potion, false)
+
 
 func _lantern_light_off():
 	_set_cauldron_emission(true)
@@ -118,7 +112,7 @@ func _set_cauldron_emission(enabled: bool):
 			else:
 				material.emission_enabled = false
 
-func change_cauldron_liquid_color(color: Color):
+func change_cauldron_liquid_color(color: Color, speed=1):
 	var liquid_CSGCylinder = get_child(1)
 	var material = liquid_CSGCylinder.material
 	
@@ -128,7 +122,7 @@ func change_cauldron_liquid_color(color: Color):
 	tween.tween_property(material, 
 					"emission", 
 					color,
-					1)
+					speed)
 					
 func can_mix_ingredients(ingredients: Array) -> bool:
 	"""

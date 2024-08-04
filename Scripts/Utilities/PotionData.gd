@@ -67,13 +67,6 @@ func has_ingredients() -> bool:
 
 func is_root() -> bool:
 	return result == null
-	
-func reset_values(reset_position: bool = false) -> void:
-	result = null # equivalent to "parent"
-	ingredients = [] # equivalent to "children"
-	if reset_position:
-		position = Vector3(1, 1, 1)
-	
 
 func is_leaf() -> bool:
 	return ingredients.size() == 0
@@ -114,6 +107,11 @@ func _collect_non_leaves(potion: PotionData, non_leaves: Array) -> void:
 		non_leaves.append(potion)
 		for ingredient in potion.ingredients:
 			_collect_non_leaves(ingredient, non_leaves)
+
+func reset_values() -> void:
+	node.can_be_selected = true
+	result = null # equivalent to "parent"
+	ingredients = [] # equivalent to "children"
 
 # Function to traverse the potion tree in post-order and clear values
 func clear_values():

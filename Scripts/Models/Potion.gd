@@ -8,7 +8,7 @@ var original_position: Vector3
 var original_rotation: Vector3
 var cauldron_position: Vector3
 
-var can_be_selected = true 
+var can_be_selected = true
 var potion_data = null
 
 var original_fluid_position: Vector3
@@ -21,9 +21,8 @@ const VIAL_POTION_Y_OFFSET: float = 0
 const JUG_POTION_POURING_POSITION: Vector3 = Vector3(0, 2, 0)
 const FLASK_POTION_POURING_POSITION: Vector3 = Vector3(0, 6, 0)
 const VIAL_POTION_POURING_POSITION: Vector3 = Vector3(0, 5, 0)
-const JUG_POTION_POURING_SCALE: Vector3 = Vector3(0, 0, 0)
-const FLASK_POTION_POURING_SCALE: Vector3 = Vector3(0, 0, 0)
-const VIAL_POTION_POURING_SCALE: Vector3 = Vector3(0, 0 , 0)
+
+const FINAL_SCALE: Vector3 = Vector3(0, 0, 0)
 
 var pour_time: float = 1
 var has_hover_outline = false
@@ -78,22 +77,18 @@ func pour_liquid():
 		original_fluid_position = fluid.position
 		original_fluid_scale = fluid.scale
 		
-		var final_scale: Vector3
 		var final_position: Vector3
 		
 		if self.is_in_group("vial_potion"):
 			final_position = VIAL_POTION_POURING_POSITION
-			final_scale = VIAL_POTION_POURING_SCALE
 		elif self.is_in_group("jug_potion"):
 			final_position = JUG_POTION_POURING_POSITION
-			final_scale = JUG_POTION_POURING_SCALE
 		else:
 			final_position = FLASK_POTION_POURING_POSITION
-			final_scale = FLASK_POTION_POURING_SCALE
 		
 		tween.tween_property(fluid, 
 						"scale", 
-						final_scale,
+						FINAL_SCALE,
 						.75).set_ease(Tween.EASE_IN_OUT)
 		tween.tween_property(fluid, 
 						"position", 
@@ -129,6 +124,13 @@ func move_to_original_position():
 	set_cork_visibility(true)
 	self.global_transform.origin = original_position
 	self.global_rotation_degrees = original_rotation
+	
+func remove_potion_outline() -> void:
+	if selected:
+		return
+
+	var mesh_instance: MeshInstance3D = find_child("PotionOutline")
+	mesh_instance.visible = false
 
 func is_disabled():
 	return not can_be_selected
