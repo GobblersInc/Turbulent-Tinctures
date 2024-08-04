@@ -25,7 +25,7 @@ const POTION_SCENES = {
 	BottleType.JUG: "res://Scenes/Models/jug_potion.tscn",
 }
 
-const POTION_MIN_DISTANCE_APART = .4
+const POTION_MIN_DISTANCE_APART = .3
 const TABLE_HEIGHT = 2.4
 const BOUNDS = {
 	"top": -2.4,
@@ -348,24 +348,24 @@ func level_four_potion():
 	return potion_0
 
 func level_five_potion():
-	var potion_0 = all_potions[BottleType.FLASK][FluidType.BLACK]
-	var potion_1 = all_potions[BottleType.JUG][FluidType.RED]
-	potion_0.add_ingredient(potion_1)
-	var potion_2 = all_potions[BottleType.VIAL][FluidType.WHITE]
-	potion_0.add_ingredient(potion_2)
-	var potion_3 = all_potions[BottleType.FLASK][FluidType.PINK]
+	var root_potion = PotionData.new(FluidType.BLACK, BottleType.FLASK)
+	var potion_1 = PotionData.new(FluidType.RED, BottleType.JUG)
+	root_potion.add_ingredient(potion_1)
+	var potion_2 = PotionData.new(FluidType.GREEN, BottleType.VIAL)
+	root_potion.add_ingredient(potion_2)
+	var potion_3 = PotionData.new(FluidType.PINK, BottleType.JUG)
 	potion_2.add_ingredient(potion_3)
 	var potion_4 = all_potions[BottleType.VIAL][FluidType.PURPLE]
 	potion_2.add_ingredient(potion_4)
-	var potion_5 = all_potions[BottleType.VIAL][FluidType.YELLOW]
-	potion_0.add_ingredient(potion_5)
-	var potion_6 = all_potions[BottleType.JUG][FluidType.PINK]
+	var potion_5 = PotionData.new(FluidType.RED, BottleType.FLASK)
+	root_potion.add_ingredient(potion_5)
+	var potion_6 = PotionData.new(FluidType.PINK, BottleType.VIAL)
 	potion_5.add_ingredient(potion_6)
-	var potion_7 = all_potions[BottleType.VIAL][FluidType.GREEN]
+	var potion_7 = PotionData.new(FluidType.GREEN, BottleType.FLASK)
 	potion_5.add_ingredient(potion_7)
-	var potion_8 = all_potions[BottleType.FLASK][FluidType.WHITE]
+	var potion_8 = PotionData.new(FluidType.BLUE, BottleType.JUG)
 	potion_7.add_ingredient(potion_8)
-	var potion_9 = all_potions[BottleType.JUG][FluidType.BLUE]
+	var potion_9 = PotionData.new(FluidType.PINK, BottleType.FLASK)
 	potion_7.add_ingredient(potion_9)
 	var potion_10 = all_potions[BottleType.VIAL][FluidType.RED]
 	potion_7.add_ingredient(potion_10)
@@ -388,7 +388,7 @@ func level_six_potion():
 	potion_0.add_ingredient(potion_2)
 	var potion_3 = all_potions[BottleType.FLASK][FluidType.WHITE]
 	potion_2.add_ingredient(potion_3)
-	var potion_4 = all_potions[BottleType.FLASK][FluidType.PINK]
+	var potion_4 = PotionData.new(FluidType.PINK, BottleType.VIAL)
 	potion_3.add_ingredient(potion_4)
 	var potion_5 = all_potions[BottleType.VIAL][FluidType.YELLOW]
 	potion_3.add_ingredient(potion_5)
@@ -469,8 +469,8 @@ func spawn_potion(potion: PotionData) -> void:
 	var potion_node = load(POTION_SCENES[bottle_type]).instantiate()
 	add_child(potion_node)
 
-	potion_node.global_position = Vector3(1, 1, 1)
-	potion_node.scale = Vector3(1, 1, 1)
+	potion_node.global_position = potion.position
+	potion_node.scale = Vector3(.6, .6, .6)
 	potion_node.potion_data = potion
 
 	potion.node = potion_node

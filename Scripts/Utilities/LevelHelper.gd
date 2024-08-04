@@ -125,15 +125,15 @@ func _ready():
 	var potion_data4 = {
 		"BLACK:FLASK": {
 			"RED:JUG": null,
-			"WHITE:VIAL": {
-				"PINK:FLASK": null,
+			"GREEN:VIAL": {
+				"PINK:JUG": null,
 				"PURPLE:VIAL": null,
 			},
-			"YELLOW:VIAL": {
-				"PINK:JUG": null,
-				"GREEN:VIAL": {
-					"WHITE:FLASK": null,
+			"RED:FLASK": {
+				"PINK:VIAL": null,
+				"GREEN:FLASK": {
 					"BLUE:JUG": null,
+					"PINK:FLASK": null,
 					"RED:VIAL": null,
 				},
 			},
@@ -148,8 +148,8 @@ func _ready():
 		"WHITE:JUG": {
 			"BLACK:FLASK": null,
 			"DARK_GREEN:VIAL": {
-				"WHITE:FLASK": {
-					"PINK:FLASK": null,
+				"PINK:FLASK": {
+					"PINK:VIAL": null,
 					"YELLOW:VIAL": {
 						"RED:FLASK": null,
 						"BLUE:JUG": null,
