@@ -1,8 +1,8 @@
 # Turbulent Tinctures
 
-<img src="https://github.com/user-attachments/assets/0b1f46b6-8a7b-47a5-9f55-145162ea4b31" width="500">
+<img align="right" src="https://github.com/user-attachments/assets/0b1f46b6-8a7b-47a5-9f55-145162ea4b31" align="right" width="250">
 
-Repository for the game we submitted for Pirate Software's [Game Jam 15](https://itch.io/jam/pirate15), wherein the broad theme was "Shadows and Alchemy."
+Repository for the game we submitted for Pirate Software's [Game Jam 15](https://itch.io/jam/pirate15), wherein the theme was "Shadows and Alchemy."
 
 [Play on Itch.io](https://feshhi.itch.io/turbulent-tinctures)
 
@@ -10,7 +10,19 @@ Repository for the game we submitted for Pirate Software's [Game Jam 15](https:/
 
 [Game Design Document](https://docs.google.com/document/d/16SlMyY5-qQVmJaD1vZX2mUCCNzTjoL1wUf7UG55zJ1s/edit#heading=h.lr899156xjnx)
 
+
+---
+
+<p>
+    <img width="350" src="https://github.com/user-attachments/assets/c9504416-e0c4-43b5-b48a-eeaf6bb002e9" hspace="10" >
+    <img width="350" src="https://github.com/user-attachments/assets/c6feeeff-dcee-4960-86eb-7979c5be0e6f" hspace="10" >
+</p>
+
 ## Gameplay
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/82063b6b-2aa8-433b-9435-6da43b7eb895" align="right" width="220">
+</p>
 
 The gameplay loop for our title is mechanically focused and simple by nature. However, as the player progresses they will find it has a surprising degree of difficulty. 
 
@@ -18,7 +30,7 @@ Essentially, a player has to combine potions in their hardy cauldron while refer
 
 In the dark, our player can still interact with their surroundings, but can no longer see the recipe. This singular mechanic brings the game from a simple beat-the-clock loop, to a progressing hybrid between timed solution and memory puzzle. Darkness isn't their only enemy though...
 
-It looks like their recipe copier was on the frits, now the more complex formulas have been switched around the place! Oh well, the final potion is still outlined. We trust an experienced alchemist to figure out the rest :)  
+It looks like their recipe copier was on the frits, now the more complex formulas have been switched around the place! Oh well, the final potion is still outlined. We trust an experienced alchemist to figure out the rest :)
 
 ### Controls
 
