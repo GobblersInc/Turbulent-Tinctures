@@ -15,7 +15,7 @@ Repository for the game we submitted for Pirate Software's [Game Jam 15](https:/
 
 <p>
     <img width="350" src="https://github.com/user-attachments/assets/c9504416-e0c4-43b5-b48a-eeaf6bb002e9" hspace="10" >
-    <img width="350" src="https://github.com/user-attachments/assets/c6feeeff-dcee-4960-86eb-7979c5be0e6f" hspace="10" >
+    <img align="right" width="350" src="https://github.com/user-attachments/assets/c6feeeff-dcee-4960-86eb-7979c5be0e6f" hspace="10" >
 </p>
 
 ## Gameplay
